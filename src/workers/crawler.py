@@ -102,13 +102,13 @@ class Crawler:
             - world: 世界观设定文本
             - relations: 关系图字典
         """
-        # 1. 加载 Prompt 模板
+        # 1. 加载 Prompt 模板：优先数据库 key=extraction，否则本地 YAML
+        from src.core.prompt_loader import resolve_prompt
         if prompt_template_path is None:
             project_root = Path(__file__).parent.parent.parent
             prompt_template_path = project_root / "config" / "prompts" / "extraction.yaml"
-        
-        with open(prompt_template_path, "r", encoding="utf-8") as f:
-            prompt_data = yaml.safe_load(f)
+        prompt_raw = resolve_prompt("extraction", prompt_template_path)
+        prompt_data = yaml.safe_load(prompt_raw)
         
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")

@@ -189,13 +189,13 @@ class Author:
         retrieved_chunks = self.retriever.retrieve(query_text, top_k=5)
         reference_text = "\n\n---\n\n".join([chunk["text"] for chunk in retrieved_chunks])
         
-        # 4. 加载 Prompt 模板（如果提供）
+        # 4. 加载 Prompt 模板：优先数据库 key=writing，否则本地 YAML
+        from src.core.prompt_loader import resolve_prompt
         if prompt_template_path is None:
             project_root = Path(__file__).parent.parent.parent
             prompt_template_path = project_root / "config" / "prompts" / "writing.yaml"
-        
-        with open(prompt_template_path, "r", encoding="utf-8") as f:
-            prompt_data = yaml.safe_load(f)
+        prompt_raw = resolve_prompt("writing", prompt_template_path)
+        prompt_data = yaml.safe_load(prompt_raw)
         
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")

@@ -3,19 +3,11 @@ import logging
 from typing import Optional
 from src.core.state import AgentState
 from src.core.llm import LLMClient
+from src.core.prompt_loader import get_fiction_system_prompt
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 
 logger = logging.getLogger(__name__)
-
-FICTION_SYSTEM_PROMPT = """
-你是一位专业的文学编辑和小说创作助手。
-
-【合规要求，必须遵守】
-1. 所有产出必须符合中华人民共和国法律法规及内容安全与出版规范，禁止任何非法、政治敏感、色情、暴力恐怖、违法犯罪或违背公序良俗的内容。
-2. 内容健康向上，适合全年龄或合规分级受众；不涉及真实政党、敏感历史事件或违法犯罪细节。
-3. 在合规前提下进行客观分析与文学润色，严格遵循用户指令（如 JSON 格式），并**使用简体中文**回复。
-"""
 
 
 class PlannerAgent:
@@ -61,7 +53,7 @@ class PlannerAgent:
             architect_prompt += f"\n\n【重要】请根据以下审稿意见调整场景规划：\n{critique_comments}\n"
         
         messages = [
-            {"role": "system", "content": FICTION_SYSTEM_PROMPT},
+            {"role": "system", "content": get_fiction_system_prompt()},
             {"role": "user", "content": architect_prompt}
         ]
         

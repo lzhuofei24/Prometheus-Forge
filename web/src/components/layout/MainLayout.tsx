@@ -18,6 +18,7 @@ export default function MainLayout() {
     { path: '/reader', label: t('nav.reader'), value: 'reader' },
     { path: '/workflow', label: t('nav.workflow'), value: 'workflow' },
     { path: '/resources', label: t('nav.resources'), value: 'resources' },
+    { path: '/prompts', label: t('nav.prompts'), value: 'prompts' },
   ];
 
   const currentValue = navItems.find((item) => location.pathname === item.path)?.value || 'home';

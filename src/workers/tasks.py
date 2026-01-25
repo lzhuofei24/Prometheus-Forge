@@ -12,6 +12,7 @@ from celery import group, chord
 from src.core.celery_config import celery_app
 from src.core.llm import LLMClient
 from src.core.prompt_manager import PromptRouter
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
 from src.core.config import Settings
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
@@ -20,15 +21,6 @@ logger = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     celery_app.start()
-
-FICTION_SYSTEM_PROMPT = """
-你是一位专业的文学编辑和小说创作助手。
-
-【合规要求，必须遵守】
-1. 所有产出必须符合中华人民共和国法律法规及内容安全与出版规范，禁止任何非法、政治敏感、色情、暴力恐怖、违法犯罪或违背公序良俗的内容。
-2. 内容健康向上，适合全年龄或合规分级受众；不涉及真实政党、敏感历史事件或违法犯罪细节。
-3. 在合规前提下进行客观分析与文学润色，严格遵循用户指令（如 JSON 格式），并**使用简体中文**回复。
-"""
 
 router = None
 llm_client = None
@@ -127,7 +119,7 @@ def _build_context(novel_name: str, chapter_num: int) -> str:
     
     recent_content_text = "\n\n---\n\n".join(recent_chapters_content)
     
-    reference_context = f"# 核心指令\n{FICTION_SYSTEM_PROMPT}\n\n"
+    reference_context = f"# 核心指令\n{get_fiction_system_prompt()}\n\n"
     reference_context += f"# 世界观与人物\n## 人物设定：\n{character_bios_text}\n\n## 世界观设定：\n{world_setting_text}\n\n"
     
     if story_summary:
@@ -263,7 +255,7 @@ def generate_outline_task(novel_name: str, chapter_num: int):
     )
     
     system_prompt = (
-        FICTION_SYSTEM_PROMPT + "\n\n" +
+        get_fiction_system_prompt() + "\n\n" +
         "你是一位专业的小说创作助手，擅长创作符合原著风格的小说章节。\n\n"
         "**重要格式要求**：\n"
         "- 章节标题必须使用 `# 标题名称` 格式\n"
@@ -306,7 +298,7 @@ def write_chapter_task(novel_name: str, chapter_num: int, feedback: Optional[str
     if not dynamic_style_prompt:
         dynamic_style_prompt = "请按照小说风格进行创作。"
     
-    system_prompt = FICTION_SYSTEM_PROMPT + "\n\n" + dynamic_style_prompt
+    system_prompt = get_fiction_system_prompt() + "\n\n" + dynamic_style_prompt
     
     architect_prompt = f"""
 {reference_context}
@@ -477,7 +469,7 @@ def update_character_card_task(novel_name: str, chapter_num: int):
 }}
 """
     
-    system_prompt = FICTION_SYSTEM_PROMPT + "\n\n你是一位专业的小说分析助手，擅长从文本中提取人物信息。"
+    system_prompt = get_fiction_system_prompt() + "\n\n你是一位专业的小说分析助手，擅长从文本中提取人物信息。"
     
     messages = [
         {"role": "system", "content": system_prompt},
@@ -525,13 +517,12 @@ def review_chapter_task(novel_name: str, chapter_num: int, retry_count: int = 0)
     outline = file_manager.load_content(outline_path) if outline_path.exists() else ""
     reference_context = _build_context(novel_name, chapter_num)
     
+    import yaml
     from pathlib import Path
     project_root = Path(__file__).parent.parent.parent
     prompt_template_path = project_root / "config" / "prompts" / "critique.yaml"
-    
-    import yaml
-    with open(prompt_template_path, "r", encoding="utf-8") as f:
-        prompt_data = yaml.safe_load(f)
+    prompt_raw = resolve_prompt("critique", prompt_template_path)
+    prompt_data = yaml.safe_load(prompt_raw)
     
     system_prompt = prompt_data.get("system", "")
     user_template = prompt_data.get("user", "")
@@ -545,7 +536,7 @@ def review_chapter_task(novel_name: str, chapter_num: int, retry_count: int = 0)
     )
     
     messages = [
-        {"role": "system", "content": FICTION_SYSTEM_PROMPT + "\n\n" + system_prompt},
+        {"role": "system", "content": get_fiction_system_prompt() + "\n\n" + system_prompt},
         {"role": "user", "content": user_prompt}
     ]
     

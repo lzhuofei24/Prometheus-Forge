@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.routers import workflow, monitor, novels
+from src.api.routers import workflow, monitor, novels, prompts
 from src.core.database import init_db
 from src.core.container import init_container
 from src.core.app_settings import get_settings, reload_settings
@@ -26,6 +26,7 @@ app.add_middleware(
 app.include_router(workflow.router)
 app.include_router(monitor.router)
 app.include_router(novels.router)
+app.include_router(prompts.router)
 
 
 @app.on_event("startup")

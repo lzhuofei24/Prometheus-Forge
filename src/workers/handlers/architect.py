@@ -7,17 +7,9 @@ from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 from src.core.db_service import DatabaseService
+from src.core.prompt_loader import get_fiction_system_prompt
 
 logger = logging.getLogger(__name__)
-
-FICTION_SYSTEM_PROMPT = """
-你是一位专业的文学编辑和小说创作助手。
-
-【合规要求，必须遵守】
-1. 所有产出必须符合中华人民共和国法律法规及内容安全与出版规范，禁止任何非法、政治敏感、色情、暴力恐怖、违法犯罪或违背公序良俗的内容。
-2. 内容健康向上，适合全年龄或合规分级受众；不涉及真实政党、敏感历史事件或违法犯罪细节。
-3. 在合规前提下进行客观分析与文学润色，严格遵循用户指令（如 JSON 格式），并**使用简体中文**回复。
-"""
 
 
 class ArchitectHandler(BaseAgentHandler):
@@ -69,7 +61,7 @@ class ArchitectHandler(BaseAgentHandler):
                 except Exception as e:
                     logger.warning(f"加载上一章前500字失败: {e}")
         
-        reference_context = f"# 核心指令\n{FICTION_SYSTEM_PROMPT}\n\n"
+        reference_context = f"# 核心指令\n{get_fiction_system_prompt()}\n\n"
         reference_context += f"# 世界观与人物\n## 人物设定：\n{character_bios_text}\n\n## 世界观设定：\n{world_setting_text}\n\n"
         
         if recent_content_text:
@@ -133,7 +125,7 @@ class ArchitectHandler(BaseAgentHandler):
 """
 
         system_prompt = (
-            FICTION_SYSTEM_PROMPT + "\n\n" +
+            get_fiction_system_prompt() + "\n\n" +
             "你是一位专业的小说创作助手，擅长创作符合原著风格的小说章节。\n\n"
             "**重要格式要求**：\n"
             "- 必须返回严格的 JSON 格式\n"

@@ -7,6 +7,7 @@ import Writer from './pages/Writer';
 import Reader from './pages/Reader';
 import WorkflowMonitor from './pages/WorkflowMonitor';
 import ResourceMonitor from './pages/ResourceMonitor';
+import PromptManager from './pages/PromptManager';
 import './App.css';
 
 const queryClient = new QueryClient({
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/controller" element={<Navigate to="/workflow" replace />} />
                 <Route path="/workflow" element={<WorkflowMonitor />} />
                 <Route path="/resources" element={<ResourceMonitor />} />
+                <Route path="/prompts" element={<PromptManager />} />
               </Route>
             </Routes>
           </BrowserRouter>

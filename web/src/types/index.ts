@@ -107,3 +107,18 @@ export interface Chapter {
   status: string;
   created_at: string;
 }
+
+export interface PromptTemplate {
+  id: number;
+  key: string;
+  content: string;
+  description?: string | null;
+  is_active: boolean;
+  updated_at?: string | null;
+}
+
+export interface PromptUpdatePayload {
+  content?: string;
+  description?: string | null;
+  is_active?: boolean;
+}

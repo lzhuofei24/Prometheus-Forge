@@ -6,6 +6,8 @@ import type {
   WorkflowState,
   WorkflowTrace,
   MonitorStats,
+  PromptTemplate,
+  PromptUpdatePayload,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -180,6 +182,41 @@ export const monitorApi = {
 export const healthApi = {
   check: async (): Promise<{ status: string; service: string }> => {
     const response = await apiClient.get<{ status: string; service: string }>('/health');
+    return response.data;
+  },
+};
+
+export interface PromptExpectedKeysResponse {
+  keys: string[];
+}
+
+export const promptApi = {
+  getAll: async (): Promise<PromptTemplate[]> => {
+    const response = await apiClient.get<PromptTemplate[]>('/api/prompts');
+    return response.data;
+  },
+  getExpectedKeys: async (): Promise<PromptExpectedKeysResponse> => {
+    const response = await apiClient.get<PromptExpectedKeysResponse>('/api/prompts/expected-keys');
+    return response.data;
+  },
+  getByKey: async (key: string): Promise<PromptTemplate> => {
+    const response = await apiClient.get<PromptTemplate>(`/api/prompts/${encodeURIComponent(key)}`);
+    return response.data;
+  },
+  update: async (key: string, data: PromptUpdatePayload): Promise<PromptTemplate> => {
+    const response = await apiClient.put<PromptTemplate>(
+      `/api/prompts/${encodeURIComponent(key)}`,
+      data
+    );
+    return response.data;
+  },
+  create: async (data: { key: string; content?: string; description?: string | null }): Promise<PromptTemplate> => {
+    const response = await apiClient.post<PromptTemplate>('/api/prompts', {
+      key: data.key,
+      content: data.content ?? '',
+      description: data.description ?? null,
+      is_active: true,
+    });
     return response.data;
   },
 };
