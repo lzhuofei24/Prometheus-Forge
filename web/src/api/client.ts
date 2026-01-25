@@ -220,3 +220,60 @@ export const promptApi = {
     return response.data;
   },
 };
+
+export interface PendingItem {
+  id: string;
+  write_type: string;
+  novel_id: string;
+  novel_title: string;
+  chapter_index: number;
+  workflow_id: string | null;
+  source_agent: string | null;
+  status: string;
+  created_at: string | null;
+  payload_preview: string;
+  existing_has_summary: boolean;
+  existing_has_content: boolean;
+  existing_summary_preview: string | null;
+  existing_content_preview: string | null;
+}
+
+export interface PendingDetail {
+  id: string;
+  write_type: string;
+  novel_id: string;
+  novel_title: string;
+  chapter_index: number;
+  workflow_id: string | null;
+  source_agent: string | null;
+  status: string;
+  created_at: string | null;
+  payload: { content?: string; summary?: string; critique_data?: unknown };
+  existing_summary: string | null;
+  existing_content: string | null;
+  existing_critique_data: unknown;
+}
+
+export const approvalsApi = {
+  listPending: async (status?: string): Promise<PendingItem[]> => {
+    const params = status ? { status } : {};
+    const response = await apiClient.get<PendingItem[]>('/approvals/pending', { params });
+    return response.data;
+  },
+  getDetail: async (pendingId: string): Promise<PendingDetail> => {
+    const response = await apiClient.get<PendingDetail>(`/approvals/pending/${pendingId}`);
+    return response.data;
+  },
+  approve: async (pendingId: string): Promise<{ success: boolean; draft_id?: string }> => {
+    const response = await apiClient.post<{ success: boolean; draft_id?: string }>(
+      `/approvals/pending/${pendingId}/approve`
+    );
+    return response.data;
+  },
+  reject: async (pendingId: string): Promise<{ success: boolean }> => {
+    const response = await apiClient.post<{ success: boolean }>(
+      `/approvals/pending/${pendingId}/reject`
+    );
+    return response.data;
+  },
+};

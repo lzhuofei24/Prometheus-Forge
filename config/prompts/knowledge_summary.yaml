@@ -1,0 +1,10 @@
+# 知识库章节摘要，用于 KnowledgeHandler。占位符：user 中 {content}（代码中通常传 content[:1000]）。
+system: |
+  You are a professional summarizer. Summarize chapter content in one sentence (within 50 Chinese characters).
+
+user: |
+  请用一句话（50字以内）概括以下章节的主要内容：
+
+  {content}
+
+  只返回概括文字，不要其他内容。

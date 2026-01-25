@@ -1,5 +1,6 @@
 import json
 import logging
+import yaml
 from typing import Dict, Any
 from src.workers.base import BaseAgentHandler
 from src.core.events import EventType, EventSource
@@ -7,7 +8,7 @@ from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 from src.core.db_service import DatabaseService
-from src.core.prompt_loader import get_fiction_system_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -19,35 +20,15 @@ class ArchitectHandler(BaseAgentHandler):
         self.file_manager = file_manager
 
     def _build_context(self, novel_name: str, chapter_num: int) -> str:
-        try:
-            from src.core.container import container
-            cache_service = container.cache_service()
-            cached_settings = cache_service.get_novel_settings(novel_name)
-            
-            if cached_settings:
-                bios = cached_settings.get("bios", [])
-                world = cached_settings.get("world", "")
-            else:
-                global_dir = self.file_manager.get_global_settings_path(novel_name)
-                bios_path = global_dir / "bios.json"
-                world_path = global_dir / "world.md"
-                
-                bios = self.file_manager.load_content(bios_path) if bios_path.exists() else []
-                world = self.file_manager.load_content(world_path) if world_path.exists() else ""
-                
-                cache_service.set_novel_settings(novel_name, {"bios": bios, "world": world})
-        except:
-            global_dir = self.file_manager.get_global_settings_path(novel_name)
-            bios_path = global_dir / "bios.json"
-            world_path = global_dir / "world.md"
-            
-            bios = self.file_manager.load_content(bios_path) if bios_path.exists() else []
-            world = self.file_manager.load_content(world_path) if world_path.exists() else ""
-        
+        novel = DatabaseService.get_novel_by_title(novel_name)
+        if novel:
+            settings = DatabaseService.get_novel_global_settings(novel.id)
+            bios = settings.get("bios", [])
+            world = settings.get("world", "")
+        else:
+            bios, world = [], ""
         character_bios_text = self._format_bios(bios)
         world_setting_text = world if world else ""
-        
-        novel = DatabaseService.get_novel_by_title(novel_name)
         recent_content_text = ""
         if novel:
             chapters = DatabaseService.list_chapters(novel.id)
@@ -101,40 +82,19 @@ class ArchitectHandler(BaseAgentHandler):
         
         self.state_manager.update_state(workflow_id, {"reference_context": reference_context})
 
-        outline_prompt = f"""
-{reference_context}
-
----
-【任务目标】
-请规划第 {chapter_num} 章的详细大纲，目标总字数 10000 字。
-请将本章拆分为 4 到 6 个具体的场景 (Scenes)。
-
-【输出格式】
-请仅返回一个 JSON 对象，格式如下：
-{{
-    "scenes": [
-        {{
-            "id": 1,
-            "summary": "详细描述该场景发生的事件、冲突和对话重点...",
-            "expected_words": 2000,
-            "key_characters": ["姓名1", "姓名2"]
-        }},
-        ...
-    ]
-}}
-"""
-
-        system_prompt = (
-            get_fiction_system_prompt() + "\n\n" +
-            "你是一位专业的小说创作助手，擅长创作符合原著风格的小说章节。\n\n"
-            "**重要格式要求**：\n"
-            "- 必须返回严格的 JSON 格式\n"
-            "- 包含 scenes 数组，每个场景包含 id, summary, expected_words, key_characters\n"
+        prompt_raw = resolve_prompt("architect")
+        prompt_data = yaml.safe_load(prompt_raw)
+        system_prompt = prompt_data.get("system", "")
+        user_template = prompt_data.get("user", "")
+        user_prompt = user_template.format(
+            reference_context=reference_context,
+            chapter_num=chapter_num,
+            feedback_section="",
         )
 
         messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": outline_prompt}
+            {"role": "system", "content": get_fiction_system_prompt() + "\n\n" + system_prompt},
+            {"role": "user", "content": user_prompt}
         ]
 
         response = self.llm_client.chat(messages, temperature=0.7, max_tokens=4096)
@@ -150,7 +110,14 @@ class ArchitectHandler(BaseAgentHandler):
             raise ValueError(f"场景大纲解析失败: {e}")
         
         novel = DatabaseService.get_or_create_novel(novel_name)
-        DatabaseService.save_outline(novel.id, chapter_num, outline)
+        DatabaseService.add_pending_write(
+            "outline",
+            novel.id,
+            chapter_num,
+            {"summary": outline},
+            workflow_id=workflow_id,
+            source_agent="architect",
+        )
 
         return {"outline": outline}
 

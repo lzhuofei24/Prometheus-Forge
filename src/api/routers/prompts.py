@@ -10,16 +10,22 @@ from src.api.schemas.prompts import PromptSchema, PromptUpdate, PromptCreate
 
 router = APIRouter(prefix="/api/prompts", tags=["Prompts"])
 
-# 当前代码中实际按 key 解析的提示词（prompt_loader / 各 handler 使用）
-# 未在 DB 中配置时会回退到 config/prompts/*.yaml
+# 当前代码中仅从数据库按 key 读取的提示词（prompt_loader 仅用 DB，无 YAML 回退）
 EXPECTED_KEYS = [
-    "fiction_system",  # 创作合规系统提示，各 Agent 共用
-    "writing",         # config/prompts/writing.yaml
-    "critique",        # config/prompts/critique.yaml
-    "extraction",      # config/prompts/extraction.yaml
-    "plot_check",      # config/prompts/plot_check.yaml
-    "style_check",     # config/prompts/style_check.yaml
-    "character_check", # config/prompts/character_check.yaml
+    "fiction_system",   # 创作合规系统提示，各 Agent 共用
+    "writing",          # 正文写作
+    "critique",         # 审稿（Editor / tasks 用）
+    "critique_handler", # 审稿（Worker CriticHandler 用，输出 score/critique/suggestions/passed/details）
+    "extraction",       # 设定抽取
+    "plot_check",       # 剧情检查
+    "style_check",      # 文风检查
+    "character_check",  # 人设检查
+    "censor",           # 内容合规审查（LLM 审查）
+    "architect",        # 大纲规划（ArchitectHandler）
+    "writer_builder",   # 场景正文撰写（WriterHandler）
+    "knowledge_extraction",    # 知识库实体抽取（KnowledgeHandler）
+    "knowledge_summary", # 知识库章节摘要（KnowledgeHandler）
+    "media_prompt_engineering", # 插画 Prompt 工程（MediaHandler）
 ]
 
 

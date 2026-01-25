@@ -8,6 +8,7 @@ import Reader from './pages/Reader';
 import WorkflowMonitor from './pages/WorkflowMonitor';
 import ResourceMonitor from './pages/ResourceMonitor';
 import PromptManager from './pages/PromptManager';
+import ApprovalAssistant from './pages/ApprovalAssistant';
 import './App.css';
 
 const queryClient = new QueryClient({
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/workflow" element={<WorkflowMonitor />} />
                 <Route path="/resources" element={<ResourceMonitor />} />
                 <Route path="/prompts" element={<PromptManager />} />
+                <Route path="/approvals" element={<ApprovalAssistant />} />
               </Route>
             </Routes>
           </BrowserRouter>

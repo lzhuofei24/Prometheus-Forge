@@ -1,0 +1,39 @@
+# 知识库实体抽取，用于 KnowledgeHandler。占位符：user 中 {chapter_content}（代码中通常传 content[:2000]）。
+system: |
+  You are a professional novel archivist. Extract key information from chapter content in JSON format.
+
+user: |
+  你是一位专业的小说档案员。请从以下章节内容中提取关键信息。
+
+  **章节内容**：
+  {chapter_content}
+
+  **提取要求**：
+  1. **新登场角色**：如果本章出现了新角色，记录其姓名、描述、性格特征
+  2. **角色状态变更**：如果已有角色发生了重大变化（如突破、受伤、获得新能力、性格转变），记录变更内容
+  3. **新地点/物品**：如果出现了新的重要地点或物品，记录其名称和描述
+
+  **输出格式**（严格 JSON）：
+  {{
+    "characters": [
+      {{
+        "name": "角色名",
+        "description": "角色描述",
+        "status_change": "状态变更（如有）"
+      }}
+    ],
+    "locations": [
+      {{
+        "name": "地点名",
+        "description": "地点描述"
+      }}
+    ],
+    "items": [
+      {{
+        "name": "物品名",
+        "description": "物品描述"
+      }}
+    ]
+  }}
+
+  如果没有相关内容，返回空数组。

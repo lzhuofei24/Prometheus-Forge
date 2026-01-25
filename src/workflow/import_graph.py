@@ -68,9 +68,7 @@ class ImportWorkflow:
         if not content:
             raise ValueError("章节内容为空")
         
-        project_root = Path(__file__).parent.parent.parent
-        prompt_template_path = project_root / "config" / "prompts" / "extraction.yaml"
-        prompt_raw = resolve_prompt("extraction", prompt_template_path)
+        prompt_raw = resolve_prompt("extraction")
         prompt_data = yaml.safe_load(prompt_raw)
         
         original_system_prompt = prompt_data.get("system", "")

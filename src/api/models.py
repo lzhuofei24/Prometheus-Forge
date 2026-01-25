@@ -69,3 +69,42 @@ class ChapterDraft(Base):
         Index("idx_draft_chapter_version", "chapter_id", "version"),
         Index("idx_draft_chapter_active_version", "chapter_id", "is_active", "version"),
     )
+
+
+class PendingWriteStatus(str, enum.Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+
+class PendingWrite(Base):
+    """Agent 待审批写入：写入须经用户审批后再落库。"""
+    __tablename__ = "pending_writes"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    write_type = Column(String(32), nullable=False, index=True)  # outline | content
+    novel_id = Column(String(36), ForeignKey("novels.id", ondelete="CASCADE"), nullable=False, index=True)
+    chapter_index = Column(Integer, nullable=False, index=True)
+    payload = Column(JSON, nullable=False)  # { "content"?: str, "summary"?: str, "critique_data"?: dict }
+    workflow_id = Column(String(64), nullable=True, index=True)
+    source_agent = Column(String(64), nullable=True)
+    status = Column(
+        String(16), default=PendingWriteStatus.PENDING.value, nullable=False, index=True
+    )
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    __table_args__ = (Index("idx_pending_novel_chapter", "novel_id", "chapter_index"),)
+
+
+class NovelSetting(Base):
+    """小说全局设定（替代 workspace 下的 global/），key 如 bios, world, relation_graph。"""
+    __tablename__ = "novel_settings"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    novel_id = Column(String(36), ForeignKey("novels.id", ondelete="CASCADE"), nullable=False, index=True)
+    key = Column(String(64), nullable=False, index=True)
+    value = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
+    __table_args__ = (Index("idx_novel_setting_novel_key", "novel_id", "key", unique=True),)

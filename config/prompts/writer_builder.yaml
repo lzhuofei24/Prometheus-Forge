@@ -1,0 +1,23 @@
+# 场景正文撰写提示词，用于 WriterHandler。占位符：reference_context, chapter_num, scene_id, scene_summary, key_characters, expected_words, previous_text, feedback（可为空）。
+system: |
+  使用 fiction_system 作为系统指令，本模板仅提供 user 部分。
+
+user: |
+  {reference_context}
+
+  ---
+  【当前任务】
+  你正在撰写第 {chapter_num} 章。请根据以下大纲撰写**场景 {scene_id}**。
+
+  **场景大纲**：{scene_summary}
+  **登场人物**：{key_characters}
+  **目标字数**：{expected_words} 字 (请务必写够字数，描写要细腻，增加对话和动作细节)。
+
+  **上文衔接** (请紧接着下面的内容写，保持连贯)：
+  ...{previous_text}
+
+  【写作要求】
+  1. 直接输出正文，不要有任何前言或总结。
+  2. 风格要沉浸、成人向（Mature）、不回避冲突。
+  3. 确保场景完整，达到目标字数。
+  {feedback_section}

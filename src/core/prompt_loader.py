@@ -1,11 +1,11 @@
 """
 从数据库 prompt_templates 表读取提示词模板，供各 Agent/Worker 使用。
-优先使用数据库；若 key 不存在则从本地 YAML 回退（若提供了 fallback 路径）。
+约定：仅使用数据库，不读 YAML、不做缓存，每次调用均请求数据库。
 """
-from pathlib import Path
 from typing import Optional
 import os
 import logging
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ def _get_sync_db_url() -> str:
 
 def get_prompt_content(key: str) -> Optional[str]:
     """
-    从 prompt_templates 表按 key 取 content。
+    从 prompt_templates 表按 key 取 content。每次调用都会查询数据库，不做缓存。
     若不存在或 is_active=False，返回 None。
     """
     try:
@@ -52,35 +52,22 @@ def get_prompt_content(key: str) -> Optional[str]:
         return None
 
 
-def resolve_prompt(key: str, fallback_yaml_path: Optional[Path] = None) -> str:
+def resolve_prompt(key: str) -> str:
     """
-    解析提示词内容：优先数据库 prompt_templates.key，否则从 fallback_yaml_path 读文件。
-    若两者都无可用内容，则抛出 FileNotFoundError 或 ValueError。
+    仅从数据库按 key 读取提示词，不读 YAML、无回退。
+    若 key 不存在或内容为空，抛出 ValueError。
     """
     content = get_prompt_content(key)
     if content is not None and content.strip():
         return content.strip()
-    if fallback_yaml_path is not None and fallback_yaml_path.exists():
-        with open(fallback_yaml_path, "r", encoding="utf-8") as f:
-            return f.read()
-    if content is not None:
-        return content.strip() if content else ""
-    raise FileNotFoundError(
-        f"提示词 key={key!r} 在数据库中不存在且未提供有效回退路径: {fallback_yaml_path}"
+    raise ValueError(
+        f"提示词 key={key!r} 在数据库中不存在或内容为空，请先在「提示词助手」或数据库中配置。"
     )
 
 
 def get_fiction_system_prompt() -> str:
     """
-    返回「小说/创作合规」系统提示词。
-    优先使用 DB key fiction_system；若无则返回内置默认。
+    仅从数据库 key=fiction_system 读取「小说/创作合规」系统提示词。
+    若库中未配置或内容为空，抛出 ValueError。
     """
-    default = """你是一位专业的文学编辑和小说创作助手。
-
-【合规要求，必须遵守】
-1. 所有产出必须符合中华人民共和国法律法规及内容安全与出版规范，禁止任何非法、政治敏感、色情、暴力恐怖、违法犯罪或违背公序良俗的内容。
-2. 内容健康向上，适合全年龄或合规分级受众；不涉及真实政党、敏感历史事件或违法犯罪细节。
-3. 在合规前提下进行客观分析与文学润色，严格遵循用户指令（如 JSON 格式），并**使用简体中文**回复。
-"""
-    content = get_prompt_content("fiction_system")
-    return (content and content.strip()) or default
+    return resolve_prompt("fiction_system")

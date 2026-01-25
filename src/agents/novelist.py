@@ -6,7 +6,7 @@ import json
 import logging
 from src.core.state import AgentState
 from src.core.llm import LLMClient
-from src.core.prompt_loader import get_fiction_system_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 
@@ -61,6 +61,12 @@ class Novelist:
         chapter_path = self.file_manager.init_chapter(novel_name, chapter_num)
         outline_path = chapter_path / "outline.md"
         self.file_manager.save_content(outline_path, outline)
+        try:
+            from src.core.db_service import DatabaseService
+            novel = DatabaseService.get_or_create_novel(novel_name)
+            DatabaseService.save_outline(novel.id, chapter_num, outline)
+        except Exception as e:
+            logger.warning("大纲写入数据库失败（已写入文件）: %s", e)
         
         return state
     
@@ -88,34 +94,23 @@ class Novelist:
         # --- Phase 1: Architect (生成分场景细纲) ---
         logger.info(f"📋 Phase 1: 正在规划第 {chapter_num} 章的分场景大纲...")
         
-        architect_prompt = f"""
-{reference_context}
-
----
-【任务目标】
-请规划第 {chapter_num} 章的详细大纲，目标总字数 10000 字。
-请将本章拆分为 4 到 6 个具体的场景 (Scenes)。
-
-【输出格式】
-请仅返回一个 JSON 对象，格式如下：
-{{
-    "scenes": [
-        {{
-            "id": 1,
-            "summary": "详细描述该场景发生的事件、冲突和对话重点...",
-            "expected_words": 2000,
-            "key_characters": ["姓名1", "姓名2"]
-        }},
-        ...
-    ]
-}}
-"""
-        
-        if critique_comments:
-            architect_prompt += f"\n\n【关键反馈 - 必须遵循】\n上一版审稿意见：{critique_comments}\n你必须在场景规划中充分考虑这些反馈，调整情节结构、人物设置和冲突设计。\n"
-        
+        feedback_section = (
+            "\n\n【关键反馈 - 必须遵循】\n上一版审稿意见："
+            + critique_comments
+            + "\n你必须在场景规划中充分考虑这些反馈，调整情节结构、人物设置和冲突设计。\n"
+            if critique_comments else ""
+        )
+        prompt_raw = resolve_prompt("architect")
+        prompt_data = yaml.safe_load(prompt_raw)
+        system_prompt = prompt_data.get("system", "")
+        user_template = prompt_data.get("user", "")
+        architect_prompt = user_template.format(
+            reference_context=reference_context,
+            chapter_num=chapter_num,
+            feedback_section=feedback_section,
+        )
         messages = [
-            {"role": "system", "content": get_fiction_system_prompt()},
+            {"role": "system", "content": get_fiction_system_prompt() + "\n\n" + system_prompt},
             {"role": "user", "content": architect_prompt}
         ]
         
@@ -142,6 +137,12 @@ class Novelist:
             outline_markdown += f"**目标字数**: {scene['expected_words']} 字\n\n"
             outline_markdown += f"**关键人物**: {', '.join(scene.get('key_characters', []))}\n\n"
         self.file_manager.save_content(outline_path, outline_markdown)
+        try:
+            from src.core.db_service import DatabaseService
+            novel = DatabaseService.get_or_create_novel(novel_name)
+            DatabaseService.save_outline(novel.id, chapter_num, state["outline"])
+        except Exception as e:
+            logger.warning("分场景大纲写入数据库失败（已写入文件）: %s", e)
         
         logger.info(f"✅ 场景规划完成，共 {len(scenes)} 个场景")
         
@@ -155,34 +156,26 @@ class Novelist:
         for i, scene in enumerate(scenes):
             logger.info(f"✍️ Phase 2: 正在撰写场景 {i+1}/{len(scenes)}: {scene['summary'][:30]}...")
             
-            builder_prompt = f"""
-{reference_context}
-
----
-【当前任务】
-你正在撰写第 {chapter_num} 章。请根据以下大纲撰写**场景 {scene['id']}**。
-
-**场景大纲**：{scene['summary']}
-**登场人物**：{', '.join(scene.get('key_characters', []))}
-**目标字数**：{scene['expected_words']} 字 (请务必写够字数，描写要细腻，增加对话和动作细节)。
-
-**上文衔接** (请紧接着下面的内容写，保持连贯)：
-...{previous_text[-2000:]}
-
-【写作要求】
-1. 直接输出正文，不要有任何前言或总结。
-2. 风格要沉浸、成人向（Mature）、不回避冲突。
-3. 确保场景完整，达到目标字数。
-"""
-            
-            if critique_comments:
-                builder_prompt += (
-                    f"\n\n【关键反馈 - 必须遵循】\n"
-                    f"Critical Feedback from previous draft: {critique_comments}\n"
-                    f"You MUST revise the chapter to address these points while maintaining the plot.\n"
-                    f"请在写作中充分体现这些修改建议，确保问题得到解决。\n"
-                )
-            
+            feedback_section = (
+                "\n\n【关键反馈 - 必须遵循】\n"
+                f"Critical Feedback from previous draft: {critique_comments}\n"
+                "You MUST revise the chapter to address these points while maintaining the plot.\n"
+                "请在写作中充分体现这些修改建议，确保问题得到解决。\n"
+                if critique_comments else ""
+            )
+            prompt_raw = resolve_prompt("writer_builder")
+            prompt_data = yaml.safe_load(prompt_raw)
+            user_template = prompt_data.get("user", "")
+            builder_prompt = user_template.format(
+                reference_context=reference_context,
+                chapter_num=chapter_num,
+                scene_id=scene["id"],
+                scene_summary=scene["summary"],
+                key_characters=", ".join(scene.get("key_characters", [])),
+                expected_words=scene.get("expected_words", 2000),
+                previous_text=previous_text[-2000:],
+                feedback_section=feedback_section,
+            )
             messages = [
                 {"role": "system", "content": get_fiction_system_prompt()},
                 {"role": "user", "content": builder_prompt}

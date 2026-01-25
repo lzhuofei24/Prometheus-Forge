@@ -39,6 +39,7 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 
 async def init_db():
-    import src.core.models  # noqa: F401  # 注册 PromptTemplate，使 create_all 创建 prompt_templates 表
+    import src.core.models  # noqa: F401  # 注册 PromptTemplate
+    import src.api.models   # noqa: F401  # 注册 Novel, Chapter, PendingWrite, NovelSetting 等
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

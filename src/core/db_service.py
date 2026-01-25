@@ -6,7 +6,7 @@ from datetime import datetime
 import uuid
 import os
 from pathlib import Path
-from src.api.models import Novel, Chapter, ChapterDraft, ChapterStatus
+from src.api.models import Novel, Chapter, ChapterDraft, ChapterStatus, PendingWrite, PendingWriteStatus, NovelSetting
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
@@ -286,3 +286,77 @@ class DatabaseService:
     def get_chapters_content_batch(novel_id: str, chapter_indices: List[int]) -> Dict[int, Optional[str]]:
         results = DatabaseService.get_chapters_with_drafts(novel_id, chapter_indices)
         return {idx: data.get("content") for idx, data in results.items()}
+
+    @staticmethod
+    def add_pending_write(
+        write_type: str,
+        novel_id: str,
+        chapter_index: int,
+        payload: Dict[str, Any],
+        workflow_id: Optional[str] = None,
+        source_agent: Optional[str] = None,
+    ) -> str:
+        """提交待审批写入，由审批助手通过后再落库。返回 pending id。"""
+        with SessionLocal() as db:
+            pw = PendingWrite(
+                id=str(uuid.uuid4()),
+                write_type=write_type,
+                novel_id=novel_id,
+                chapter_index=chapter_index,
+                payload=payload,
+                workflow_id=workflow_id,
+                source_agent=source_agent,
+                status=PendingWriteStatus.PENDING.value,
+                created_at=datetime.utcnow(),
+            )
+            db.add(pw)
+            db.commit()
+            db.refresh(pw)
+            return pw.id
+
+    @staticmethod
+    def get_novel_setting(novel_id: str, key: str) -> Optional[str]:
+        """从 novel_settings 表读取单条设定，key 如 bios, world, relation_graph。"""
+        with SessionLocal() as db:
+            row = db.execute(
+                select(NovelSetting.value).where(
+                    and_(NovelSetting.novel_id == novel_id, NovelSetting.key == key)
+                )
+            ).scalar_one_or_none()
+            return row if row is not None else None
+
+    @staticmethod
+    def get_novel_global_settings(novel_id: str) -> Dict[str, Any]:
+        """返回小说全局设定 {bios, world, story_summary}，仅从 DB 读取，无则返回空。"""
+        import json
+        bios_raw = DatabaseService.get_novel_setting(novel_id, "bios")
+        world = DatabaseService.get_novel_setting(novel_id, "world") or ""
+        story_summary = DatabaseService.get_novel_setting(novel_id, "story_summary") or ""
+        try:
+            bios = json.loads(bios_raw) if bios_raw else []
+        except Exception:
+            bios = []
+        return {"bios": bios, "world": world, "story_summary": story_summary}
+
+    @staticmethod
+    def set_novel_setting(novel_id: str, key: str, value: str) -> None:
+        """写入或更新 novel_settings。"""
+        with SessionLocal() as db:
+            row = db.execute(
+                select(NovelSetting).where(
+                    and_(NovelSetting.novel_id == novel_id, NovelSetting.key == key)
+                )
+            ).scalar_one_or_none()
+            if row:
+                row.value = value
+                row.updated_at = datetime.utcnow()
+            else:
+                db.add(NovelSetting(
+                    id=str(uuid.uuid4()),
+                    novel_id=novel_id,
+                    key=key,
+                    value=value,
+                    created_at=datetime.utcnow(),
+                    updated_at=datetime.utcnow(),
+                ))
+            db.commit()

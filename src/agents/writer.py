@@ -1,9 +1,10 @@
 import json
 import logging
+import yaml
 from typing import Optional, List
 from src.core.state import AgentState
 from src.core.llm import LLMClient
-from src.core.prompt_loader import get_fiction_system_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
 from src.utils.file_manager import ProjectManager
 
 logger = logging.getLogger(__name__)
@@ -63,29 +64,23 @@ class WriterAgent:
             
             logger.info(f"[WriterAgent] 正在撰写场景 {i+1}/{len(scenes)}: {scene['summary'][:30]}...")
             
-            builder_prompt = f"""
-{reference_context}
-
----
-【当前任务】
-你正在撰写第 {chapter_num} 章。请根据以下大纲撰写**场景 {scene['id']}**。
-
-**场景大纲**：{scene['summary']}
-**登场人物**：{', '.join(scene.get('key_characters', []))}
-**目标字数**：{scene['expected_words']} 字 (请务必写够字数，描写要细腻，增加对话和动作细节)。
-
-**上文衔接** (请紧接着下面的内容写，保持连贯)：
-...{previous_text[-2000:]}
-
-【写作要求】
-1. 直接输出正文，不要有任何前言或总结。
-2. 风格要沉浸、成人向（Mature）、不回避冲突。
-3. 确保场景完整，达到目标字数。
-"""
-            
-            if critique_comments and (rewrite_mode or i == 0):
-                builder_prompt += f"\n\n【重要】请根据以下审稿意见调整写作：\n{critique_comments}\n"
-            
+            feedback_section = (
+                f"\n\n【重要】请根据以下审稿意见调整写作：\n{critique_comments}\n"
+                if (critique_comments and (rewrite_mode or i == 0)) else ""
+            )
+            prompt_raw = resolve_prompt("writer_builder")
+            prompt_data = yaml.safe_load(prompt_raw)
+            user_template = prompt_data.get("user", "")
+            builder_prompt = user_template.format(
+                reference_context=reference_context,
+                chapter_num=chapter_num,
+                scene_id=scene["id"],
+                scene_summary=scene["summary"],
+                key_characters=", ".join(scene.get("key_characters", [])),
+                expected_words=scene.get("expected_words", 2000),
+                previous_text=previous_text[-2000:],
+                feedback_section=feedback_section,
+            )
             messages = [
                 {"role": "system", "content": get_fiction_system_prompt()},
                 {"role": "user", "content": builder_prompt}

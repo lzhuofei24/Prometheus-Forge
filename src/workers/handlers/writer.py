@@ -6,7 +6,8 @@ from src.core.events import EventType, EventSource
 from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.core.db_service import DatabaseService
-from src.core.prompt_loader import get_fiction_system_prompt
+import yaml
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -18,35 +19,15 @@ class WriterHandler(BaseAgentHandler):
         self.file_manager = file_manager
 
     def _build_context(self, novel_name: str, chapter_num: int) -> str:
-        try:
-            from src.core.container import container
-            cache_service = container.cache_service()
-            cached_settings = cache_service.get_novel_settings(novel_name)
-            
-            if cached_settings:
-                bios = cached_settings.get("bios", [])
-                world = cached_settings.get("world", "")
-            else:
-                global_dir = self.file_manager.get_global_settings_path(novel_name)
-                bios_path = global_dir / "bios.json"
-                world_path = global_dir / "world.md"
-                
-                bios = self.file_manager.load_content(bios_path) if bios_path.exists() else []
-                world = self.file_manager.load_content(world_path) if world_path.exists() else ""
-                
-                cache_service.set_novel_settings(novel_name, {"bios": bios, "world": world})
-        except:
-            global_dir = self.file_manager.get_global_settings_path(novel_name)
-            bios_path = global_dir / "bios.json"
-            world_path = global_dir / "world.md"
-            
-            bios = self.file_manager.load_content(bios_path) if bios_path.exists() else []
-            world = self.file_manager.load_content(world_path) if world_path.exists() else ""
-        
+        novel = DatabaseService.get_novel_by_title(novel_name)
+        if novel:
+            settings = DatabaseService.get_novel_global_settings(novel.id)
+            bios = settings.get("bios", [])
+            world = settings.get("world", "")
+        else:
+            bios, world = [], ""
         character_bios_text = self._format_bios(bios)
         world_setting_text = world if world else ""
-        
-        novel = DatabaseService.get_novel_by_title(novel_name)
         previous_outline = ""
         if novel:
             chapters = DatabaseService.list_chapters(novel.id)
@@ -136,28 +117,22 @@ class WriterHandler(BaseAgentHandler):
 
             logger.info(f"[WriterHandler] 正在撰写场景 {scene['id']}: {scene['summary'][:30]}...")
 
-            builder_prompt = f"""
-{reference_context}
-
----
-【当前任务】
-你正在撰写第 {chapter_num} 章。请根据以下大纲撰写**场景 {scene['id']}**。
-
-**场景大纲**：{scene['summary']}
-**登场人物**：{', '.join(scene.get('key_characters', []))}
-**目标字数**：{scene['expected_words']} 字 (请务必写够字数，描写要细腻，增加对话和动作细节)。
-
-**上文衔接** (请紧接着下面的内容写，保持连贯)：
-...{previous_text[-2000:]}
-
-【写作要求】
-1. 直接输出正文，不要有任何前言或总结。
-2. 风格要沉浸、成人向（Mature）、不回避冲突。
-3. 确保场景完整，达到目标字数。
-"""
-
-            if feedback:
-                builder_prompt += f"\n\n【重要】请根据以下审稿意见调整写作：\n{feedback}\n"
+            feedback_section = (
+                f"\n\n【重要】请根据以下审稿意见调整写作：\n{feedback}\n" if feedback else ""
+            )
+            prompt_raw = resolve_prompt("writer_builder")
+            prompt_data = yaml.safe_load(prompt_raw)
+            user_template = prompt_data.get("user", "")
+            builder_prompt = user_template.format(
+                reference_context=reference_context,
+                chapter_num=chapter_num,
+                scene_id=scene["id"],
+                scene_summary=scene["summary"],
+                key_characters=", ".join(scene.get("key_characters", [])),
+                expected_words=scene.get("expected_words", 2000),
+                previous_text=previous_text[-2000:],
+                feedback_section=feedback_section,
+            )
 
             messages = [
                 {"role": "system", "content": get_fiction_system_prompt()},
@@ -169,7 +144,14 @@ class WriterHandler(BaseAgentHandler):
             previous_text = scene_content
 
         content = "\n\n".join(full_content)
-        DatabaseService.save_content(novel.id, chapter_num, content)
+        DatabaseService.add_pending_write(
+            "content",
+            novel.id,
+            chapter_num,
+            {"content": content},
+            workflow_id=workflow_id,
+            source_agent="writer",
+        )
 
         return {"content": content}
 

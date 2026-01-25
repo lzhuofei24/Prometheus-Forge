@@ -1,9 +1,10 @@
 import json
 import logging
+import yaml
 from typing import Optional
 from src.core.state import AgentState
 from src.core.llm import LLMClient
-from src.core.prompt_loader import get_fiction_system_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 
@@ -26,34 +27,21 @@ class PlannerAgent:
         
         logger.info(f"[PlannerAgent] 开始规划第 {chapter_num} 章的分场景大纲")
         
-        architect_prompt = f"""
-{reference_context}
-
----
-【任务目标】
-请规划第 {chapter_num} 章的详细大纲，目标总字数 10000 字。
-请将本章拆分为 4 到 6 个具体的场景 (Scenes)。
-
-【输出格式】
-请仅返回一个 JSON 对象，格式如下：
-{{
-    "scenes": [
-        {{
-            "id": 1,
-            "summary": "详细描述该场景发生的事件、冲突和对话重点...",
-            "expected_words": 2000,
-            "key_characters": ["姓名1", "姓名2"]
-        }},
-        ...
-    ]
-}}
-"""
-        
-        if critique_comments:
-            architect_prompt += f"\n\n【重要】请根据以下审稿意见调整场景规划：\n{critique_comments}\n"
-        
+        feedback_section = (
+            f"\n\n【重要】请根据以下审稿意见调整场景规划：\n{critique_comments}\n"
+            if critique_comments else ""
+        )
+        prompt_raw = resolve_prompt("architect")
+        prompt_data = yaml.safe_load(prompt_raw)
+        system_prompt = prompt_data.get("system", "")
+        user_template = prompt_data.get("user", "")
+        architect_prompt = user_template.format(
+            reference_context=reference_context,
+            chapter_num=chapter_num,
+            feedback_section=feedback_section,
+        )
         messages = [
-            {"role": "system", "content": get_fiction_system_prompt()},
+            {"role": "system", "content": get_fiction_system_prompt() + "\n\n" + system_prompt},
             {"role": "user", "content": architect_prompt}
         ]
         

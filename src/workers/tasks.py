@@ -7,6 +7,7 @@ import requests
 import asyncio
 import re
 import time
+import yaml
 from typing import Optional, Dict, Any, List
 from celery import group, chord
 from src.core.celery_config import celery_app
@@ -14,6 +15,7 @@ from src.core.llm import LLMClient
 from src.core.prompt_manager import PromptRouter
 from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
 from src.core.config import Settings
+from src.core.db_service import DatabaseService
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 
@@ -273,6 +275,11 @@ def generate_outline_task(novel_name: str, chapter_num: int):
     chapter_path = file_manager.init_chapter(novel_name, chapter_num)
     outline_path = chapter_path / "outline.md"
     file_manager.save_content(outline_path, outline)
+    try:
+        novel = DatabaseService.get_or_create_novel(novel_name)
+        DatabaseService.save_outline(novel.id, chapter_num, outline)
+    except Exception as e:
+        logger.warning("大纲写入数据库失败（已写入文件）: %s", e)
     
     logger.info(f"大纲生成完成，触发写作任务")
     write_chapter_task.delay(novel_name, chapter_num, None)
@@ -300,34 +307,20 @@ def write_chapter_task(novel_name: str, chapter_num: int, feedback: Optional[str
     
     system_prompt = get_fiction_system_prompt() + "\n\n" + dynamic_style_prompt
     
-    architect_prompt = f"""
-{reference_context}
-
----
-【任务目标】
-请规划第 {chapter_num} 章的详细大纲，目标总字数 10000 字。
-请将本章拆分为 4 到 6 个具体的场景 (Scenes)。
-
-【输出格式】
-请仅返回一个 JSON 对象，格式如下：
-{{
-    "scenes": [
-        {{
-            "id": 1,
-            "summary": "详细描述该场景发生的事件、冲突和对话重点...",
-            "expected_words": 2000,
-            "key_characters": ["姓名1", "姓名2"]
-        }},
-        ...
-    ]
-}}
-"""
-    
-    if feedback:
-        architect_prompt += f"\n\n【重要】请根据以下审稿意见调整场景规划：\n{feedback}\n"
-    
+    feedback_section = (
+        f"\n\n【重要】请根据以下审稿意见调整场景规划：\n{feedback}\n" if feedback else ""
+    )
+    arch_raw = resolve_prompt("architect")
+    arch_data = yaml.safe_load(arch_raw)
+    arch_system = arch_data.get("system", "")
+    arch_user_tpl = arch_data.get("user", "")
+    architect_prompt = arch_user_tpl.format(
+        reference_context=reference_context,
+        chapter_num=chapter_num,
+        feedback_section=feedback_section,
+    )
     messages = [
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": system_prompt + "\n\n" + arch_system},
         {"role": "user", "content": architect_prompt}
     ]
     
@@ -352,29 +345,23 @@ def write_chapter_task(novel_name: str, chapter_num: int, feedback: Optional[str
     for i, scene in enumerate(scenes):
         logger.info(f"正在撰写场景 {i+1}/{len(scenes)}")
         
-        builder_prompt = f"""
-{reference_context}
-
----
-【当前任务】
-你正在撰写第 {chapter_num} 章。请根据以下大纲撰写**场景 {scene['id']}**。
-
-**场景大纲**：{scene['summary']}
-**登场人物**：{', '.join(scene.get('key_characters', []))}
-**目标字数**：{scene['expected_words']} 字 (请务必写够字数，描写要细腻，增加对话和动作细节)。
-
-**上文衔接** (请紧接着下面的内容写，保持连贯)：
-...{previous_text[-2000:]}
-
-【写作要求】
-1. 直接输出正文，不要有任何前言或总结。
-2. 风格要沉浸、成人向（Mature）、不回避冲突。
-3. 确保场景完整，达到目标字数。
-"""
-        
-        if feedback and i == 0:
-            builder_prompt += f"\n\n【重要】请根据以下审稿意见调整写作：\n{feedback}\n"
-        
+        feedback_section = (
+            f"\n\n【重要】请根据以下审稿意见调整写作：\n{feedback}\n"
+            if (feedback and i == 0) else ""
+        )
+        wb_raw = resolve_prompt("writer_builder")
+        wb_data = yaml.safe_load(wb_raw)
+        wb_user_tpl = wb_data.get("user", "")
+        builder_prompt = wb_user_tpl.format(
+            reference_context=reference_context,
+            chapter_num=chapter_num,
+            scene_id=scene["id"],
+            scene_summary=scene["summary"],
+            key_characters=", ".join(scene.get("key_characters", [])),
+            expected_words=scene.get("expected_words", 2000),
+            previous_text=previous_text[-2000:],
+            feedback_section=feedback_section,
+        )
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": builder_prompt}
@@ -518,10 +505,7 @@ def review_chapter_task(novel_name: str, chapter_num: int, retry_count: int = 0)
     reference_context = _build_context(novel_name, chapter_num)
     
     import yaml
-    from pathlib import Path
-    project_root = Path(__file__).parent.parent.parent
-    prompt_template_path = project_root / "config" / "prompts" / "critique.yaml"
-    prompt_raw = resolve_prompt("critique", prompt_template_path)
+    prompt_raw = resolve_prompt("critique")
     prompt_data = yaml.safe_load(prompt_raw)
     
     system_prompt = prompt_data.get("system", "")

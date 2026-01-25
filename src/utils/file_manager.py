@@ -1,8 +1,11 @@
 """
-文件管理器模块
+文件管理器模块（部分已弃用）
 
-提供 ProjectManager 类，负责管理小说项目的目录结构和文件操作。
-强制执行 workspace/{小说名称}/ 的层级结构，包括全局设定区和动态章节区。
+- **业务数据持久化**：小说、章节、大纲、正文、全局设定等必须使用数据库（NovelService / DatabaseService / novel_settings）。
+  严禁在 workspace 下读写上述业务数据。
+- **workspace/** 仅用于（可选）临时日志、调试或与遗留路径的兼容；不用于持久化。
+- 以下方法仅在与未迁移到 DB 的旧逻辑兼容时保留，新逻辑请使用 DB：
+  init_novel, init_chapter, save_content/load_content 用于章节或 global、list_chapters（扫描目录）。
 """
 
 from pathlib import Path

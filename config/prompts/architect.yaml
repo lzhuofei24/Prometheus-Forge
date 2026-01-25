@@ -1,0 +1,30 @@
+# 大纲规划提示词，用于 ArchitectHandler。占位符：user 中 {reference_context}、{chapter_num}。
+system: |
+  你是一位专业的小说创作助手，擅长创作符合原著风格的小说章节。
+
+  **重要格式要求**：
+  - 必须返回严格的 JSON 格式
+  - 包含 scenes 数组，每个场景包含 id, summary, expected_words, key_characters
+
+user: |
+  {reference_context}
+
+  ---
+  【任务目标】
+  请规划第 {chapter_num} 章的详细大纲，目标总字数 10000 字。
+  请将本章拆分为 4 到 6 个具体的场景 (Scenes)。
+
+  【输出格式】
+  请仅返回一个 JSON 对象，格式如下：
+  {{
+      "scenes": [
+          {{
+              "id": 1,
+              "summary": "详细描述该场景发生的事件、冲突和对话重点...",
+              "expected_words": 2000,
+              "key_characters": ["姓名1", "姓名2"]
+          }},
+          ...
+      ]
+  }}
+  {feedback_section}

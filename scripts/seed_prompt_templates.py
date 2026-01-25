@@ -24,10 +24,17 @@ EXPECTED_KEYS = [
     "fiction_system",
     "writing",
     "critique",
+    "critique_handler",
     "extraction",
     "plot_check",
     "style_check",
     "character_check",
+    "censor",
+    "architect",
+    "writer_builder",
+    "knowledge_extraction",
+    "knowledge_summary",
+    "media_prompt_engineering",
 ]
 
 # 描述格式：xx模板，用于 xx agent。其它使用位置：……
@@ -35,10 +42,17 @@ DESCRIPTIONS = {
     "fiction_system": "创作合规系统模板，用于各 Agent 共用。其它使用位置：Architect、Writer、Critic、Builder、Planner、Editor、PlotChecker、StyleChecker、CharacterChecker、ImportWorkflow、tasks 等",
     "writing": "正文写作模板，用于 Author。其它使用位置：无",
     "critique": "审稿模板，用于 ChiefEditor、review_chapter_task。其它使用位置：workflow/graph 中的 critic 节点",
+    "critique_handler": "Worker 审稿模板，用于 CriticHandler，输出 score/critique/suggestions/passed/details。占位符：reference_context, outline, draft_content, chapter_num。其它使用位置：无",
     "extraction": "设定抽取模板，用于 ImportWorkflow、Crawler。其它使用位置：无",
     "plot_check": "剧情检查模板，用于 PlotChecker。其它使用位置：无",
     "style_check": "文风检查模板，用于 StyleChecker。其它使用位置：无",
     "character_check": "人设检查模板，用于 CharacterChecker。其它使用位置：无",
+    "censor": "内容合规审查模板（LLM 审查），用于 CensorHandler。占位符：user 中 {content}。其它使用位置：无",
+    "architect": "大纲规划模板，用于 ArchitectHandler、Planner、Novelist、tasks。占位符：reference_context, chapter_num, feedback_section（可为空）。其它使用位置：无",
+    "writer_builder": "场景正文撰写模板，用于 WriterHandler。占位符：reference_context, chapter_num, scene_id, scene_summary, key_characters, expected_words, previous_text, feedback_section。其它使用位置：无",
+    "knowledge_extraction": "知识库实体抽取模板，用于 KnowledgeHandler。占位符：chapter_content。其它使用位置：无",
+    "knowledge_summary": "知识库章节摘要模板，用于 KnowledgeHandler。占位符：content。其它使用位置：无",
+    "media_prompt_engineering": "插画 Prompt 工程模板，用于 MediaHandler。占位符：chinese_text。其它使用位置：无",
 }
 
 FICTION_SYSTEM_DEFAULT = """你是一位专业的文学编辑和小说创作助手。

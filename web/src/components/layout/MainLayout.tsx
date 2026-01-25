@@ -19,6 +19,7 @@ export default function MainLayout() {
     { path: '/workflow', label: t('nav.workflow'), value: 'workflow' },
     { path: '/resources', label: t('nav.resources'), value: 'resources' },
     { path: '/prompts', label: t('nav.prompts'), value: 'prompts' },
+    { path: '/approvals', label: t('nav.approvals', '审批助手'), value: 'approvals' },
   ];
 
   const currentValue = navItems.find((item) => location.pathname === item.path)?.value || 'home';

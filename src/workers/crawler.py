@@ -94,7 +94,7 @@ class Crawler:
         Args:
             text: 原始文本
             novel_name: 小说名称（用于保存设定文件）
-            prompt_template_path: Prompt 模板路径（可选，默认使用 config/prompts/extraction.yaml）
+            prompt_template_path: 已废弃，保留仅为兼容；提示词仅从数据库 key=extraction 读取。
             
         Returns:
             提取的设定字典，包含：
@@ -102,12 +102,9 @@ class Crawler:
             - world: 世界观设定文本
             - relations: 关系图字典
         """
-        # 1. 加载 Prompt 模板：优先数据库 key=extraction，否则本地 YAML
+        # 1. 从数据库加载 extraction 提示词（仅 DB，不使用 YAML）
         from src.core.prompt_loader import resolve_prompt
-        if prompt_template_path is None:
-            project_root = Path(__file__).parent.parent.parent
-            prompt_template_path = project_root / "config" / "prompts" / "extraction.yaml"
-        prompt_raw = resolve_prompt("extraction", prompt_template_path)
+        prompt_raw = resolve_prompt("extraction")
         prompt_data = yaml.safe_load(prompt_raw)
         
         system_prompt = prompt_data.get("system", "")

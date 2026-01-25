@@ -179,11 +179,47 @@ class ChapterSave(BaseModel):
     title: Optional[str] = None
 
 
+class NovelSettingsUpdate(BaseModel):
+    bios: Optional[list] = None
+    world: Optional[str] = None
+    story_summary: Optional[str] = None
+
+
 class ImportResponse(BaseModel):
     novel_id: str
     novel_title: str
     chapters_count: int
     chapters: List[dict]
+
+
+@router.get("/{novel_id}/settings", response_model=dict)
+async def get_novel_settings(
+    novel_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """获取小说全局设定（bios, world, story_summary），仅从数据库。"""
+    novel = await NovelService.get_novel_by_id(db, novel_id)
+    if not novel:
+        raise HTTPException(status_code=404, detail="Novel not found")
+    return await NovelService.get_novel_settings(db, novel_id)
+
+
+@router.put("/{novel_id}/settings", response_model=dict)
+async def update_novel_settings(
+    novel_id: str,
+    data: NovelSettingsUpdate,
+    db: AsyncSession = Depends(get_db),
+):
+    """更新小说全局设定，只更新传入的字段。"""
+    novel = await NovelService.get_novel_by_id(db, novel_id)
+    if not novel:
+        raise HTTPException(status_code=404, detail="Novel not found")
+    return await NovelService.set_novel_settings(
+        db, novel_id,
+        bios=data.bios,
+        world=data.world,
+        story_summary=data.story_summary,
+    )
 
 
 @router.post("/import", response_model=ImportResponse)

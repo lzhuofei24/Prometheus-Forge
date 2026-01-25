@@ -6,10 +6,14 @@
 
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import logging
 import yaml
 from src.core.llm import LLMClient
+from src.core.db_service import DatabaseService
 from src.rag.retriever import VectorRetriever
 from src.utils.file_manager import ProjectManager
+
+logger = logging.getLogger(__name__)
 
 
 class Author:
@@ -51,7 +55,7 @@ class Author:
             novel_name: 小说名称
             chapter_num: 章节编号
             previous_context: 前文上下文（可选，包含前几章的信息）
-            prompt_template_path: Prompt 模板路径（可选）
+            prompt_template_path: 已废弃，保留仅为兼容；大纲生成未使用提示词模板。
             
         Returns:
             章节大纲文本
@@ -115,10 +119,15 @@ class Author:
         
         outline = self.llm_client.chat(messages)
         
-        # 5. 保存大纲
+        # 5. 保存大纲（文件 + 数据库）
         chapter_path = self.file_manager.init_chapter(novel_name, chapter_num)
         outline_path = chapter_path / "outline.md"
         self.file_manager.save_content(outline_path, outline)
+        try:
+            novel = DatabaseService.get_or_create_novel(novel_name)
+            DatabaseService.save_outline(novel.id, chapter_num, outline)
+        except Exception as e:
+            logger.warning("大纲写入数据库失败（已写入文件）: %s", e)
         
         return outline
     
@@ -161,7 +170,7 @@ class Author:
             novel_name: 小说名称
             chapter_num: 章节编号
             outline: 章节大纲（如果为 None，从文件加载）
-            prompt_template_path: Prompt 模板路径（可选）
+            prompt_template_path: 已废弃，保留仅为兼容；提示词仅从数据库 key=writing 读取。
             
         Returns:
             章节正文文本
@@ -189,12 +198,9 @@ class Author:
         retrieved_chunks = self.retriever.retrieve(query_text, top_k=5)
         reference_text = "\n\n---\n\n".join([chunk["text"] for chunk in retrieved_chunks])
         
-        # 4. 加载 Prompt 模板：优先数据库 key=writing，否则本地 YAML
+        # 4. 从数据库加载 writing 提示词（仅 DB，不使用 YAML）
         from src.core.prompt_loader import resolve_prompt
-        if prompt_template_path is None:
-            project_root = Path(__file__).parent.parent.parent
-            prompt_template_path = project_root / "config" / "prompts" / "writing.yaml"
-        prompt_raw = resolve_prompt("writing", prompt_template_path)
+        prompt_raw = resolve_prompt("writing")
         prompt_data = yaml.safe_load(prompt_raw)
         
         system_prompt = prompt_data.get("system", "")

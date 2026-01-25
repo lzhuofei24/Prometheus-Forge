@@ -191,6 +191,14 @@ class NovelWorkflow:
             if not state.get("outline"):
                 logger.info("生成大纲")
                 state = self.novelist.generate_outline(state)
+                outline = state.get("outline")
+                if outline and state.get("novel_name") and state.get("chapter_num"):
+                    try:
+                        from src.core.db_service import DatabaseService
+                        novel = DatabaseService.get_or_create_novel(state["novel_name"])
+                        DatabaseService.save_outline(novel.id, state["chapter_num"], outline)
+                    except Exception as e:
+                        logger.warning("大纲写入数据库失败（已写入文件）: %s", e)
             
             logger.info("生成正文")
             # 传递feedback给generate_draft

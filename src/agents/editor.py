@@ -69,9 +69,7 @@ class Critic:
                 draft_content = self.file_manager.load_content(content_path)
                 state["draft_content"] = draft_content
         
-        project_root = Path(__file__).parent.parent.parent
-        prompt_template_path = project_root / "config" / "prompts" / "critique.yaml"
-        prompt_raw = resolve_prompt("critique", prompt_template_path)
+        prompt_raw = resolve_prompt("critique")
         prompt_data = yaml.safe_load(prompt_raw)
         
         system_prompt = prompt_data.get("system", "")

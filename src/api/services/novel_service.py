@@ -4,7 +4,7 @@ from sqlalchemy.orm import selectinload
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import uuid
-from src.api.models import Novel, Chapter, ChapterDraft, ChapterStatus
+from src.api.models import Novel, Chapter, ChapterDraft, ChapterStatus, NovelSetting
 
 
 class NovelService:
@@ -236,3 +236,58 @@ class NovelService:
         await db.delete(chapter)
         await db.flush()
         return True
+
+    @staticmethod
+    async def get_novel_settings(db: AsyncSession, novel_id: str) -> Dict[str, Any]:
+        """读取小说全局设定 {bios, world, story_summary}，仅从 DB。"""
+        import json
+        result = await db.execute(
+            select(NovelSetting).where(NovelSetting.novel_id == novel_id)
+        )
+        rows = result.scalars().all()
+        out = {"bios": [], "world": "", "story_summary": ""}
+        for row in rows:
+            if row.key == "bios":
+                try:
+                    out["bios"] = json.loads(row.value) if row.value else []
+                except Exception:
+                    out["bios"] = []
+            elif row.key == "world":
+                out["world"] = row.value or ""
+            elif row.key == "story_summary":
+                out["story_summary"] = row.value or ""
+        return out
+
+    @staticmethod
+    async def set_novel_settings(
+        db: AsyncSession,
+        novel_id: str,
+        bios: Optional[List[Dict[str, Any]]] = None,
+        world: Optional[str] = None,
+        story_summary: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """写入小说全局设定，仅更新传入的键。"""
+        import json
+        for key, val in [("bios", bios), ("world", world), ("story_summary", story_summary)]:
+            if val is None:
+                continue
+            s = json.dumps(val, ensure_ascii=False) if key == "bios" else str(val)
+            existing = (await db.execute(
+                select(NovelSetting).where(
+                    and_(NovelSetting.novel_id == novel_id, NovelSetting.key == key)
+                )
+            )).scalar_one_or_none()
+            if existing:
+                existing.value = s
+                existing.updated_at = datetime.utcnow()
+            else:
+                db.add(NovelSetting(
+                    id=str(uuid.uuid4()),
+                    novel_id=novel_id,
+                    key=key,
+                    value=s,
+                    created_at=datetime.utcnow(),
+                    updated_at=datetime.utcnow(),
+                ))
+        await db.flush()
+        return await NovelService.get_novel_settings(db, novel_id)

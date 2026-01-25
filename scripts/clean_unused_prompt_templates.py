@@ -24,10 +24,17 @@ EXPECTED_KEYS = [
     "fiction_system",
     "writing",
     "critique",
+    "critique_handler",
     "extraction",
     "plot_check",
     "style_check",
     "character_check",
+    "censor",
+    "architect",
+    "writer_builder",
+    "knowledge_extraction",
+    "knowledge_summary",
+    "media_prompt_engineering",
 ]
 
 

@@ -1,5 +1,6 @@
 import logging
 import json
+import yaml
 from typing import Dict, Any, List
 from pathlib import Path
 from src.workers.base import BaseAgentHandler
@@ -8,6 +9,7 @@ from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.rag.indexer import VectorIndexer
 from src.core.db_service import DatabaseService
+from src.core.prompt_loader import resolve_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -61,46 +63,15 @@ class KnowledgeHandler(BaseAgentHandler):
         Step 1: 实体提取
         调用 LLM 提取本章出现的关键信息
         """
-        extraction_prompt = f"""
-你是一位专业的小说档案员。请从以下章节内容中提取关键信息。
-
-**章节内容**：
-{chapter_content[:2000]}
-
-**提取要求**：
-1. **新登场角色**：如果本章出现了新角色，记录其姓名、描述、性格特征
-2. **角色状态变更**：如果已有角色发生了重大变化（如突破、受伤、获得新能力、性格转变），记录变更内容
-3. **新地点/物品**：如果出现了新的重要地点或物品，记录其名称和描述
-
-**输出格式**（严格 JSON）：
-{{
-  "characters": [
-    {{
-      "name": "角色名",
-      "description": "角色描述",
-      "status_change": "状态变更（如有）"
-    }}
-  ],
-  "locations": [
-    {{
-      "name": "地点名",
-      "description": "地点描述"
-    }}
-  ],
-  "items": [
-    {{
-      "name": "物品名",
-      "description": "物品描述"
-    }}
-  ]
-}}
-
-如果没有相关内容，返回空数组。
-"""
+        prompt_raw = resolve_prompt("knowledge_extraction")
+        prompt_data = yaml.safe_load(prompt_raw)
+        system_prompt = prompt_data.get("system", "")
+        user_template = prompt_data.get("user", "")
+        user_prompt = user_template.format(chapter_content=chapter_content[:2000])
 
         messages = [
-            {"role": "system", "content": "You are a professional novel archivist. Extract key information from chapter content in JSON format."},
-            {"role": "user", "content": extraction_prompt}
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
         ]
 
         response = self.llm_client.chat(messages, temperature=0.3, max_tokens=1024)
@@ -201,17 +172,15 @@ class KnowledgeHandler(BaseAgentHandler):
         if len(content) < 200:
             return content[:100]
         
-        summary_prompt = f"""
-请用一句话（50字以内）概括以下章节的主要内容：
-
-{content[:1000]}
-
-只返回概括文字，不要其他内容。
-"""
+        prompt_raw = resolve_prompt("knowledge_summary")
+        prompt_data = yaml.safe_load(prompt_raw)
+        system_prompt = prompt_data.get("system", "")
+        user_template = prompt_data.get("user", "")
+        user_prompt = user_template.format(content=content[:1000])
 
         messages = [
-            {"role": "system", "content": "You are a professional summarizer. Summarize chapter content in one sentence (within 50 Chinese characters)."},
-            {"role": "user", "content": summary_prompt}
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
         ]
 
         try:

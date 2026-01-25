@@ -1,11 +1,13 @@
 import logging
 import re
+import yaml
 from typing import Dict, Any
 from pathlib import Path
 from src.workers.base import BaseAgentHandler
 from src.core.events import EventType, EventSource
 from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
+from src.core.prompt_loader import resolve_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -62,29 +64,15 @@ class MediaHandler(BaseAgentHandler):
         Step 1: Prompt Engineering
         将中文小说片段转化为英文绘图 Prompt
         """
-        prompt_engineering_prompt = f"""
-你是一位专业的 AI 绘图 Prompt 工程师。请将以下中文小说片段转化为英文绘图 Prompt。
-
-**原文**：
-{chinese_text[:800]}
-
-**要求**：
-1. 将中文内容翻译为英文，保持场景和氛围
-2. 添加视觉风格描述（如 "Anime style, Makoto Shinkai style, cinematic lighting"）
-3. 替换敏感词汇：
-   - 血腥/暴力 → 使用氛围词（如 "crimson fluid" 代替 "blood"）
-   - 色情内容 → 使用暗示性描述（如 "intimate moment" 代替具体描写）
-4. 强调画面构图、光影、色彩氛围
-5. 输出纯英文 Prompt，不要包含解释文字
-
-**输出格式**：
-直接输出英文 Prompt，例如：
-"A serene night scene in ancient Chinese style, soft moonlight filtering through traditional architecture, cinematic lighting, Makoto Shinkai style, ethereal atmosphere, detailed background, 4K quality"
-"""
+        prompt_raw = resolve_prompt("media_prompt_engineering")
+        prompt_data = yaml.safe_load(prompt_raw)
+        system_prompt = prompt_data.get("system", "")
+        user_template = prompt_data.get("user", "")
+        user_prompt = user_template.format(chinese_text=chinese_text[:800])
 
         messages = [
-            {"role": "system", "content": "You are a professional AI image prompt engineer. Convert Chinese novel descriptions into English image generation prompts with artistic style descriptions."},
-            {"role": "user", "content": prompt_engineering_prompt}
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
         ]
 
         response = self.llm_client.chat(messages, temperature=0.7, max_tokens=512)

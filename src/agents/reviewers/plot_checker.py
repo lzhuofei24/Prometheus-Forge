@@ -41,9 +41,7 @@ class PlotChecker(BaseChecker):
             previous_text = "\n".join([f"第{ctx['chapter_num']}章摘要: {ctx.get('summary', '')}" 
                                       for ctx in previous_context[-3:]])
         
-        project_root = Path(__file__).parent.parent.parent.parent
-        prompt_path = project_root / "config" / "prompts" / "plot_check.yaml"
-        prompt_raw = resolve_prompt("plot_check", prompt_path)
+        prompt_raw = resolve_prompt("plot_check")
         prompt_data = yaml.safe_load(prompt_raw)
         
         system_prompt = get_fiction_system_prompt() + "\n\n" + prompt_data.get("system", "")
