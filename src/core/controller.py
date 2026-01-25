@@ -10,6 +10,7 @@ HEARTBEAT_TTL = 30
 from src.core.state_manager import StateManager
 from src.core.celery_config import celery_app
 from src.core.app_settings import get_settings
+from src.core.workflows import get_routing_rules, DEFAULT_WORKFLOW_ID
 
 logger = logging.getLogger(__name__)
 
@@ -49,8 +50,6 @@ class CentralController:
             "censor_completed"
         ]
         
-        self.routing_rules = self._build_routing_rules()
-        
         self.task_map = {
             "architect": "architect.generate_outline",
             "writer": "writer.write_content",
@@ -58,42 +57,6 @@ class CentralController:
             "media": "media.generate_media",
             "knowledge": "knowledge.update_knowledge",
             "censor": "censor.check_content"
-        }
-
-    def _build_routing_rules(self) -> Dict[str, RoutingRule]:
-        return {
-            "architect": RoutingRule(
-                source_agent="architect",
-                next_agents=["writer"],
-                condition=lambda data: True
-            ),
-            "writer": RoutingRule(
-                source_agent="writer",
-                next_agents=["censor"],
-                condition=lambda data: True
-            ),
-            "censor": RoutingRule(
-                source_agent="censor",
-                next_agents=["critic"],
-                condition=lambda data: not data.get("is_sensitive", True),
-                else_agents=[]
-            ),
-            "critic": RoutingRule(
-                source_agent="critic",
-                next_agents=["media", "knowledge"],
-                condition=lambda data: data.get("score", 0) >= 75,
-                else_agents=["writer"]
-            ),
-            "media": RoutingRule(
-                source_agent="media",
-                next_agents=[],
-                condition=lambda data: True
-            ),
-            "knowledge": RoutingRule(
-                source_agent="knowledge",
-                next_agents=[],
-                condition=lambda data: True
-            )
         }
 
     def run_loop(self):
@@ -149,8 +112,8 @@ class CentralController:
                         output_data["revision_count"] = 0
                 
                 self.state_manager.update_state(workflow_id, output_data)
-                
-                next_agents = self.decide_next_step(source_agent, output_data)
+
+                next_agents = self.decide_next_step(workflow_id, source_agent, output_data)
                 
                 if next_agents:
                     for target_agent in next_agents:
@@ -171,14 +134,24 @@ class CentralController:
         except Exception as e:
             logger.error(f"Error handling completion: {e}", exc_info=True)
 
-    def decide_next_step(self, source_agent: str, data: Dict[str, Any]) -> List[str]:
-        rule = self.routing_rules.get(source_agent)
+    def decide_next_step(
+        self, workflow_id: str, source_agent: str, data: Dict[str, Any]
+    ) -> List[str]:
+        state = self.state_manager.get_state(workflow_id) or {}
+        workflow_type = state.get("workflow_type") or DEFAULT_WORKFLOW_ID
+        routing_rules = get_routing_rules(workflow_type)
+
+        rule = routing_rules.get(source_agent)
         if not rule:
-            logger.warning(f"No routing rule for agent: {source_agent}")
+            logger.warning(
+                f"No routing rule for agent: {source_agent} (workflow_type={workflow_type})"
+            )
             return []
-        
+
         next_agents = rule.decide(data)
-        logger.info(f"🔀 Routing: {source_agent} -> {next_agents}")
+        logger.info(
+            f"🔀 Routing [{workflow_type}]: {source_agent} -> {next_agents}"
+        )
         return next_agents
 
     def dispatch_task(self, workflow_id: str, target_agent: str):

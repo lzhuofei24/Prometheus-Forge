@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Dict, Any, Optional
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class EventType(str, Enum):
@@ -32,6 +32,7 @@ class EventSource(str, Enum):
 
 
 class AuditLogEntry(BaseModel):
+    model_config = ConfigDict()
     timestamp: datetime = Field(default_factory=datetime.now)
     workflow_id: str
     source: EventSource
@@ -40,18 +41,11 @@ class AuditLogEntry(BaseModel):
     task_id: Optional[str] = None
     error: Optional[str] = None
 
-    class Config:
-        json_encoders = {
-            datetime: lambda v: v.isoformat()
-        }
-
 
 class EventPayload(BaseModel):
+    model_config = ConfigDict(use_enum_values=True)
     workflow_id: str
     event_type: EventType
     data: Dict[str, Any] = Field(default_factory=dict)
     source: EventSource
     task_id: Optional[str] = None
-
-    class Config:
-        use_enum_values = True

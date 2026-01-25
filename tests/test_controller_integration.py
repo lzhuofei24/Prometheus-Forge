@@ -49,7 +49,8 @@ class TestControllerWorkflow:
             "novel_name": "测试小说",
             "chapter_num": 1,
             "status": "started",
-            "revision_count": 0
+            "revision_count": 0,
+            "workflow_type": "generate_chapter",
         })
         
         payload = {
@@ -79,7 +80,8 @@ class TestControllerWorkflow:
             "novel_name": "测试小说",
             "chapter_num": 1,
             "status": "started",
-            "revision_count": 0
+            "revision_count": 0,
+            "workflow_type": "generate_chapter",
         })
         
         payload = {
@@ -108,6 +110,7 @@ class TestControllerWorkflow:
             "chapter_num": 1,
             "status": "started",
             "revision_count": 0,
+            "workflow_type": "generate_chapter",
             "critique_comments": "需要改进"
         })
         
@@ -135,7 +138,8 @@ class TestControllerWorkflow:
         test_state_manager.init_workflow(workflow_id, {
             "novel_name": "测试小说",
             "chapter_num": 1,
-            "status": "started"
+            "status": "started",
+            "workflow_type": "generate_chapter",
         })
         
         payload = {

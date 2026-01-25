@@ -39,6 +39,12 @@ export interface ControllerLogicPanelProps {
   edges: Edge[];
   setEdges: (edges: Edge[] | ((eds: Edge[]) => Edge[])) => void;
   onEdgeClick?: (edgeId: string) => void;
+  /** 工作流切换：当前选中的工作流 id */
+  currentWorkflowId?: string;
+  /** 工作流选项（id, name），用于下拉 */
+  workflowOptions?: { id: string; name: string }[];
+  /** 切换工作流时回调 */
+  onWorkflowChange?: (workflowId: string) => void;
 }
 
 export function ControllerLogicPanel({
@@ -46,10 +52,14 @@ export function ControllerLogicPanel({
   edges,
   setEdges,
   onEdgeClick,
+  currentWorkflowId,
+  workflowOptions = [],
+  onWorkflowChange,
 }: ControllerLogicPanelProps) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [addSource, setAddSource] = useState('');
   const [addTarget, setAddTarget] = useState('');
+  const showRoutingEdit = !currentWorkflowId || currentWorkflowId === 'generate_chapter';
 
   const nodeOptions = useMemo(
     () => nodes.map((n) => ({ id: n.id, name: getNodeDisplayName(n) })),
@@ -124,20 +134,35 @@ export function ControllerLogicPanel({
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-zinc-900">
-      <div className="flex flex-shrink-0 items-center justify-between gap-2 border-b border-zinc-800 px-3 py-2">
-        <span className="text-xs font-semibold text-zinc-200">Routing Logic</span>
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-7 border-dashed border-zinc-600 px-2 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300"
-          onClick={() => setShowAddForm((v) => !v)}
-        >
-          <Plus className="mr-1 h-3.5 w-3.5" />
-          Add Rule
-        </Button>
+      <div className="flex flex-shrink-0 flex-col gap-2 border-b border-zinc-800 px-3 py-2">
+        <span className="text-xs font-semibold text-zinc-200">工作流切换</span>
+        {workflowOptions.length > 0 && onWorkflowChange && (
+          <select
+            value={currentWorkflowId ?? ''}
+            onChange={(e) => onWorkflowChange(e.target.value)}
+            className="w-full rounded border border-zinc-700 bg-zinc-950 px-2 py-1.5 text-xs text-zinc-200 outline-none focus:ring-1 focus:ring-indigo-500"
+          >
+            {workflowOptions.map((opt) => (
+              <option key={opt.id} value={opt.id}>
+                {opt.name}
+              </option>
+            ))}
+          </select>
+        )}
+        {showRoutingEdit && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 border-dashed border-zinc-600 px-2 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300"
+            onClick={() => setShowAddForm((v) => !v)}
+          >
+            <Plus className="mr-1 h-3.5 w-3.5" />
+            Add Rule
+          </Button>
+        )}
       </div>
 
-      {showAddForm && (
+      {showAddForm && showRoutingEdit && (
         <div className="flex flex-shrink-0 flex-col gap-2 border-b border-zinc-800 bg-zinc-950/80 p-3">
           <div className="grid grid-cols-[1fr,auto,1fr] items-center gap-2 text-xs">
             <select

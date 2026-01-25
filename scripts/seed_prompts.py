@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from sqlalchemy import select
 from src.core.database import Base
-from src.core.models import PromptTemplate
+from src.core.models import PromptTemplate, PROMPT_WORKFLOW_DEFAULT
 from src.core.db_service import engine, SessionLocal
 
 
@@ -48,17 +48,24 @@ def seed_prompts():
                 raise
 
         for p in prompts:
-            exists = db.execute(select(PromptTemplate).where(PromptTemplate.key == p["key"])).scalar_one_or_none()
+            wt = p.get("workflow_type", PROMPT_WORKFLOW_DEFAULT) or PROMPT_WORKFLOW_DEFAULT
+            exists = db.execute(
+                select(PromptTemplate).where(
+                    PromptTemplate.key == p["key"],
+                    PromptTemplate.workflow_type == wt,
+                )
+            ).scalar_one_or_none()
             if not exists:
-                print(f"新增模板: {p['key']}")
+                print(f"新增模板: {p['key']} (workflow_type={wt or '(default)'})")
                 new_prompt = PromptTemplate(
                     key=p["key"],
+                    workflow_type=wt,
                     content=p["content"],
                     description=p.get("description"),
                 )
                 db.add(new_prompt)
             else:
-                print(f"跳过已存在模板: {p['key']} (保留本地修改)")
+                print(f"跳过已存在模板: {p['key']} workflow_type={wt or '(default)'} (保留本地修改)")
 
         db.commit()
         print("提示词数据库同步完成。")

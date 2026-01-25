@@ -6,6 +6,7 @@ from datetime import datetime
 class WorkflowStartRequest(BaseModel):
     novel_name: str
     chapter_num: int
+    workflow_type: Optional[str] = None  # 工作流唯一标识，缺省为 generate_chapter
 
 
 class WorkflowStateResponse(BaseModel):

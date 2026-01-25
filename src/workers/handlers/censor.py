@@ -1,6 +1,6 @@
 import logging
 import yaml
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from src.workers.base import BaseAgentHandler
 from src.core.events import EventType, EventSource
 from src.core.llm import LLMClient
@@ -14,9 +14,9 @@ class CensorHandler(BaseAgentHandler):
         super().__init__(state_manager, dispatcher)
         self.llm_client = llm_client
 
-    def _llm_censor_check(self, content: str) -> Dict[str, Any]:
+    def _llm_censor_check(self, content: str, workflow_type: Optional[str] = None) -> Dict[str, Any]:
         """从数据库 key=censor 读取提示词模板（YAML: system + user），user 中占位符 {content}。"""
-        prompt_raw = resolve_prompt("censor")
+        prompt_raw = resolve_prompt("censor", workflow_type=workflow_type)
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
@@ -46,7 +46,7 @@ class CensorHandler(BaseAgentHandler):
         if not content:
             raise ValueError("必须提供 content")
 
-        llm_check = self._llm_censor_check(content)
+        llm_check = self._llm_censor_check(content, workflow_type=state.get("workflow_type"))
         return {
             "is_sensitive": llm_check.get("is_sensitive", False),
             "reason": llm_check.get("reason", ""),

@@ -22,9 +22,11 @@ def _get_sync_db_url() -> str:
     return raw
 
 
-def get_prompt_content(key: str) -> Optional[str]:
+def get_prompt_content(key: str, workflow_type: Optional[str] = None) -> Optional[str]:
     """
-    从 prompt_templates 表按 key 取 content。每次调用都会查询数据库，不做缓存。
+    从 prompt_templates 表按 key（及可选 workflow_type）取 content。每次调用都会查询数据库，不做缓存。
+    - workflow_type 为 None 或空：只查 (key, '') 的默认模板。
+    - workflow_type 非空：先查 (key, workflow_type)，若无则回退到 (key, '')。
     若不存在或 is_active=False，返回 None。
     """
     try:
@@ -37,10 +39,32 @@ def get_prompt_content(key: str) -> Optional[str]:
             poolclass=StaticPool if "sqlite" in url else None,
         )
         with engine.connect() as conn:
-            row = conn.execute(
-                text("SELECT content, is_active FROM prompt_templates WHERE key = :key"),
-                {"key": key}
-            ).fetchone()
+            wt = (workflow_type or "").strip()
+            if wt:
+                row = conn.execute(
+                    text(
+                        "SELECT content, is_active FROM prompt_templates WHERE key = :key AND workflow_type = :wt"
+                    ),
+                    {"key": key, "wt": wt},
+                ).fetchone()
+                if row:
+                    content, is_active = row
+                    if is_active is not False and content:
+                        return content
+                # 回退到默认
+                row = conn.execute(
+                    text(
+                        "SELECT content, is_active FROM prompt_templates WHERE key = :key AND (workflow_type = '' OR workflow_type IS NULL)"
+                    ),
+                    {"key": key},
+                ).fetchone()
+            else:
+                row = conn.execute(
+                    text(
+                        "SELECT content, is_active FROM prompt_templates WHERE key = :key AND (workflow_type = '' OR workflow_type IS NULL)"
+                    ),
+                    {"key": key},
+                ).fetchone()
             if not row:
                 return None
             content, is_active = row
@@ -48,20 +72,21 @@ def get_prompt_content(key: str) -> Optional[str]:
                 return None
             return content if content else None
     except Exception as e:
-        logger.debug("get_prompt_content(%s) db error: %s", key, e)
+        logger.debug("get_prompt_content(%s, workflow_type=%s) db error: %s", key, workflow_type, e)
         return None
 
 
-def resolve_prompt(key: str) -> str:
+def resolve_prompt(key: str, workflow_type: Optional[str] = None) -> str:
     """
-    仅从数据库按 key 读取提示词，不读 YAML、无回退。
+    按 key（及可选 workflow_type）从数据库读取提示词，不读 YAML、无回退。
+    若指定 workflow_type，则优先使用该工作流对应模板，否则使用默认模板。
     若 key 不存在或内容为空，抛出 ValueError。
     """
-    content = get_prompt_content(key)
+    content = get_prompt_content(key, workflow_type=workflow_type)
     if content is not None and content.strip():
         return content.strip()
     raise ValueError(
-        f"提示词 key={key!r} 在数据库中不存在或内容为空，请先在「提示词助手」或数据库中配置。"
+        f"提示词 key={key!r}（workflow_type={workflow_type or ''!r}）在数据库中不存在或内容为空，请先在「提示词助手」或数据库中配置。"
     )
 
 

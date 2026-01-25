@@ -16,7 +16,7 @@ export default function MainLayout() {
     { path: '/', label: t('nav.home'), value: 'home' },
     { path: '/writer', label: t('nav.writer'), value: 'writer' },
     { path: '/reader', label: t('nav.reader'), value: 'reader' },
-    { path: '/workflow', label: t('nav.workflow'), value: 'workflow' },
+    { path: '/workflow', label: t('nav.workflow', '工作流助手'), value: 'workflow' },
     { path: '/resources', label: t('nav.resources'), value: 'resources' },
     { path: '/prompts', label: t('nav.prompts'), value: 'prompts' },
     { path: '/approvals', label: t('nav.approvals', '审批助手'), value: 'approvals' },

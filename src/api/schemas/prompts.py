@@ -8,6 +8,7 @@ class PromptSchema(BaseModel):
     """响应：单个提示词模板"""
     id: int
     key: str
+    workflow_type: str = ""  # 空=默认/通用，或 generate_chapter / outline_only 等
     content: str
     description: Optional[str] = None
     is_active: bool = True
@@ -27,6 +28,7 @@ class PromptUpdate(BaseModel):
 class PromptCreate(BaseModel):
     """请求：创建提示词"""
     key: str
+    workflow_type: str = ""  # 空=默认，或工作流 id 如 outline_only
     content: str = ""
     description: Optional[str] = None
     is_active: bool = True

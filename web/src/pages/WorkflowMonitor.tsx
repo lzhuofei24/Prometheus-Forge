@@ -25,7 +25,20 @@ import '@xyflow/react/dist/style.css';
 import { AgentNode, StartNode, DecisionNode, type AgentFlowNode, type StartFlowNode, type DecisionFlowNode } from '../components/monitor/flow';
 import { EditElementDialog, type EditData } from '../components/monitor/flow/EditElementDialog';
 
-const FLOW_LAYOUT_KEY = 'novel-agent-flow-layout-v2';
+const FLOW_LAYOUT_KEY_PREFIX = 'novel-agent-flow-layout';
+
+/** 工作流唯一标识，与后端 workflows 注册表一致 */
+export const WORKFLOW_ID_GENERATE_CHAPTER = 'generate_chapter';
+export const WORKFLOW_ID_OUTLINE_ONLY = 'outline_only';
+
+/** 工作流列表（可用 API /workflow/types 覆盖） */
+export const WORKFLOW_OPTIONS: { id: string; name: string }[] = [
+  { id: WORKFLOW_ID_GENERATE_CHAPTER, name: '生成新章节' },
+  { id: WORKFLOW_ID_OUTLINE_ONLY, name: '仅生成大纲' },
+];
+
+const getFlowLayoutKey = (workflowId: string) =>
+  `${FLOW_LAYOUT_KEY_PREFIX}-${workflowId}`;
 
 const AGENT_ORDER = ['architect', 'writer', 'censor', 'critic', 'media', 'knowledge'];
 
@@ -63,6 +76,7 @@ const DEFAULT_POSITIONS: Record<string, { x: number; y: number }> = {
   knowledge: { x: 50, y: 950 },
 };
 
+/** 生成新章节：完整流程连线 */
 const DEFAULT_EDGES_TEMPLATE: Edge[] = [
   { id: 'e-start-arch', source: 'start', target: 'architect', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: NORMAL_STYLE, markerEnd: NORMAL_MARKER },
   { id: 'e-arch-writer', source: 'architect', target: 'writer', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: NORMAL_STYLE, markerEnd: NORMAL_MARKER },
@@ -75,6 +89,16 @@ const DEFAULT_EDGES_TEMPLATE: Edge[] = [
   { id: 'e-score-knowledge', source: 'decision-score', target: 'knowledge', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: SUCCESS_STYLE, markerEnd: SUCCESS_MARKER, label: 'Archive', labelStyle: LABEL_STYLE, labelBgStyle: LABEL_BG, labelBgPadding: [6, 4], labelBgBorderRadius: 4 },
 ];
 
+/** 仅生成大纲：开始 -> 生成大纲 -> 结束 */
+const OUTLINE_ONLY_EDGES: Edge[] = [
+  { id: 'e-start-arch-outline', source: 'start', target: 'architect', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: NORMAL_STYLE, markerEnd: NORMAL_MARKER },
+];
+
+const WORKFLOW_EDGES: Record<string, Edge[]> = {
+  [WORKFLOW_ID_GENERATE_CHAPTER]: DEFAULT_EDGES_TEMPLATE,
+  [WORKFLOW_ID_OUTLINE_ONLY]: OUTLINE_ONLY_EDGES,
+};
+
 type WorkflowNode = AgentFlowNode | StartFlowNode | DecisionFlowNode;
 const nodeTypes = { agent: AgentNode, start: StartNode, decision: DecisionNode };
 
@@ -85,9 +109,9 @@ interface SavedGraph {
   edges: Edge[];
 }
 
-const getSavedGraph = (): SavedGraph | null => {
+const getSavedGraph = (workflowId: string): SavedGraph | null => {
   try {
-    const raw = localStorage.getItem(FLOW_LAYOUT_KEY);
+    const raw = localStorage.getItem(getFlowLayoutKey(workflowId));
     if (!raw) return null;
     const parsed = JSON.parse(raw) as unknown;
     if (!parsed || typeof parsed !== 'object' || !('agentPositions' in parsed) || !('decisionNodes' in parsed) || !('edges' in parsed)) {
@@ -106,7 +130,10 @@ export default function WorkflowMonitor() {
   const [logs, setLogs] = useState<Array<{ time: string; type: string; message: string }>>([]);
   const [layoutMessage, setLayoutMessage] = useState<{ text: string; type: 'success' | 'info' } | null>(null);
 
-  const [savedGraph, setSavedGraph] = useState<SavedGraph | null>(() => getSavedGraph());
+  const [currentWorkflowId, setCurrentWorkflowId] = useState<string>(WORKFLOW_ID_GENERATE_CHAPTER);
+  const [savedGraph, setSavedGraph] = useState<SavedGraph | null>(() =>
+    getSavedGraph(WORKFLOW_ID_GENERATE_CHAPTER)
+  );
 
   const [editingItem, setEditingItem] = useState<EditData | null>(null);
 
@@ -231,37 +258,43 @@ export default function WorkflowMonitor() {
         onRedrive: () => handleRedrive(key),
       },
     }));
-    const decisionNodes: DecisionFlowNode[] = savedGraph?.decisionNodes?.length
-      ? savedGraph.decisionNodes
-      : [
-          { id: 'decision-pass', type: 'decision', position: DEFAULT_POSITIONS['decision-pass'] ?? { x: -25, y: 550 }, data: { label: 'Pass?' } },
-          { id: 'decision-score', type: 'decision', position: DEFAULT_POSITIONS['decision-score'] ?? { x: -25, y: 800 }, data: { label: 'Score > 75?' } },
-        ];
+    const decisionNodes: DecisionFlowNode[] =
+      currentWorkflowId === WORKFLOW_ID_OUTLINE_ONLY
+        ? []
+        : savedGraph?.decisionNodes?.length
+          ? savedGraph.decisionNodes
+          : [
+              { id: 'decision-pass', type: 'decision', position: DEFAULT_POSITIONS['decision-pass'] ?? { x: -25, y: 550 }, data: { label: 'Pass?' } },
+              { id: 'decision-score', type: 'decision', position: DEFAULT_POSITIONS['decision-score'] ?? { x: -25, y: 800 }, data: { label: 'Score > 75?' } },
+            ];
     return [startNode, ...agentNodes, ...decisionNodes];
-  }, [agents, agentDisabled, toggleDisablePending, enableAgentMutation, disableAgentMutation, savedGraph]);
+  }, [agents, agentDisabled, toggleDisablePending, enableAgentMutation, disableAgentMutation, savedGraph, currentWorkflowId]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<WorkflowNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState(DEFAULT_EDGES_TEMPLATE);
   const lastSyncSigRef = useRef<string | null>(null);
 
-  const dataSig = JSON.stringify({ agents, agentDisabled, toggleDisablePending, savedGraph: !!savedGraph });
+  // 切换工作流时加载该工作流的存档并更新连线
+  useEffect(() => {
+    const saved = getSavedGraph(currentWorkflowId);
+    setSavedGraph(saved);
+    setEdges(saved?.edges ?? WORKFLOW_EDGES[currentWorkflowId] ?? DEFAULT_EDGES_TEMPLATE);
+  }, [currentWorkflowId, setEdges]);
+
+  const dataSig = JSON.stringify({ agents, agentDisabled, toggleDisablePending, savedGraph: !!savedGraph, currentWorkflowId });
   useEffect(() => {
     if (lastSyncSigRef.current === dataSig) return;
     lastSyncSigRef.current = dataSig;
     setNodes((prev) => {
-      const computedIds = new Set(computedNodes.map((n) => n.id));
       const next = computedNodes.map((fresh) => {
         const p = prev.find((x) => x.id === fresh.id);
-        return { ...fresh, position: p?.position ?? fresh.position };
+        const savedPos = savedGraph?.agentPositions?.[fresh.id];
+        return { ...fresh, position: p?.position ?? savedPos ?? fresh.position };
       });
-      const extra = prev.filter((n) => !computedIds.has(n.id));
-      return [...next, ...extra];
+      return next;
     });
-  }, [dataSig, computedNodes, setNodes]);
+  }, [dataSig, computedNodes, setNodes, savedGraph]);
 
-  useEffect(() => {
-    setEdges(savedGraph?.edges ?? DEFAULT_EDGES_TEMPLATE);
-  }, [savedGraph, setEdges]);
 
   const onConnect: OnConnect = useCallback(
     (params) => {
@@ -305,7 +338,7 @@ export default function WorkflowMonitor() {
     });
     const graphToSave: SavedGraph = { agentPositions, decisionNodes, edges };
     try {
-      localStorage.setItem(FLOW_LAYOUT_KEY, JSON.stringify(graphToSave));
+      localStorage.setItem(getFlowLayoutKey(currentWorkflowId), JSON.stringify(graphToSave));
       setSavedGraph(graphToSave);
       setLayoutMessage({ text: '布局与连线已保存', type: 'success' });
       setTimeout(() => setLayoutMessage(null), 2000);
@@ -313,21 +346,25 @@ export default function WorkflowMonitor() {
       setLayoutMessage({ text: '保存失败', type: 'info' });
       setTimeout(() => setLayoutMessage(null), 2000);
     }
-  }, [nodes, edges]);
+  }, [nodes, edges, currentWorkflowId]);
 
   const onReset = useCallback(() => {
-    localStorage.removeItem(FLOW_LAYOUT_KEY);
+    localStorage.removeItem(getFlowLayoutKey(currentWorkflowId));
+    const defaultEdges = WORKFLOW_EDGES[currentWorkflowId] ?? DEFAULT_EDGES_TEMPLATE;
     setSavedGraph(null);
-    setEdges(DEFAULT_EDGES_TEMPLATE);
-    const defaultIds = new Set(['start', ...AGENT_ORDER, 'decision-pass', 'decision-score']);
+    setEdges(defaultEdges);
+    const defaultIds =
+      currentWorkflowId === WORKFLOW_ID_OUTLINE_ONLY
+        ? new Set(['start', ...AGENT_ORDER])
+        : new Set(['start', ...AGENT_ORDER, 'decision-pass', 'decision-score']);
     setNodes((prev) =>
       prev
         .filter((n) => defaultIds.has(n.id))
         .map((n) => ({ ...n, position: DEFAULT_POSITIONS[n.id] ?? n.position }))
     );
-    setLayoutMessage({ text: '已恢复默认布局', type: 'info' });
+    setLayoutMessage({ text: '已恢复当前工作流默认布局', type: 'info' });
     setTimeout(() => setLayoutMessage(null), 2000);
-  }, [setEdges, setNodes]);
+  }, [setEdges, setNodes, currentWorkflowId]);
 
   const onNodeClick = useCallback((_event: React.MouseEvent, node: Node) => {
     if (node.type === 'decision') {
@@ -423,7 +460,7 @@ export default function WorkflowMonitor() {
     >
       <div className="w-[78%] flex flex-col min-w-0 pr-3 pl-6 py-4">
         <div className="flex items-center gap-3 mb-4 flex-shrink-0">
-          <h1 className="text-xl font-bold text-zinc-100">Workflow Monitor</h1>
+          <h1 className="text-xl font-bold text-zinc-100">工作流助手</h1>
           {controllerActive ? (
             <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/50 gap-1">
               <Rocket className="w-3 h-3" />
@@ -525,7 +562,14 @@ export default function WorkflowMonitor() {
           <DispatchTerminal logs={logs} className="h-full flex-1 border-none" sidebar />
         </div>
         <div className="flex min-h-0 flex-[0.7] flex-col">
-          <ControllerLogicPanel nodes={nodes} edges={edges} setEdges={setEdges} />
+          <ControllerLogicPanel
+            nodes={nodes}
+            edges={edges}
+            setEdges={setEdges}
+            currentWorkflowId={currentWorkflowId}
+            workflowOptions={WORKFLOW_OPTIONS}
+            onWorkflowChange={setCurrentWorkflowId}
+          />
         </div>
       </div>
 

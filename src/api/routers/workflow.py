@@ -12,8 +12,15 @@ from src.core.dispatcher import Dispatcher
 from src.core.events import EventType, EventSource, EventPayload, AuditLogEntry
 from src.core.celery_config import celery_app
 from src.core.app_settings import get_settings
+from src.core.workflows import DEFAULT_WORKFLOW_ID, list_workflows
 
 router = APIRouter(prefix="/workflow", tags=["workflow"])
+
+
+@router.get("/types", response_model=list)
+async def get_workflow_types():
+    """返回已注册工作流列表（id、name），供工作流助手切换使用。"""
+    return list_workflows()
 
 _settings = get_settings()
 state_manager = StateManager(
@@ -30,13 +37,15 @@ async def start_workflow(request: WorkflowStartRequest):
     logger = logging.getLogger(__name__)
     
     workflow_id = str(uuid.uuid4())
-    
+    workflow_type = (request.workflow_type or "").strip() or DEFAULT_WORKFLOW_ID
+
     try:
         state_manager.init_workflow(workflow_id, {
             "novel_name": request.novel_name,
             "chapter_num": request.chapter_num,
             "status": "started",
-            "revision_count": 0
+            "revision_count": 0,
+            "workflow_type": workflow_type,
         })
         
         state_manager.add_audit_log(
@@ -57,7 +66,8 @@ async def start_workflow(request: WorkflowStartRequest):
             event_type=EventType.WORKFLOW_STARTED,
             data={
                 "novel_name": request.novel_name,
-                "chapter_num": request.chapter_num
+                "chapter_num": request.chapter_num,
+                "workflow_type": workflow_type,
             },
             source=EventSource.SYSTEM
         )

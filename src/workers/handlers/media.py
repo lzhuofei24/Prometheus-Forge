@@ -1,7 +1,7 @@
 import logging
 import re
 import yaml
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from pathlib import Path
 from src.workers.base import BaseAgentHandler
 from src.core.events import EventType, EventSource
@@ -48,7 +48,8 @@ class MediaHandler(BaseAgentHandler):
         
         text_to_illustrate = scene_description if scene_description else chapter_content[:1000]
         
-        prompt_en = self._generate_image_prompt(text_to_illustrate)
+        workflow_type = state.get("workflow_type")
+        prompt_en = self._generate_image_prompt(text_to_illustrate, workflow_type=workflow_type)
         sanitized_prompt = self._sanitize_prompt(prompt_en)
         
         image_url = self._generate_image(sanitized_prompt, novel_name, chapter_num)
@@ -59,12 +60,14 @@ class MediaHandler(BaseAgentHandler):
             "original_text": text_to_illustrate[:200]
         }
 
-    def _generate_image_prompt(self, chinese_text: str) -> str:
+    def _generate_image_prompt(
+        self, chinese_text: str, workflow_type: Optional[str] = None
+    ) -> str:
         """
         Step 1: Prompt Engineering
         将中文小说片段转化为英文绘图 Prompt
         """
-        prompt_raw = resolve_prompt("media_prompt_engineering")
+        prompt_raw = resolve_prompt("media_prompt_engineering", workflow_type=workflow_type)
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")

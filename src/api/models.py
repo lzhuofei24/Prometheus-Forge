@@ -35,7 +35,12 @@ class Chapter(Base):
     index = Column(Integer, nullable=False)
     title = Column(String(255), nullable=True)
     status = Column(SQLEnum(ChapterStatus), default=ChapterStatus.PENDING, nullable=False, index=True)
-    active_draft_id = Column(String(36), ForeignKey("chapter_drafts.id"), nullable=True, index=True)
+    active_draft_id = Column(
+        String(36),
+        ForeignKey("chapter_drafts.id", use_alter=True, name="fk_chapter_active_draft_id"),
+        nullable=True,
+        index=True,
+    )
     latest_version = Column(Integer, default=0, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

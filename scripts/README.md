@@ -71,22 +71,23 @@ scripts\quick_install.bat
 
 ## 🚀 启动脚本
 
-**注意**：启动脚本位于项目根目录，不在此文件夹中。
+**注意**：启动脚本位于**项目根目录**，不在此文件夹中。推荐使用 **React 前端**（`web/`），详见根目录 [README.md](../README.md)。
 
 ### 根目录启动脚本
 
-| 脚本 | 说明 | 用途 |
-|------|------|------|
-| `start_all.bat` | 完整启动脚本 | 自动启动 Redis + Celery Workers |
-| `start_workers.bat` | Worker 启动脚本 | 单独启动 Celery Workers |
+| 脚本 | 说明 |
+|------|------|
+| `start_all_tabs.bat` | **推荐**：多标签页启动 API + React 前端 + 全部 Worker |
+| `start_all_workers.bat` | 仅启动全部 Celery Worker |
+| `start_all.bat` | 多窗口启动 API + 前端 + Worker |
+| `start_workers.bat` | 仅启动 Worker（旧版队列名） |
+| `scripts/start_backend.bat` | 仅启动 API |
+| `scripts/start_frontend.bat` | 仅启动 web 前端（需在项目根执行） |
 
-**快速启动**：
+**快速启动**（在项目根）：
 ```bash
-# 完整启动（Redis + Workers）
-start_all.bat
-
-# 然后在新终端启动 Streamlit
-streamlit run src/gui/app.py
+start_all_tabs.bat
+# 或分步：docker-compose up -d && start_workers.bat，另开终端 cd web && npm run dev
 ```
 
 ---

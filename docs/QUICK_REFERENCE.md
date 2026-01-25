@@ -1,31 +1,42 @@
-# Novel-Agent 快速参考手册
+# Prometheus Forge 快速参考手册
 
-一页纸速查手册，包含最常用的命令和操作。
+一页纸速查，包含最常用命令与操作。**当前推荐**：React 前端（`web/`）+ API + Celery，见下方「推荐启动」；Streamlit 为旧版可选入口。
 
 ## 🚀 快速启动
 
-### Windows 一键启动
+### 推荐启动（React 前端）
+
+在项目根目录、已激活 `novel-agent` 环境时：
 
 ```bash
-START_HERE.bat
+# 使用 Windows Terminal 多标签页：API + 前端 + 全部 Worker（推荐）
+start_all_tabs.bat
 ```
 
-然后在新终端：
-```bash
-conda activate novel-agent
-streamlit run src/gui/app.py
-```
-
-### 手动启动
+或分步：
 
 ```bash
 # 1. Redis
 docker-compose up -d
 
-# 2. Workers
-start_workers.bat
+# 2. API + Worker（根目录）
+start_all_workers.bat
+# 或 start_workers.bat
 
-# 3. Streamlit
+# 3. 前端（新终端）
+cd web
+npm install
+npm run dev
+```
+
+浏览器打开前端给出的地址（通常 http://localhost:5173）。
+
+### 备选：Streamlit 界面
+
+```bash
+START_HERE.bat
+# 新终端
+conda activate novel-agent
 streamlit run src/gui/app.py
 ```
 

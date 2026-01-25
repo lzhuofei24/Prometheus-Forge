@@ -43,7 +43,8 @@ class TestCentralController:
             "novel_name": "测试小说",
             "chapter_num": 1,
             "outline": "测试大纲",
-            "revision_count": 0
+            "revision_count": 0,
+            "workflow_type": "generate_chapter",
         }
         manager.update_state = Mock()
         manager.redis_client = Mock(spec=redis.Redis)
@@ -61,28 +62,28 @@ class TestCentralController:
             return controller
 
     def test_routing_architect_to_writer(self, controller):
-        next_agents = controller.decide_next_step("architect", {})
+        next_agents = controller.decide_next_step("test-wf-1", "architect", {})
         assert "writer" in next_agents
 
     def test_routing_writer_to_censor(self, controller):
-        next_agents = controller.decide_next_step("writer", {})
+        next_agents = controller.decide_next_step("test-wf-1", "writer", {})
         assert "censor" in next_agents
 
     def test_routing_censor_passed_to_critic(self, controller):
-        next_agents = controller.decide_next_step("censor", {"is_sensitive": False})
+        next_agents = controller.decide_next_step("test-wf-1", "censor", {"is_sensitive": False})
         assert "critic" in next_agents
 
     def test_routing_censor_failed_stops(self, controller):
-        next_agents = controller.decide_next_step("censor", {"is_sensitive": True})
+        next_agents = controller.decide_next_step("test-wf-1", "censor", {"is_sensitive": True})
         assert next_agents == []
 
     def test_routing_critic_high_score_to_media_knowledge(self, controller):
-        next_agents = controller.decide_next_step("critic", {"score": 80})
+        next_agents = controller.decide_next_step("test-wf-1", "critic", {"score": 80})
         assert "media" in next_agents
         assert "knowledge" in next_agents
 
     def test_routing_critic_low_score_to_writer(self, controller):
-        next_agents = controller.decide_next_step("critic", {"score": 60})
+        next_agents = controller.decide_next_step("test-wf-1", "critic", {"score": 60})
         assert "writer" in next_agents
 
     def test_handle_completion_success(self, controller, mock_redis):

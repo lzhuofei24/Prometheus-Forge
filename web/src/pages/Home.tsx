@@ -20,7 +20,7 @@ const FEATURES = [
 const QUICK_LINKS = [
   { path: '/writer', label: '写作', icon: PenLine },
   { path: '/reader', label: '阅读', icon: BookOpen },
-  { path: '/workflow', label: '工作流', icon: GitBranch },
+  { path: '/workflow', label: '工作流助手', icon: GitBranch },
   { path: '/resources', label: '资源', icon: BarChart3 },
 ] as const;
 

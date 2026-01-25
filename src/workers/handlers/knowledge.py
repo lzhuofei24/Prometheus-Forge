@@ -1,7 +1,7 @@
 import logging
 import json
 import yaml
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from pathlib import Path
 from src.workers.base import BaseAgentHandler
 from src.core.events import EventType, EventSource
@@ -46,11 +46,12 @@ class KnowledgeHandler(BaseAgentHandler):
         if not chapter_content:
             raise ValueError("必须提供 chapter_content")
         
-        entities = self._extract_entities(chapter_content, novel_name, chapter_num)
+        workflow_type = state.get("workflow_type")
+        entities = self._extract_entities(chapter_content, novel_name, chapter_num, workflow_type=workflow_type)
         
         self._update_rag(novel_name, chapter_content, entities, chapter_num)
         
-        rolling_summary = self._update_rolling_summary(novel_name, chapter_num, chapter_content)
+        rolling_summary = self._update_rolling_summary(novel_name, chapter_num, chapter_content, workflow_type=workflow_type)
         
         return {
             "entities_extracted": len(entities.get("characters", [])) + len(entities.get("locations", [])) + len(entities.get("items", [])),
@@ -58,12 +59,18 @@ class KnowledgeHandler(BaseAgentHandler):
             "chapter_indexed": chapter_num
         }
 
-    def _extract_entities(self, chapter_content: str, novel_name: str, chapter_num: int) -> Dict[str, Any]:
+    def _extract_entities(
+        self,
+        chapter_content: str,
+        novel_name: str,
+        chapter_num: int,
+        workflow_type: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         Step 1: 实体提取
         调用 LLM 提取本章出现的关键信息
         """
-        prompt_raw = resolve_prompt("knowledge_extraction")
+        prompt_raw = resolve_prompt("knowledge_extraction", workflow_type=workflow_type)
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
@@ -127,7 +134,13 @@ class KnowledgeHandler(BaseAgentHandler):
         except Exception as e:
             logger.error(f"RAG 更新失败: {e}", exc_info=True)
 
-    def _update_rolling_summary(self, novel_name: str, chapter_num: int, chapter_content: str) -> str:
+    def _update_rolling_summary(
+        self,
+        novel_name: str,
+        chapter_num: int,
+        chapter_content: str,
+        workflow_type: Optional[str] = None,
+    ) -> str:
         """
         Step 3: 摘要更新
         更新最近 5 章的精简摘要
@@ -150,7 +163,7 @@ class KnowledgeHandler(BaseAgentHandler):
                 try:
                     content = contents.get(ch_num)
                     if content:
-                        summary = self._generate_chapter_summary(content, ch_num)
+                        summary = self._generate_chapter_summary(content, ch_num, workflow_type=workflow_type)
                         summaries.append(f"第{ch_num}章：{summary}")
                 except Exception as e:
                     logger.warning(f"加载第{ch_num}章摘要失败: {e}")
@@ -167,12 +180,14 @@ class KnowledgeHandler(BaseAgentHandler):
             logger.error(f"摘要更新失败: {e}")
             return ""
 
-    def _generate_chapter_summary(self, content: str, chapter_num: int) -> str:
+    def _generate_chapter_summary(
+        self, content: str, chapter_num: int, workflow_type: Optional[str] = None
+    ) -> str:
         """生成章节摘要（100字以内）"""
         if len(content) < 200:
             return content[:100]
         
-        prompt_raw = resolve_prompt("knowledge_summary")
+        prompt_raw = resolve_prompt("knowledge_summary", workflow_type=workflow_type)
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")

@@ -130,6 +130,11 @@ export const workflowApi = {
     return response.data;
   },
 
+  getTypes: async (): Promise<{ id: string; name: string }[]> => {
+    const response = await apiClient.get<{ id: string; name: string }[]>('/workflow/types');
+    return response.data;
+  },
+
   getState: async (workflowId: string): Promise<WorkflowState> => {
     const response = await apiClient.get<WorkflowState>(
       `/workflow/${workflowId}/state`
@@ -190,29 +195,49 @@ export interface PromptExpectedKeysResponse {
   keys: string[];
 }
 
+const DEFAULT_WORKFLOW = '';
+
 export const promptApi = {
-  getAll: async (): Promise<PromptTemplate[]> => {
-    const response = await apiClient.get<PromptTemplate[]>('/api/prompts');
+  getAll: async (workflowType?: string): Promise<PromptTemplate[]> => {
+    const params = workflowType !== undefined && workflowType !== null ? { workflow_type: workflowType } : {};
+    const response = await apiClient.get<PromptTemplate[]>('/api/prompts', { params });
     return response.data;
   },
   getExpectedKeys: async (): Promise<PromptExpectedKeysResponse> => {
     const response = await apiClient.get<PromptExpectedKeysResponse>('/api/prompts/expected-keys');
     return response.data;
   },
-  getByKey: async (key: string): Promise<PromptTemplate> => {
-    const response = await apiClient.get<PromptTemplate>(`/api/prompts/${encodeURIComponent(key)}`);
+  getByKey: async (key: string, workflowType: string = DEFAULT_WORKFLOW): Promise<PromptTemplate> => {
+    if (workflowType === DEFAULT_WORKFLOW) {
+      const response = await apiClient.get<PromptTemplate>(`/api/prompts/${encodeURIComponent(key)}`);
+      return response.data;
+    }
+    const response = await apiClient.get<PromptTemplate>(`/api/prompts/by-key/${encodeURIComponent(key)}`, {
+      params: { workflow_type: workflowType },
+    });
     return response.data;
   },
-  update: async (key: string, data: PromptUpdatePayload): Promise<PromptTemplate> => {
+  update: async (key: string, data: PromptUpdatePayload, workflowType: string = DEFAULT_WORKFLOW): Promise<PromptTemplate> => {
+    if (workflowType === DEFAULT_WORKFLOW) {
+      const response = await apiClient.put<PromptTemplate>(`/api/prompts/${encodeURIComponent(key)}`, data);
+      return response.data;
+    }
     const response = await apiClient.put<PromptTemplate>(
-      `/api/prompts/${encodeURIComponent(key)}`,
-      data
+      `/api/prompts/by-key/${encodeURIComponent(key)}`,
+      data,
+      { params: { workflow_type: workflowType } }
     );
     return response.data;
   },
-  create: async (data: { key: string; content?: string; description?: string | null }): Promise<PromptTemplate> => {
+  create: async (data: {
+    key: string;
+    workflow_type?: string;
+    content?: string;
+    description?: string | null;
+  }): Promise<PromptTemplate> => {
     const response = await apiClient.post<PromptTemplate>('/api/prompts', {
       key: data.key,
+      workflow_type: data.workflow_type ?? DEFAULT_WORKFLOW,
       content: data.content ?? '',
       description: data.description ?? null,
       is_active: true,

@@ -273,11 +273,14 @@ class DatabaseService:
 
     @staticmethod
     def update_chapter_status(novel_id: str, chapter_index: int, status: ChapterStatus):
-        chapter = DatabaseService.get_chapter_by_novel_and_index(novel_id, chapter_index)
-        if not chapter:
-            return
-        
         with SessionLocal() as db:
+            chapter = db.execute(
+                select(Chapter).where(
+                    and_(Chapter.novel_id == novel_id, Chapter.index == chapter_index)
+                )
+            ).scalar_one_or_none()
+            if not chapter:
+                return
             chapter.status = status
             chapter.updated_at = datetime.utcnow()
             db.commit()

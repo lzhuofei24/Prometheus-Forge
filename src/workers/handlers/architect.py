@@ -82,7 +82,8 @@ class ArchitectHandler(BaseAgentHandler):
         
         self.state_manager.update_state(workflow_id, {"reference_context": reference_context})
 
-        prompt_raw = resolve_prompt("architect")
+        workflow_type = state.get("workflow_type")
+        prompt_raw = resolve_prompt("architect", workflow_type=workflow_type)
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")

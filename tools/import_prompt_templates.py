@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from sqlalchemy import select
 from src.core.database import Base
-from src.core.models import PromptTemplate
+from src.core.models import PromptTemplate, PROMPT_WORKFLOW_DEFAULT
 from src.core.db_service import engine, SessionLocal
 
 # 默认模板文件路径（相对项目根）
@@ -67,27 +67,34 @@ def run_import(dry_run: bool = False) -> None:
             key = p.get("key")
             if not key:
                 continue
-            exists = db.execute(select(PromptTemplate).where(PromptTemplate.key == key)).scalar_one_or_none()
+            wt = p.get("workflow_type", PROMPT_WORKFLOW_DEFAULT) or PROMPT_WORKFLOW_DEFAULT
+            exists = db.execute(
+                select(PromptTemplate).where(
+                    PromptTemplate.key == key,
+                    PromptTemplate.workflow_type == wt,
+                )
+            ).scalar_one_or_none()
             if not exists:
-                to_add.append(p)
+                to_add.append((p, wt))
 
         if dry_run:
             if not to_add:
-                print("没有需要新增的模板（数据库中已存在所有 key）。")
+                print("没有需要新增的模板（数据库中已存在所有 key+workflow_type）。")
             else:
-                print(f"【dry-run】以下 {len(to_add)} 个 key 将被新增（未写入数据库）：")
-                for p in to_add:
-                    print(f"  - {p['key']}")
+                print(f"【dry-run】以下 {len(to_add)} 条将被新增（未写入数据库）：")
+                for p, wt in to_add:
+                    print(f"  - {p['key']} (workflow_type={wt or '(default)'})")
             return
 
-        for p in to_add:
+        for p, wt in to_add:
             new_prompt = PromptTemplate(
                 key=p["key"],
+                workflow_type=wt,
                 content=p["content"],
                 description=p.get("description"),
             )
             db.add(new_prompt)
-            print(f"新增模板: {p['key']}")
+            print(f"新增模板: {p['key']} (workflow_type={wt or '(default)'})")
 
         skipped = len(prompts) - len(to_add)
         if skipped:

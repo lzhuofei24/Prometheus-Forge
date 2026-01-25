@@ -87,11 +87,12 @@ Prometheus Forge 是一个事件驱动的多智能体小说创作系统，采用
 - **配置**: db=0 (状态), db=1 (Celery backend)
 
 #### SQLite
-- **用途**: 章节数据持久化
+- **用途**: 章节数据持久化、提示词模板
 - **表结构**:
   - `novels`: 小说信息
   - `chapters`: 章节信息
   - `chapter_drafts`: 章节草稿（支持版本管理）
+  - `prompt_templates`: 提示词模板，按 `(key, workflow_type)` 唯一；`workflow_type` 为空表示默认/通用，非空（如 `outline_only`）表示该工作流专用版本
 
 #### ChromaDB
 - **用途**: RAG 向量检索
@@ -189,6 +190,12 @@ Prometheus Forge 是一个事件驱动的多智能体小说创作系统，采用
 - LLM 模型配置
 - 智能体配置
 - 路径配置
+
+### 提示词按工作流分版本
+- 提示词存储在数据库 `prompt_templates` 表，维度为 `(key, workflow_type)`。
+- `workflow_type` 为空表示默认/通用模板；非空（如 `generate_chapter`、`outline_only`）表示该工作流专用版本。
+- 运行时：若 state 中有 `workflow_type`，则 `resolve_prompt(key, workflow_type=...)` 优先查该工作流版本，若无再回退到默认。
+- 旧库需先执行迁移：`python scripts/migrate_prompt_workflow_type.py`，再启动新代码或执行种子脚本。
 
 ### 热重载
 - `/admin/reload-config` API

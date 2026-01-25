@@ -32,7 +32,7 @@
 除上述文件外，**工具类/测试类/说明类** 已归位到子目录：
 - 删除小说 → `scripts/delete_novel.py`
 - 导入 API 测试 → `tests/test_import_api.py`，测试用 txt → `tests/fixtures/test_novel.txt`
-- 重构总结 → `docs/REFACTORING_SUMMARY.md`
+- 文档索引与目录说明 → `docs/README.md`
 
 ### 配置文件目录 (`config/`)
 - `settings.yaml` - 全局配置（模型、路径等）
@@ -73,7 +73,8 @@
 - 其他独立小工具
 
 ### 文档目录 (`docs/`)
-项目文档统一放在此目录：
+项目文档统一放在此目录，**完整列表与阅读顺序见 [docs/README.md](README.md)**：
+- `README.md` - 文档索引导读（推荐入口）
 - `TROUBLESHOOTING.md` - 故障排除指南
 - `PROJECT_STRUCTURE.md` - 本文件（项目结构说明）
 
@@ -100,7 +101,8 @@ python tools/diagnose_network.py
 ```
 
 ### 查看文档
-- 主文档：`README.md`（根目录）
+- 主文档：根目录 `README.md`
+- 文档索引入口：`docs/README.md`
 - 故障排除：`docs/TROUBLESHOOTING.md`
 - 项目结构：`docs/PROJECT_STRUCTURE.md`（本文件）
 

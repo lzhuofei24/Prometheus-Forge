@@ -103,7 +103,8 @@ class CriticHandler(BaseAgentHandler):
         if not draft_content:
             raise FileNotFoundError(f"章节内容不存在: {novel_name} 第{chapter_num}章（请先通过审批助手中的正文写入）")
 
-        prompt_raw = resolve_prompt("critique_handler")
+        workflow_type = state.get("workflow_type")
+        prompt_raw = resolve_prompt("critique_handler", workflow_type=workflow_type)
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")

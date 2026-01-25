@@ -119,7 +119,8 @@ class WriterHandler(BaseAgentHandler):
             feedback_section = (
                 f"\n\n【重要】请根据以下审稿意见调整写作：\n{feedback}\n" if feedback else ""
             )
-            prompt_raw = resolve_prompt("writer_builder")
+            workflow_type = state.get("workflow_type")
+            prompt_raw = resolve_prompt("writer_builder", workflow_type=workflow_type)
             prompt_data = yaml.safe_load(prompt_raw)
             user_template = prompt_data.get("user", "")
             builder_prompt = format_prompt_template(

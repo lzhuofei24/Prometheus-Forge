@@ -30,7 +30,7 @@ export function useStartWorkflow() {
     mutationFn: (request: WorkflowStartRequest) => workflowApi.start(request),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['workflow', data.workflow_id] });
-      // 使工作流监控页的队列数据立即刷新，便于看到 architect_pending 变化
+      // 使工作流助手页的队列数据立即刷新，便于看到 architect_pending 变化
       queryClient.invalidateQueries({ queryKey: ['monitor', 'stats'] });
     },
   });

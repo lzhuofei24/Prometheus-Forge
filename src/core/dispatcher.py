@@ -2,6 +2,7 @@ import logging
 from typing import Dict, Any
 from src.core.events import EventType, EventSource, EventPayload, AuditLogEntry
 from src.core.state_manager import StateManager
+from src.core.workflows import DEFAULT_WORKFLOW_ID
 
 logger = logging.getLogger(__name__)
 
@@ -50,14 +51,16 @@ class Dispatcher:
     def _handle_workflow_started(self, workflow_id: str, data: Dict[str, Any]):
         novel_name = data.get("novel_name")
         chapter_num = data.get("chapter_num")
-        
+        workflow_type = data.get("workflow_type") or DEFAULT_WORKFLOW_ID
+
         state = self.state_manager.get_state(workflow_id)
         if not state:
             self.state_manager.init_workflow(workflow_id, {
                 "novel_name": novel_name,
                 "chapter_num": chapter_num,
                 "status": "started",
-                "revision_count": 0
+                "revision_count": 0,
+                "workflow_type": workflow_type,
             })
         
         logger.info(f"Workflow {workflow_id} started. Task dispatch will be handled by central controller.")

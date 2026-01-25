@@ -55,6 +55,13 @@ export interface WorkflowTrace {
 export interface WorkflowStartRequest {
   novel_name: string;
   chapter_num: number;
+  /** 工作流唯一标识，不传则后端使用 generate_chapter */
+  workflow_type?: string;
+}
+
+export interface WorkflowTypeItem {
+  id: string;
+  name: string;
 }
 
 export interface WorkflowStartResponse {
@@ -111,6 +118,8 @@ export interface Chapter {
 export interface PromptTemplate {
   id: number;
   key: string;
+  /** 空=默认/通用，或工作流 id 如 generate_chapter、outline_only */
+  workflow_type: string;
   content: string;
   description?: string | null;
   is_active: boolean;

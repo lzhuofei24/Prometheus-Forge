@@ -173,6 +173,8 @@ novel-agent/
 
 ## 文档索引
 
+完整列表与阅读顺序见 **[docs/README.md](docs/README.md)**。常用入口：
+
 | 文档 | 说明 |
 |------|------|
 | [系统功能与架构](docs/SYSTEM_FUNCTIONS_AND_ARCHITECTURE.md) | 功能清单、前后端与智能体说明、数据流。 |
