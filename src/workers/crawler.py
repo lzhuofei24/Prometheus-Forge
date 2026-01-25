@@ -103,7 +103,7 @@ class Crawler:
             - relations: 关系图字典
         """
         # 1. 从数据库加载 extraction 提示词（仅 DB，不使用 YAML）
-        from src.core.prompt_loader import resolve_prompt
+        from src.core.prompt_loader import resolve_prompt, format_prompt_template
         prompt_raw = resolve_prompt("extraction")
         prompt_data = yaml.safe_load(prompt_raw)
         
@@ -118,7 +118,7 @@ class Crawler:
             text_chunk += "\n\n[注：文本已截断，仅分析前部分内容]"
         
         # 3. 构建用户提示词
-        user_prompt = user_template.format(text_chunk=text_chunk)
+        user_prompt = format_prompt_template(user_template, text_chunk=text_chunk)
         
         # 4. 调用 LLM 提取设定
         messages = [

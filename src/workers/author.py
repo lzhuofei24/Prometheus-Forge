@@ -199,7 +199,7 @@ class Author:
         reference_text = "\n\n---\n\n".join([chunk["text"] for chunk in retrieved_chunks])
         
         # 4. 从数据库加载 writing 提示词（仅 DB，不使用 YAML）
-        from src.core.prompt_loader import resolve_prompt
+        from src.core.prompt_loader import resolve_prompt, format_prompt_template
         prompt_raw = resolve_prompt("writing")
         prompt_data = yaml.safe_load(prompt_raw)
         
@@ -210,9 +210,10 @@ class Author:
         settings_text = f"## 人物设定：\n{self._format_bios(bios)}\n\n## 世界观设定：\n{world[:1500]}"
         
         # 6. 使用 LLM 生成正文
-        user_prompt = user_template.format(
+        user_prompt = format_prompt_template(
+            user_template,
             settings=settings_text,
-            outline=outline
+            outline=outline,
         )
         
         # 添加风格参考

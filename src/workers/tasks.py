@@ -13,7 +13,7 @@ from celery import group, chord
 from src.core.celery_config import celery_app
 from src.core.llm import LLMClient
 from src.core.prompt_manager import PromptRouter
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 from src.core.config import Settings
 from src.core.db_service import DatabaseService
 from src.utils.file_manager import ProjectManager
@@ -314,7 +314,8 @@ def write_chapter_task(novel_name: str, chapter_num: int, feedback: Optional[str
     arch_data = yaml.safe_load(arch_raw)
     arch_system = arch_data.get("system", "")
     arch_user_tpl = arch_data.get("user", "")
-    architect_prompt = arch_user_tpl.format(
+    architect_prompt = format_prompt_template(
+        arch_user_tpl,
         reference_context=reference_context,
         chapter_num=chapter_num,
         feedback_section=feedback_section,
@@ -511,12 +512,13 @@ def review_chapter_task(novel_name: str, chapter_num: int, retry_count: int = 0)
     system_prompt = prompt_data.get("system", "")
     user_template = prompt_data.get("user", "")
     
-    user_prompt = user_template.format(
+    user_prompt = format_prompt_template(
+        user_template,
         novel_name=novel_name,
         chapter_num=chapter_num,
         outline=outline,
         draft_content=content,
-        reference_context=reference_context
+        reference_context=reference_context,
     )
     
     messages = [

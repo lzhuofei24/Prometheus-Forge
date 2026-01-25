@@ -3,7 +3,7 @@ import yaml
 import json
 from src.core.state import AgentState
 from src.core.llm import LLMClient
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 from src.utils.file_manager import ProjectManager
 
 
@@ -75,12 +75,13 @@ class Critic:
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
         
-        user_prompt = user_template.format(
+        user_prompt = format_prompt_template(
+            user_template,
             novel_name=novel_name,
             chapter_num=chapter_num,
             outline=outline,
             draft_content=draft_content,
-            reference_context=reference_context
+            reference_context=reference_context,
         )
         
         messages = [

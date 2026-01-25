@@ -11,7 +11,7 @@ import json
 import yaml
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 
 
 class ImportWorkflow:
@@ -76,7 +76,7 @@ class ImportWorkflow:
         
         system_prompt = get_fiction_system_prompt() + "\n\n" + original_system_prompt
         
-        user_prompt = user_template.format(text_chunk=content)
+        user_prompt = format_prompt_template(user_template, text_chunk=content)
         
         extraction_prompt = (
             "请以 JSON 格式返回提取的设定信息，格式如下：\n"

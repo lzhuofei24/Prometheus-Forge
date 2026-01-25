@@ -4,7 +4,7 @@ import yaml
 from typing import Optional, List
 from src.core.state import AgentState
 from src.core.llm import LLMClient
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 from src.utils.file_manager import ProjectManager
 
 logger = logging.getLogger(__name__)
@@ -71,7 +71,8 @@ class WriterAgent:
             prompt_raw = resolve_prompt("writer_builder")
             prompt_data = yaml.safe_load(prompt_raw)
             user_template = prompt_data.get("user", "")
-            builder_prompt = user_template.format(
+            builder_prompt = format_prompt_template(
+                user_template,
                 reference_context=reference_context,
                 chapter_num=chapter_num,
                 scene_id=scene["id"],

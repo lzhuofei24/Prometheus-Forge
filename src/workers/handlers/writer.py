@@ -7,7 +7,7 @@ from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.core.db_service import DatabaseService
 import yaml
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 
 logger = logging.getLogger(__name__)
 
@@ -105,9 +105,8 @@ class WriterHandler(BaseAgentHandler):
         previous_text = "（章节开始）"
         full_content = []
 
-        scenes_to_write = [scenes[0]] if scenes else []
-
-        for i, scene in enumerate(scenes_to_write):
+        # 按大纲中的场景顺序依次生成，每个场景生成一段，最后拼接一次、不重复
+        for i, scene in enumerate(scenes):
             scene_id = scene["id"]
             
             if rewrite_mode and scene_contents[i]:
@@ -123,7 +122,8 @@ class WriterHandler(BaseAgentHandler):
             prompt_raw = resolve_prompt("writer_builder")
             prompt_data = yaml.safe_load(prompt_raw)
             user_template = prompt_data.get("user", "")
-            builder_prompt = user_template.format(
+            builder_prompt = format_prompt_template(
+                user_template,
                 reference_context=reference_context,
                 chapter_num=chapter_num,
                 scene_id=scene["id"],

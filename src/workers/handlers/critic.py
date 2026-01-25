@@ -8,7 +8,7 @@ from src.core.events import EventType, EventSource, EventPayload, AuditLogEntry
 from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.core.db_service import DatabaseService
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +107,8 @@ class CriticHandler(BaseAgentHandler):
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
-        user_prompt = user_template.format(
+        user_prompt = format_prompt_template(
+            user_template,
             reference_context=reference_context,
             outline=outline,
             draft_content=draft_content,

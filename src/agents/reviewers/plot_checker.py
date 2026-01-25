@@ -6,7 +6,7 @@ from typing import Dict, Any
 from .base_checker import BaseChecker
 from src.core.state import AgentState
 from src.core.llm import LLMClient
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 from src.utils.file_manager import ProjectManager
 
 logger = logging.getLogger(__name__)
@@ -47,11 +47,12 @@ class PlotChecker(BaseChecker):
         system_prompt = get_fiction_system_prompt() + "\n\n" + prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
         
-        user_prompt = user_template.format(
+        user_prompt = format_prompt_template(
+            user_template,
             world_setting=world_setting or "（无世界观设定）",
             previous_context=previous_text or "（无前情）",
             chapter_content=draft_content,
-            outline=outline
+            outline=outline,
         )
         
         messages = [

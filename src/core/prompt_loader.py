@@ -65,6 +65,17 @@ def resolve_prompt(key: str) -> str:
     )
 
 
+def format_prompt_template(template: str, **kwargs: object) -> str:
+    """
+    仅替换 {key} 占位符，不解析其它花括号，避免模板中 JSON 示例等被 str.format 误解析导致 KeyError。
+    用于所有从数据库读取的提示词模板的变量替换。
+    """
+    out = template
+    for k, v in kwargs.items():
+        out = out.replace("{" + k + "}", str(v) if v is not None else "")
+    return out
+
+
 def get_fiction_system_prompt() -> str:
     """
     仅从数据库 key=fiction_system 读取「小说/创作合规」系统提示词。

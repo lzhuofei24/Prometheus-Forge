@@ -8,7 +8,7 @@ from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 from src.core.db_service import DatabaseService
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +86,8 @@ class ArchitectHandler(BaseAgentHandler):
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
-        user_prompt = user_template.format(
+        user_prompt = format_prompt_template(
+            user_template,
             reference_context=reference_context,
             chapter_num=chapter_num,
             feedback_section="",

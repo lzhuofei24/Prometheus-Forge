@@ -6,7 +6,7 @@ import json
 import logging
 from src.core.state import AgentState
 from src.core.llm import LLMClient
-from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt
+from src.core.prompt_loader import get_fiction_system_prompt, resolve_prompt, format_prompt_template
 from src.utils.file_manager import ProjectManager
 from src.utils.json_utils import parse_json_from_response
 
@@ -166,7 +166,8 @@ class Novelist:
             prompt_raw = resolve_prompt("writer_builder")
             prompt_data = yaml.safe_load(prompt_raw)
             user_template = prompt_data.get("user", "")
-            builder_prompt = user_template.format(
+            builder_prompt = format_prompt_template(
+                user_template,
                 reference_context=reference_context,
                 chapter_num=chapter_num,
                 scene_id=scene["id"],

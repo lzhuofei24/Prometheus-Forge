@@ -9,7 +9,7 @@ from src.core.llm import LLMClient
 from src.utils.file_manager import ProjectManager
 from src.rag.indexer import VectorIndexer
 from src.core.db_service import DatabaseService
-from src.core.prompt_loader import resolve_prompt
+from src.core.prompt_loader import resolve_prompt, format_prompt_template
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +67,7 @@ class KnowledgeHandler(BaseAgentHandler):
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
-        user_prompt = user_template.format(chapter_content=chapter_content[:2000])
+        user_prompt = format_prompt_template(user_template, chapter_content=chapter_content[:2000])
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -176,7 +176,7 @@ class KnowledgeHandler(BaseAgentHandler):
         prompt_data = yaml.safe_load(prompt_raw)
         system_prompt = prompt_data.get("system", "")
         user_template = prompt_data.get("user", "")
-        user_prompt = user_template.format(content=content[:1000])
+        user_prompt = format_prompt_template(user_template, content=content[:1000])
 
         messages = [
             {"role": "system", "content": system_prompt},
