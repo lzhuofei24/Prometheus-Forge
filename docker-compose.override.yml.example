@@ -1,0 +1,14 @@
+# 如果遇到镜像拉取问题，可以创建 docker-compose.override.yml 文件
+# 使用国内镜像源加速
+# 
+# 使用方法：
+# 1. 复制此文件为 docker-compose.override.yml
+# 2. 根据你的网络环境选择合适的镜像源
+# 3. 或者直接使用官方源（如果网络正常）
+
+services:
+  redis:
+    # 如果需要使用国内镜像，可以在这里覆盖 image
+    # image: registry.cn-hangzhou.aliyuncs.com/google_containers/redis:alpine
+    # 或者使用 Docker Hub 官方镜像（默认）
+    image: redis:alpine

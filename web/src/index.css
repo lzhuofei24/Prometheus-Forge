@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+:root {
+  --primary: 263.4 70% 50.4%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(24 24 27);
+  color: rgb(244 244 245);
+}
+
+@layer base {
+  * {
+    @apply border-zinc-200 dark:border-zinc-800;
+  }
+  
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  }
+}
+
+@layer utilities {
+  .prose {
+    @apply text-zinc-900 dark:text-zinc-100;
+  }
+  
+  .prose-invert {
+    @apply text-zinc-100;
+  }
+  
+  .prose-invert h1 {
+    @apply text-3xl font-bold mt-8 mb-6 text-white;
+  }
+  
+  .prose-invert h2 {
+    @apply text-2xl font-semibold mt-6 mb-4 text-white;
+  }
+  
+  .prose-invert h3 {
+    @apply text-xl font-semibold mt-5 mb-3 text-zinc-200;
+  }
+  
+  .prose-invert p {
+    @apply mb-6 leading-relaxed text-zinc-300;
+  }
+  
+  .prose-invert code {
+    @apply bg-zinc-800 text-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+  
+  .prose-invert pre {
+    @apply bg-zinc-900 text-zinc-100 p-4 rounded-lg overflow-auto mb-6 border border-zinc-800;
+  }
+  
+  .prose-invert blockquote {
+    @apply border-l-4 border-indigo-500 pl-6 italic my-6 text-zinc-300;
+  }
+  
+  .prose-invert a {
+    @apply text-indigo-400 hover:text-indigo-300;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(24 24 27);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(63 63 70);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(82 82 91);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgb(9 9 11);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(39 39 42);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(63 63 70);
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .container-dashboard {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+  
+  .container-workspace {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-[1600px];
+  }
+  
+  .container-reading {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl;
+  }
+}
+
+/* Workflow Monitor：Upload 快(1s) / Download 慢(2s)，由边的 className 区分 */
+.workflow-monitor-flow .edge-upload path {
+  animation-duration: 1s !important;
+}
+.workflow-monitor-flow .edge-download path {
+  animation-duration: 2s !important;
+}

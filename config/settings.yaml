@@ -1,0 +1,73 @@
+# 全局配置
+
+# 全局 LLM 配置
+llm:
+  provider: "openrouter"
+  base_url: "https://openrouter.ai/api/v1"
+  api_key_env: "OPENROUTER_API_KEY"
+  model_name: "deepseek/deepseek-chat"
+  context_window: 163840
+  max_tokens: 8192
+  temperature: 1.0
+  site_url: "https://github.com/your-repo/novel-agent"
+  app_name: "Novel-Agent-Local"
+
+# Agent 特化配置（继承全局，但可微调）
+agents:
+  architect:
+    temperature: 0.7
+    max_tokens: 8192
+    description: "架构师，需要大上下文规划章节结构"
+  
+  writer:
+    temperature: 0.9
+    max_tokens: 8192
+    description: "作家，需要创造力生成正文内容"
+  
+  critic:
+    temperature: 0.5
+    max_tokens: 4096
+    description: "审稿人，需要严谨逻辑评估内容质量"
+
+# 多媒体生成配置
+media:
+  provider: "openrouter"
+  base_url: "https://openrouter.ai/api/v1"
+  api_key_env: "OPENROUTER_API_KEY"
+  image_model: "google/gemini-2.5-flash-image"
+  site_url: "https://github.com/your-repo/novel-agent"
+  app_name: "Novel-Agent-Local"
+
+# 兼容旧配置格式（向后兼容）
+model:
+  name: "deepseek/deepseek-chat"
+  provider: "openrouter"
+  base_url: "https://openrouter.ai/api/v1"
+  api_key_env: "OPENROUTER_API_KEY"
+  temperature: 1.0
+  max_tokens: 8192
+
+paths:
+  raw_data: "./data/raw"
+  chroma_db: "./data/chroma_db"
+  workspace: "./workspace"
+
+chunking:
+  chunk_size: 1000
+  chunk_overlap: 200
+
+reviewers:
+  style:
+    weight: 0.33
+    pass_threshold: 90
+  character:
+    weight: 0.33
+    pass_threshold: 90
+  plot:
+    weight: 0.34
+    pass_threshold: 90
+  overall_pass_threshold: 90
+  max_attempts: 3
+
+workflow:
+  use_new_architecture: true

@@ -1,0 +1,54 @@
+# Prometheus Forge / novel-agent — Python 依赖（pip）
+# 使用: pip install -r requirements.txt
+# 建议在虚拟环境中安装: python -m venv .venv && .venv\Scripts\activate（Windows）
+
+# API 与 ASGI
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+
+# 数据与 ORM
+sqlalchemy>=2.0.0
+aiosqlite>=0.19.0
+
+# 校验与配置
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# 任务队列与中间件
+celery[redis]>=5.3.0
+redis>=5.0.0
+flower>=2.0.0
+
+# LLM 与向量
+openai>=1.0.0
+httpx>=0.24.0
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# 工作流与逻辑
+langchain>=0.1.0
+langgraph>=0.0.20
+
+# 工具与工具链
+requests>=2.31.0
+pillow>=10.0.0
+colorlog>=6.7.0
+jinja2>=3.1.0
+dependency-injector>=4.41.0
+
+# GUI（Streamlit）
+streamlit>=1.28.0
+pandas>=2.0.0
+
+# 语音与模型（可选）
+edge-tts>=6.1.0
+huggingface-hub>=0.20.0
+
+# 迁移与测试
+alembic>=1.13.0
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.11.0
+fakeredis>=2.18.0
