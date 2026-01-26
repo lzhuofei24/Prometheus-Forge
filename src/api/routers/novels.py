@@ -1,3 +1,6 @@
+"""
+写作/阅读助手唯一数据源：小说列表、目录、正文、大纲均来自本路由，底层仅读/写数据库，不依赖工作区文件。
+"""
 import logging
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.ext.asyncio import AsyncSession

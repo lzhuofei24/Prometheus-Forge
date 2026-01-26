@@ -145,6 +145,7 @@ class WriterHandler(BaseAgentHandler):
             previous_text = scene_content
 
         content = "\n\n".join(full_content)
+        workflow_type = state.get("workflow_type")
         DatabaseService.add_pending_write(
             "content",
             novel.id,
@@ -152,6 +153,7 @@ class WriterHandler(BaseAgentHandler):
             {"content": content},
             workflow_id=workflow_id,
             source_agent="writer",
+            workflow_type=workflow_type,
         )
 
         return {"content": content}

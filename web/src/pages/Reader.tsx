@@ -12,6 +12,7 @@ import ChapterList from '../components/writer/ChapterList';
 import { ChevronLeft, ChevronRight, Maximize2, Minimize2, List, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
+/** 阅读助手：小说列表、目录、正文均来自 useNovels/useChapters/useChapterContent → novels API（数据库）。 */
 export default function Reader() {
   const { t } = useTranslation();
   const [selectedNovelId, setSelectedNovelId] = useState<string | null>(null);

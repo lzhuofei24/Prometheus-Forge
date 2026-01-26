@@ -5,6 +5,7 @@ import type {
   WorkflowStartResponse,
   WorkflowState,
   WorkflowTrace,
+  WorkflowTaskItem,
   MonitorStats,
   PromptTemplate,
   PromptUpdatePayload,
@@ -148,6 +149,13 @@ export const workflowApi = {
     );
     return response.data;
   },
+
+  getTasks: async (workflowType: string): Promise<WorkflowTaskItem[]> => {
+    const response = await apiClient.get<WorkflowTaskItem[]>('/workflow/tasks', {
+      params: { workflow_type: workflowType },
+    });
+    return response.data;
+  },
 };
 
 /** /monitor/resources 会拉取 Celery inspect，耗时可能超过默认 30s，单独延长超时 */
@@ -163,6 +171,12 @@ export const monitorApi = {
   purgeQueue: async (queueName: string): Promise<{ success: boolean; purged: number; queue: string }> => {
     const response = await apiClient.post<{ success: boolean; purged: number; queue: string }>(
       `/monitor/queues/${queueName}/purge`
+    );
+    return response.data;
+  },
+  purgeAllQueues: async (): Promise<{ success: boolean; total_purged: number; queues: Record<string, number> }> => {
+    const response = await apiClient.post<{ success: boolean; total_purged: number; queues: Record<string, number> }>(
+      '/monitor/queues/purge-all'
     );
     return response.data;
   },
@@ -279,9 +293,47 @@ export interface PendingDetail {
   existing_critique_data: unknown;
 }
 
+export interface WorkflowWithCount {
+  workflow_id: string;
+  count: number;
+}
+
+export interface WorkflowTypeWithCount {
+  workflow_type: string;
+  count: number;
+}
+
+/** 启动形式 id -> 展示名（与后端 workflows 注册一致） */
+export const WORKFLOW_TYPE_LABELS: Record<string, string> = {
+  generate_chapter: '生成新章节',
+  outline_only: '仅生成大纲',
+  content_only: '仅生成正文',
+  approval_only: '仅进行审批',
+  media_only: '仅生成媒体',
+};
+
 export const approvalsApi = {
-  listPending: async (status?: string): Promise<PendingItem[]> => {
+  listWorkflowTypesWithPending: async (status?: string): Promise<WorkflowTypeWithCount[]> => {
     const params = status ? { status } : {};
+    const response = await apiClient.get<WorkflowTypeWithCount[]>('/approvals/workflow-types', { params });
+    return response.data;
+  },
+  listWorkflowsWithPending: async (status?: string, workflowType?: string | null): Promise<WorkflowWithCount[]> => {
+    const params: Record<string, string> = {};
+    if (status) params.status = status;
+    if (workflowType != null && workflowType !== '') params.workflow_type = workflowType;
+    const response = await apiClient.get<WorkflowWithCount[]>('/approvals/workflows', { params });
+    return response.data;
+  },
+  listPending: async (
+    status?: string,
+    workflowId?: string | null,
+    workflowType?: string | null
+  ): Promise<PendingItem[]> => {
+    const params: Record<string, string> = {};
+    if (status) params.status = status;
+    if (workflowId != null && workflowId !== '') params.workflow_id = workflowId;
+    if (workflowType != null && workflowType !== '') params.workflow_type = workflowType;
     const response = await apiClient.get<PendingItem[]>('/approvals/pending', { params });
     return response.data;
   },
@@ -298,6 +350,83 @@ export const approvalsApi = {
   reject: async (pendingId: string): Promise<{ success: boolean }> => {
     const response = await apiClient.post<{ success: boolean }>(
       `/approvals/pending/${pendingId}/reject`
+    );
+    return response.data;
+  },
+};
+
+export interface SystemConcept {
+  id: string;
+  key: string;
+  label: string;
+  description: string | null;
+  scope: string | null;
+  sort_order: number;
+}
+
+export const helpApi = {
+  getConcepts: async (scope?: string): Promise<SystemConcept[]> => {
+    const params = scope ? { scope } : {};
+    const response = await apiClient.get<SystemConcept[]>('/api/help/concepts', { params });
+    return response.data;
+  },
+  getConcept: async (key: string): Promise<SystemConcept> => {
+    const response = await apiClient.get<SystemConcept>(`/api/help/concepts/${encodeURIComponent(key)}`);
+    return response.data;
+  },
+  updateConcept: async (
+    key: string,
+    body: { label: string; description?: string | null; scope?: string | null; sort_order?: number }
+  ): Promise<SystemConcept> => {
+    const response = await apiClient.put<SystemConcept>(`/api/help/concepts/${encodeURIComponent(key)}`, body);
+    return response.data;
+  },
+};
+
+/** 检索（向量/RAG）API：仅手动调用，不进入工作流 */
+export interface RetrievalSearchItem {
+  text: string;
+  novel_name: string;
+  chapter_num: number | null;
+  distance: number;
+  metadata?: Record<string, unknown>;
+}
+
+export interface IndexedNovel {
+  novel_id: string;
+  novel_title: string;
+  chapters: number[];
+}
+
+export const retrievalApi = {
+  search: async (params: {
+    q: string;
+    novel_id?: string | null;
+    top_k?: number;
+  }): Promise<RetrievalSearchItem[]> => {
+    const { q, novel_id, top_k = 10 } = params;
+    const p: Record<string, string | number> = { q, top_k };
+    if (novel_id != null && novel_id !== '') p.novel_id = novel_id;
+    const response = await apiClient.get<RetrievalSearchItem[]>('/retrieval/search', { params: p });
+    return response.data;
+  },
+  listIndexed: async (): Promise<IndexedNovel[]> => {
+    const response = await apiClient.get<IndexedNovel[]>('/retrieval/indexed');
+    return response.data;
+  },
+  addIndex: async (novel_id: string, chapter_index: number): Promise<{ success: boolean; novel_title: string; chapter_index: number }> => {
+    const response = await apiClient.post<{ success: boolean; novel_title: string; chapter_index: number }>(
+      '/retrieval/index',
+      { novel_id, chapter_index }
+    );
+    return response.data;
+  },
+  deleteIndex: async (novel_id: string, chapter_index?: number | null): Promise<{ success: boolean; novel_title: string; chapter_index?: number | null }> => {
+    const params: Record<string, string | number> = { novel_id };
+    if (chapter_index != null) params.chapter_index = chapter_index;
+    const response = await apiClient.delete<{ success: boolean; novel_title: string; chapter_index?: number | null }>(
+      '/retrieval/index',
+      { params }
     );
     return response.data;
   },

@@ -1,33 +1,69 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { ScrollArea } from '../components/ui/scroll-area';
-import { approvalsApi, type PendingItem, type PendingDetail } from '../api/client';
-import { Check, X, ChevronDown, ChevronUp, FileText, ListTodo } from 'lucide-react';
+import {
+  approvalsApi,
+  WORKFLOW_TYPE_LABELS,
+  type PendingItem,
+  type PendingDetail,
+} from '../api/client';
+import { useConcepts } from '../hooks/useConcepts';
+import { Check, X, FileText, ListTodo, Database } from 'lucide-react';
+import { cn } from '../lib/utils';
+
+const ALL_WORKFLOWS = '__all__';
+const ALL_TYPES = '__all__';
 
 export default function ApprovalAssistant() {
+  const { getConceptLabel } = useConcepts();
   const queryClient = useQueryClient();
-  const [detailId, setDetailId] = useState<string | null>(null);
+  const [selectedWorkflowType, setSelectedWorkflowType] = useState<string | null>(ALL_TYPES);
+  const [selectedWorkflowId, setSelectedWorkflowId] = useState<string | null>(ALL_WORKFLOWS);
+  const [selectedPendingId, setSelectedPendingId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'body' | 'outline'>('body');
+  const runLabel = getConceptLabel('run');
+
+  const { data: workflowTypes = [] } = useQuery({
+    queryKey: ['approvals', 'workflow-types'],
+    queryFn: () => approvalsApi.listWorkflowTypesWithPending('pending'),
+    refetchInterval: 10000,
+  });
+
+  const { data: workflows = [] } = useQuery({
+    queryKey: ['approvals', 'workflows', selectedWorkflowType],
+    queryFn: () =>
+      approvalsApi.listWorkflowsWithPending(
+        'pending',
+        selectedWorkflowType === ALL_TYPES ? undefined : selectedWorkflowType ?? undefined
+      ),
+    refetchInterval: 10000,
+  });
 
   const { data: list = [], isLoading } = useQuery({
-    queryKey: ['approvals', 'pending'],
-    queryFn: () => approvalsApi.listPending('pending'),
+    queryKey: ['approvals', 'pending', selectedWorkflowType, selectedWorkflowId],
+    queryFn: () =>
+      approvalsApi.listPending(
+        'pending',
+        selectedWorkflowId === ALL_WORKFLOWS ? undefined : selectedWorkflowId ?? undefined,
+        selectedWorkflowType === ALL_TYPES ? undefined : selectedWorkflowType ?? undefined
+      ),
     refetchInterval: 10000,
   });
 
   const { data: detail } = useQuery({
-    queryKey: ['approvals', 'detail', detailId],
-    queryFn: () => approvalsApi.getDetail(detailId!),
-    enabled: !!detailId,
+    queryKey: ['approvals', 'detail', selectedPendingId],
+    queryFn: () => approvalsApi.getDetail(selectedPendingId!),
+    enabled: !!selectedPendingId,
   });
 
   const approveMutation = useMutation({
-    mutationFn: (id: string) => approvalsApi.approve(id),
-    onSuccess: () => {
+    mutationFn: ({ id, novelId }: { id: string; novelId: string }) => approvalsApi.approve(id),
+    onSuccess: (_, { novelId }) => {
       queryClient.invalidateQueries({ queryKey: ['approvals'] });
-      setDetailId(null);
+      queryClient.invalidateQueries({ queryKey: ['novels', novelId, 'chapters'] });
+      setSelectedPendingId(null);
     },
   });
 
@@ -35,190 +71,261 @@ export default function ApprovalAssistant() {
     mutationFn: (id: string) => approvalsApi.reject(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['approvals'] });
-      setDetailId(null);
+      setSelectedPendingId(null);
     },
   });
 
-  const toggleDetail = (id: string) => {
-    setDetailId((cur) => (cur === id ? null : id));
-  };
+  const selectedItem = list.find((x) => x.id === selectedPendingId);
 
   return (
-    <div className="h-full flex flex-col p-4 bg-zinc-50 dark:bg-zinc-900">
-      <div className="flex-none mb-4">
-        <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">审批助手</h1>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
-          展示所有待审批的写入内容、即将写入的数据库位置，以及该位置是否已有内容；通过后写入数据库，拒绝则丢弃。
+    <div className="h-full flex flex-col bg-zinc-950 text-zinc-100">
+      <div className="flex-none px-6 py-4 border-b border-white/10">
+        <h1 className="text-xl font-semibold">审批助手</h1>
+        <p className="text-sm text-zinc-400 mt-0.5">
+          左侧第一层选启动形式、第二层选{runLabel}、第三层选审批请求；右侧对比待写入与原有内容，支持正文/大纲切换。
         </p>
       </div>
 
-      <ScrollArea className="flex-1 pr-4">
-        {isLoading ? (
-          <div className="text-zinc-500 py-8 text-center">加载中…</div>
-        ) : list.length === 0 ? (
-          <div className="text-zinc-500 py-8 text-center">暂无待审批项</div>
-        ) : (
-          <ul className="space-y-3">
-            {list.map((item) => (
-              <PendingCard
-                key={item.id}
-                item={item}
-                detail={detailId === item.id ? detail : undefined}
-                onToggleDetail={() => toggleDetail(item.id)}
-                onApprove={() => approveMutation.mutate(item.id)}
-                onReject={() => rejectMutation.mutate(item.id)}
-                approving={approveMutation.isPending && approveMutation.variables === item.id}
-                rejecting={rejectMutation.isPending && rejectMutation.variables === item.id}
-              />
-            ))}
-          </ul>
-        )}
-      </ScrollArea>
-    </div>
-  );
-}
-
-function PendingCard({
-  item,
-  detail,
-  onToggleDetail,
-  onApprove,
-  onReject,
-  approving,
-  rejecting,
-}: {
-  item: PendingItem;
-  detail?: PendingDetail | null;
-  onToggleDetail: () => void;
-  onApprove: () => void;
-  onReject: () => void;
-  approving: boolean;
-  rejecting: boolean;
-}) {
-  const isOutline = item.write_type === 'outline';
-  const targetDesc = `数据库位置： novels → chapters(novel_id=${item.novel_id}, index=${item.chapter_index}) → chapter_drafts.${isOutline ? 'summary' : 'content'}`;
-
-  return (
-    <Card className="border-zinc-200 dark:border-zinc-700">
-      <CardHeader className="py-3">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <CardTitle className="text-base font-medium">
-              《{item.novel_title}》 第 {item.chapter_index} 章
-            </CardTitle>
-            <Badge variant={isOutline ? 'secondary' : 'default'}>
-              {isOutline ? '大纲' : '正文'}
-            </Badge>
-            {item.source_agent && (
-              <span className="text-xs text-zinc-500">来源: {item.source_agent}</span>
-            )}
+      <div className="flex-1 flex min-h-0">
+        {/* 左侧三层侧边栏 */}
+        <div className="w-80 flex-shrink-0 flex flex-col border-r border-white/10 bg-zinc-900/50">
+          {/* 第一层：启动形式 */}
+          <div className="flex-none border-b border-white/10 px-3 py-2">
+            <div className="text-xs font-medium text-zinc-400 uppercase tracking-wider">启动形式</div>
+            <ScrollArea className="h-20 mt-1">
+              <div className="space-y-0.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedWorkflowType(ALL_TYPES);
+                    setSelectedWorkflowId(ALL_WORKFLOWS);
+                    setSelectedPendingId(null);
+                  }}
+                  className={cn(
+                    'w-full text-left rounded px-2 py-1.5 text-sm',
+                    selectedWorkflowType === ALL_TYPES
+                      ? 'bg-indigo-600/80 text-white'
+                      : 'text-zinc-300 hover:bg-white/5'
+                  )}
+                >
+                  全部
+                </button>
+                {workflowTypes.map((wt) => (
+                  <button
+                    key={wt.workflow_type || '_empty'}
+                    type="button"
+                    onClick={() => {
+                      setSelectedWorkflowType(wt.workflow_type);
+                      setSelectedWorkflowId(ALL_WORKFLOWS);
+                      setSelectedPendingId(null);
+                    }}
+                    className={cn(
+                      'w-full text-left rounded px-2 py-1.5 text-sm flex items-center justify-between',
+                      selectedWorkflowType === wt.workflow_type
+                        ? 'bg-indigo-600/80 text-white'
+                        : 'text-zinc-300 hover:bg-white/5'
+                    )}
+                  >
+                    <span className="truncate text-xs">
+                      {WORKFLOW_TYPE_LABELS[wt.workflow_type] ?? (wt.workflow_type || '未区分')}
+                    </span>
+                    <Badge variant="secondary" className="ml-1 h-5 text-[10px]">
+                      {wt.count}
+                    </Badge>
+                  </button>
+                ))}
+              </div>
+            </ScrollArea>
           </div>
-          <div className="flex items-center gap-1">
-            <Button size="sm" variant="outline" onClick={onToggleDetail}>
-              {detail ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </Button>
-            <Button
-              size="sm"
-              className="bg-green-600 hover:bg-green-700"
-              onClick={onApprove}
-              disabled={approving || rejecting}
-            >
-              <Check className="h-4 w-4 mr-1" />
-              通过
-            </Button>
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={onReject}
-              disabled={approving || rejecting}
-            >
-              <X className="h-4 w-4 mr-1" />
-              拒绝
-            </Button>
+          {/* 第二层：运行 */}
+          <div className="flex-none border-b border-white/10 px-3 py-2">
+            <div className="text-xs font-medium text-zinc-400 uppercase tracking-wider">{runLabel}</div>
+            <ScrollArea className="h-20 mt-1">
+              <div className="space-y-0.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedWorkflowId(ALL_WORKFLOWS);
+                    setSelectedPendingId(null);
+                  }}
+                  className={cn(
+                    'w-full text-left rounded px-2 py-1.5 text-sm',
+                    selectedWorkflowId === ALL_WORKFLOWS
+                      ? 'bg-indigo-600/80 text-white'
+                      : 'text-zinc-300 hover:bg-white/5'
+                  )}
+                >
+                  全部
+                </button>
+                {workflows.map((w) => (
+                  <button
+                    key={w.workflow_id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedWorkflowId(w.workflow_id);
+                      setSelectedPendingId(null);
+                    }}
+                    className={cn(
+                      'w-full text-left rounded px-2 py-1.5 text-sm flex items-center justify-between',
+                      selectedWorkflowId === w.workflow_id
+                        ? 'bg-indigo-600/80 text-white'
+                        : 'text-zinc-300 hover:bg-white/5'
+                    )}
+                  >
+                    <span className="truncate font-mono text-xs">{w.workflow_id}</span>
+                    <Badge variant="secondary" className="ml-1 h-5 text-[10px]">
+                      {w.count}
+                    </Badge>
+                  </button>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
+          {/* 第三层：审批请求 */}
+          <div className="flex-1 min-h-0 flex flex-col">
+            <div className="flex-none px-3 py-2 border-b border-white/10 text-xs font-medium text-zinc-400 uppercase tracking-wider">
+              审批请求
+            </div>
+            <ScrollArea className="flex-1">
+              {isLoading ? (
+                <div className="p-4 text-zinc-500 text-sm text-center">加载中…</div>
+              ) : list.length === 0 ? (
+                <div className="p-4 text-zinc-500 text-sm text-center">该{runLabel}下暂无待审批项</div>
+              ) : (
+                <ul className="p-2 space-y-1">
+                  {list.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedPendingId(item.id)}
+                        className={cn(
+                          'w-full text-left rounded px-3 py-2 text-sm border transition-colors',
+                          selectedPendingId === item.id
+                            ? 'bg-indigo-500/20 border-indigo-500/50 text-white'
+                            : 'border-transparent hover:bg-white/5 text-zinc-300'
+                        )}
+                      >
+                        <div className="font-medium truncate">
+                          《{item.novel_title}》 第{item.chapter_index}章
+                        </div>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <Badge variant={item.write_type === 'outline' ? 'secondary' : 'default'} className="text-[10px]">
+                            {item.write_type === 'outline' ? '大纲' : '正文'}
+                          </Badge>
+                          {item.source_agent && (
+                            <span className="text-xs text-zinc-500">来源: {item.source_agent}</span>
+                          )}
+                        </div>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </ScrollArea>
           </div>
         </div>
-        <p className="text-xs text-zinc-500 mt-1">{targetDesc}</p>
-      </CardHeader>
-      <CardContent className="pt-0 space-y-2">
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <div className="flex items-center gap-2">
-            {item.existing_has_summary ? (
-              <Badge variant="outline" className="text-amber-600">已有大纲</Badge>
-            ) : (
-              <Badge variant="outline" className="text-zinc-400">无现有大纲</Badge>
-            )}
-            {item.existing_has_content ? (
-              <Badge variant="outline" className="text-amber-600">已有正文</Badge>
-            ) : (
-              <Badge variant="outline" className="text-zinc-400">无现有正文</Badge>
-            )}
-          </div>
-        </div>
-        <div className="rounded bg-zinc-100 dark:bg-zinc-800 p-2 text-sm text-zinc-700 dark:text-zinc-300 max-h-24 overflow-y-auto">
-          <span className="text-zinc-500">待写入预览：</span>
-          {item.payload_preview ? (
-            <span>{item.payload_preview.slice(0, 300)}{item.payload_preview.length > 300 ? '…' : ''}</span>
-          ) : (
-            <span className="italic">（空）</span>
+
+        {/* 右侧对比区域 */}
+        <div className="flex-1 min-w-0 flex flex-col">
+          {!detail && !selectedPendingId && (
+            <div className="flex-1 flex items-center justify-center text-zinc-500">
+              请从左侧选择一条审批请求
+            </div>
+          )}
+          {selectedPendingId && !detail && (
+            <div className="flex-1 flex items-center justify-center text-zinc-500">加载中…</div>
+          )}
+          {detail && selectedItem && (
+            <>
+              <div className="flex-none flex items-center justify-between gap-4 px-6 py-3 border-b border-white/10 bg-zinc-900/30 flex-wrap">
+                <div className="flex items-center gap-4 flex-wrap">
+                  <span className="font-medium">
+                    《{detail.novel_title}》 第{detail.chapter_index}章
+                  </span>
+                  <div className="flex rounded-lg border border-white/10 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('body')}
+                      className={cn(
+                        'px-3 py-1.5 text-sm',
+                        viewMode === 'body' ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-zinc-200'
+                      )}
+                    >
+                      正文
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('outline')}
+                      className={cn(
+                        'px-3 py-1.5 text-sm',
+                        viewMode === 'outline' ? 'bg-indigo-600 text-white' : 'bg-zinc-800/80 text-zinc-400 hover:text-zinc-200'
+                      )}
+                    >
+                      大纲
+                    </button>
+                  </div>
+                  <span className="text-sm text-zinc-400">
+                    来源: {detail.source_agent ?? '—'}
+                  </span>
+                  <span className="text-xs text-zinc-500 flex items-center gap-1">
+                    <Database className="h-3.5 w-3.5" />
+                    存储: novels(id={detail.novel_id}) → chapters(index={detail.chapter_index}) → chapter_drafts.{viewMode === 'outline' ? 'summary' : 'content'}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    className="bg-green-600 hover:bg-green-700"
+                    onClick={() => approveMutation.mutate({ id: detail.id, novelId: detail.novel_id })}
+                    disabled={approveMutation.isPending || rejectMutation.isPending}
+                  >
+                    <Check className="h-4 w-4 mr-1" />
+                    通过
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => rejectMutation.mutate(detail.id)}
+                    disabled={approveMutation.isPending || rejectMutation.isPending}
+                  >
+                    <X className="h-4 w-4 mr-1" />
+                    拒绝
+                  </Button>
+                </div>
+              </div>
+
+              <div className="flex-1 grid grid-cols-2 gap-4 p-6 min-h-0 overflow-auto">
+                <div className="flex flex-col min-h-0">
+                  <div className="flex-none flex items-center gap-2 text-sm font-medium text-zinc-300 mb-2">
+                    <FileText className="h-4 w-4" />
+                    待写入内容
+                  </div>
+                  <div className="flex-1 rounded-lg border border-emerald-500/30 bg-zinc-900/50 p-4 overflow-auto">
+                    <pre className="whitespace-pre-wrap text-sm text-zinc-200 font-sans">
+                      {viewMode === 'outline'
+                        ? (typeof detail.payload?.summary === 'string' ? detail.payload.summary : (detail.payload?.summary ? JSON.stringify(detail.payload.summary, null, 2) : '')) || '（空白）'
+                        : (detail.payload?.content ?? '') || '（空白）'}
+                    </pre>
+                  </div>
+                </div>
+                <div className="flex flex-col min-h-0">
+                  <div className="flex-none flex items-center gap-2 text-sm font-medium text-zinc-300 mb-2">
+                    <ListTodo className="h-4 w-4" />
+                    原有内容（数据库中）
+                  </div>
+                  <div className="flex-1 rounded-lg border border-amber-500/30 bg-amber-950/20 p-4 overflow-auto">
+                    <pre className="whitespace-pre-wrap text-sm text-zinc-200 font-sans">
+                      {viewMode === 'outline'
+                        ? (detail.existing_summary ?? '') || '（空白）'
+                        : (detail.existing_content ?? '') || '（空白）'}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
         </div>
-
-        {detail && (
-          <div className="border-t border-zinc-200 dark:border-zinc-700 pt-3 mt-3 space-y-3">
-            <Section title="待写入完整内容" icon={<FileText className="h-4 w-4" />}>
-              {detail.write_type === 'outline' ? (
-                <pre className="whitespace-pre-wrap text-sm bg-zinc-100 dark:bg-zinc-800 p-3 rounded max-h-48 overflow-y-auto">
-                  {detail.payload?.summary ?? ''}
-                </pre>
-              ) : (
-                <>
-                  {detail.payload?.content && (
-                    <pre className="whitespace-pre-wrap text-sm bg-zinc-100 dark:bg-zinc-800 p-3 rounded max-h-48 overflow-y-auto">
-                      {detail.payload.content}
-                    </pre>
-                  )}
-                  {detail.payload?.critique_data && (
-                    <div className="mt-2 text-xs text-zinc-500">
-                      审稿数据已包含在此草稿中
-                    </div>
-                  )}
-                </>
-              )}
-            </Section>
-            <Section title="数据库中该位置现有内容" icon={<ListTodo className="h-4 w-4" />}>
-              {detail.write_type === 'outline' ? (
-                <pre className="whitespace-pre-wrap text-sm bg-amber-50 dark:bg-amber-950/30 p-3 rounded max-h-32 overflow-y-auto">
-                  {detail.existing_summary ?? '（无）'}
-                </pre>
-              ) : (
-                <pre className="whitespace-pre-wrap text-sm bg-amber-50 dark:bg-amber-950/30 p-3 rounded max-h-32 overflow-y-auto">
-                  {detail.existing_content ?? '（无）'}
-                </pre>
-              )}
-            </Section>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-function Section({
-  title,
-  icon,
-  children,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <div className="flex items-center gap-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-        {icon}
-        {title}
       </div>
-      {children}
     </div>
   );
 }

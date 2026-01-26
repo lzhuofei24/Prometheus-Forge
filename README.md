@@ -46,11 +46,16 @@
 
 | 路由 | 页面 | 说明 |
 |------|------|------|
-| `/` | Home | 入口与导航。 |
-| `/writer` | Writer | 选择小说与章节，编辑正文/大纲，发起工作流，查看草稿与状态。 |
-| `/reader` | Reader | 按小说与章节阅读已保存正文与大纲。 |
-| `/workflow` | WorkflowMonitor | 工作流拓扑图 + 实时追踪时间线。 |
-| `/resources` | ResourceMonitor | 各队列长度、Controller 在线、Worker 状态等。 |
+| `/` | 首页 (Home) | 入口、品牌与能力简介、快捷导航。 |
+| `/writer` | 写作 (Writer) | 选小说与章节，编辑正文/大纲/检索，发起工作流，查看任务与状态。 |
+| `/retrieval` | 检索 (RetrievalAssistant) | 管理各小说章节的向量索引，供写作页检索使用。 |
+| `/approvals` | 审批 (ApprovalAssistant) | 按启动形式与运行筛选待审批项，对比待写入与原有内容，通过/拒绝。 |
+| `/reader` | 阅读 (Reader) | 按小说与章节阅读已保存正文（Markdown 渲染）。 |
+| `/prompts` | Prompt (PromptManager) | 按 key + 流程类型管理提示词模板。 |
+| `/workflow` | 监控 (WorkflowMonitor) | 工作流拓扑图、实时追踪、Controller 与队列状态、启动与清理。 |
+| `/help` | 帮助 (Help) | 系统概念管理，统一全站术语（如「流程类型」「运行」）。 |
+
+各页的介绍、在系统中的架构角色及技术实现见 **[前端页面文档](docs/PAGES.md)**。
 
 ### 技术栈
 
@@ -136,8 +141,8 @@ npm run dev
 ### 6. 快速自检
 
 1. 打开 **http://localhost:5173**，确认后端状态为「在线」。
-2. 进入 **写作 / Writer**，选择或新建小说与章节，发起一次工作流。
-3. 打开 **工作流 / Workflow**，观察拓扑图与追踪时间线是否随执行更新。
+2. 进入 **写作**，选择或新建小说与章节，发起一次工作流。
+3. 打开 **监控**，观察拓扑图与追踪时间线是否随执行更新。
 
 ---
 
@@ -153,7 +158,7 @@ novel-agent/
 │   ├── rag/              # ChromaDB 索引与检索
 │   └── utils/            # 文件管理、导入等
 ├── web/                  # React 前端（Vite + TS）
-│   └── src/pages/        # Home, Writer, Reader, WorkflowMonitor, ResourceMonitor
+│   └── src/pages/        # Home, Writer, RetrievalAssistant, ApprovalAssistant, Reader, PromptManager, WorkflowMonitor, Help
 ├── config/               # settings.yaml、prompts、sensitive_words.txt
 ├── data/                 # SQLite、ChromaDB、小说内容库
 ├── workspace/            # 用户创作目录（由 .gitignore 排除）
@@ -177,6 +182,7 @@ novel-agent/
 
 | 文档 | 说明 |
 |------|------|
+| [前端页面文档](docs/PAGES.md) | 首页、写作、检索、审批、阅读、Prompt、监控、帮助——各页介绍、架构与技术说明。 |
 | [系统功能与架构](docs/SYSTEM_FUNCTIONS_AND_ARCHITECTURE.md) | 功能清单、前后端与智能体说明、数据流。 |
 | [架构详解](docs/ARCHITECTURE.md) | 分层、模块、队列与 Controller、数据流与扩展。 |
 | [API 参考](docs/API.md) | FastAPI 路由与请求/响应说明。 |

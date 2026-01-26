@@ -147,6 +147,7 @@ class CriticHandler(BaseAgentHandler):
                 {"content": draft_content, "critique_data": critique_data},
                 workflow_id=workflow_id,
                 source_agent="critic",
+                workflow_type=workflow_type,
             )
             
             return critique_data

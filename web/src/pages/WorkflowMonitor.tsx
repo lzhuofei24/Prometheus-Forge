@@ -1,4 +1,5 @@
-import { useMonitorStats, usePurgeQueue } from '../hooks/useMonitor';
+import { useMonitorStats, usePurgeQueue, usePurgeAllQueues } from '../hooks/useMonitor';
+import { useConcepts } from '../hooks/useConcepts';
 import { DispatchTerminal } from '../components/monitor/DispatchTerminal';
 import { ControllerLogicPanel } from '../components/monitor/ControllerLogicPanel';
 import { Button } from '../components/ui/button';
@@ -8,7 +9,7 @@ import { monitorApi } from '../api/client';
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { cn } from '../lib/utils';
 import type { AgentMetric } from '../types';
-import { RefreshCw, Rocket, AlertCircle, Save, RotateCcw, Plus } from 'lucide-react';
+import { RefreshCw, Rocket, AlertCircle, Save, RotateCcw, Plus, Trash2 } from 'lucide-react';
 import {
   ReactFlow,
   Controls,
@@ -30,17 +31,23 @@ const FLOW_LAYOUT_KEY_PREFIX = 'novel-agent-flow-layout';
 /** 工作流唯一标识，与后端 workflows 注册表一致 */
 export const WORKFLOW_ID_GENERATE_CHAPTER = 'generate_chapter';
 export const WORKFLOW_ID_OUTLINE_ONLY = 'outline_only';
+export const WORKFLOW_ID_CONTENT_ONLY = 'content_only';
+export const WORKFLOW_ID_APPROVAL_ONLY = 'approval_only';
+export const WORKFLOW_ID_MEDIA_ONLY = 'media_only';
 
 /** 工作流列表（可用 API /workflow/types 覆盖） */
 export const WORKFLOW_OPTIONS: { id: string; name: string }[] = [
   { id: WORKFLOW_ID_GENERATE_CHAPTER, name: '生成新章节' },
   { id: WORKFLOW_ID_OUTLINE_ONLY, name: '仅生成大纲' },
+  { id: WORKFLOW_ID_CONTENT_ONLY, name: '仅生成正文' },
+  { id: WORKFLOW_ID_APPROVAL_ONLY, name: '仅进行审批' },
+  { id: WORKFLOW_ID_MEDIA_ONLY, name: '仅生成媒体' },
 ];
 
 const getFlowLayoutKey = (workflowId: string) =>
   `${FLOW_LAYOUT_KEY_PREFIX}-${workflowId}`;
 
-const AGENT_ORDER = ['architect', 'writer', 'censor', 'critic', 'media', 'knowledge'];
+const AGENT_ORDER = ['architect', 'writer', 'censor', 'critic', 'media'];
 
 /** 连线样式 */
 const NORMAL_STYLE = { stroke: '#71717a', strokeWidth: 2, strokeDasharray: '0' };
@@ -72,8 +79,7 @@ const DEFAULT_POSITIONS: Record<string, { x: number; y: number }> = {
   'decision-pass': { x: -25, y: 550 },
   critic: { x: -200, y: 650 },
   'decision-score': { x: -25, y: 800 },
-  media: { x: -450, y: 950 },
-  knowledge: { x: 50, y: 950 },
+  media: { x: -25, y: 950 },
 };
 
 /** 生成新章节：完整流程连线 */
@@ -85,18 +91,30 @@ const DEFAULT_EDGES_TEMPLATE: Edge[] = [
   { id: 'e-pass-critic', source: 'decision-pass', target: 'critic', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: SUCCESS_STYLE, markerEnd: SUCCESS_MARKER, label: 'Yes', labelStyle: LABEL_STYLE, labelBgStyle: LABEL_BG, labelBgPadding: [6, 4], labelBgBorderRadius: 4 },
   { id: 'e-critic-score', source: 'critic', target: 'decision-score', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: NORMAL_STYLE, markerEnd: NORMAL_MARKER },
   { id: 'e-score-writer', source: 'decision-score', target: 'writer', sourceHandle: 'right', targetHandle: 'right', type: 'default', animated: true, style: REVISE_STYLE, markerEnd: REVISE_MARKER, label: 'Revise (<75)', labelStyle: { ...LABEL_STYLE, fill: '#f59e0b' }, labelBgStyle: LABEL_BG, labelBgPadding: [6, 4], labelBgBorderRadius: 4 },
-  { id: 'e-score-media', source: 'decision-score', target: 'media', sourceHandle: 'left', targetHandle: 'left', type: 'default', animated: true, style: SUCCESS_STYLE, markerEnd: SUCCESS_MARKER, label: 'Generate Media', labelStyle: LABEL_STYLE, labelBgStyle: LABEL_BG, labelBgPadding: [6, 4], labelBgBorderRadius: 4 },
-  { id: 'e-score-knowledge', source: 'decision-score', target: 'knowledge', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: SUCCESS_STYLE, markerEnd: SUCCESS_MARKER, label: 'Archive', labelStyle: LABEL_STYLE, labelBgStyle: LABEL_BG, labelBgPadding: [6, 4], labelBgBorderRadius: 4 },
+  { id: 'e-score-media', source: 'decision-score', target: 'media', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: SUCCESS_STYLE, markerEnd: SUCCESS_MARKER, label: 'Generate Media', labelStyle: LABEL_STYLE, labelBgStyle: LABEL_BG, labelBgPadding: [6, 4], labelBgBorderRadius: 4 },
 ];
 
-/** 仅生成大纲：开始 -> 生成大纲 -> 结束 */
+/** 仅生成大纲 / 仅进行审批：开始 -> 架构师 -> 结束 */
 const OUTLINE_ONLY_EDGES: Edge[] = [
   { id: 'e-start-arch-outline', source: 'start', target: 'architect', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: NORMAL_STYLE, markerEnd: NORMAL_MARKER },
+];
+
+/** 仅生成正文：开始 -> 写作 -> 结束 */
+const CONTENT_ONLY_EDGES: Edge[] = [
+  { id: 'e-start-writer-co', source: 'start', target: 'writer', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: NORMAL_STYLE, markerEnd: NORMAL_MARKER },
+];
+
+/** 仅生成媒体：开始 -> 媒体 -> 结束 */
+const MEDIA_ONLY_EDGES: Edge[] = [
+  { id: 'e-start-media-mo', source: 'start', target: 'media', sourceHandle: 'bottom', targetHandle: 'top', type: 'default', animated: true, style: NORMAL_STYLE, markerEnd: NORMAL_MARKER },
 ];
 
 const WORKFLOW_EDGES: Record<string, Edge[]> = {
   [WORKFLOW_ID_GENERATE_CHAPTER]: DEFAULT_EDGES_TEMPLATE,
   [WORKFLOW_ID_OUTLINE_ONLY]: OUTLINE_ONLY_EDGES,
+  [WORKFLOW_ID_APPROVAL_ONLY]: OUTLINE_ONLY_EDGES,
+  [WORKFLOW_ID_CONTENT_ONLY]: CONTENT_ONLY_EDGES,
+  [WORKFLOW_ID_MEDIA_ONLY]: MEDIA_ONLY_EDGES,
 };
 
 type WorkflowNode = AgentFlowNode | StartFlowNode | DecisionFlowNode;
@@ -124,8 +142,10 @@ const getSavedGraph = (workflowId: string): SavedGraph | null => {
 };
 
 export default function WorkflowMonitor() {
+  const { getConceptLabel } = useConcepts();
   const { data: stats, isLoading } = useMonitorStats();
   const purgeQueueMutation = usePurgeQueue();
+  const purgeAllMutation = usePurgeAllQueues();
   const queryClient = useQueryClient();
   const [logs, setLogs] = useState<Array<{ time: string; type: string; message: string }>>([]);
   const [layoutMessage, setLayoutMessage] = useState<{ text: string; type: 'success' | 'info' } | null>(null);
@@ -274,7 +294,7 @@ export default function WorkflowMonitor() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(DEFAULT_EDGES_TEMPLATE);
   const lastSyncSigRef = useRef<string | null>(null);
 
-  // 切换工作流时加载该工作流的存档并更新连线
+  // 切换流程类型时加载该类型的存档并更新连线
   useEffect(() => {
     const saved = getSavedGraph(currentWorkflowId);
     setSavedGraph(saved);
@@ -362,7 +382,7 @@ export default function WorkflowMonitor() {
         .filter((n) => defaultIds.has(n.id))
         .map((n) => ({ ...n, position: DEFAULT_POSITIONS[n.id] ?? n.position }))
     );
-    setLayoutMessage({ text: '已恢复当前工作流默认布局', type: 'info' });
+    setLayoutMessage({ text: `已恢复当前${getConceptLabel('flow_type')}默认布局`, type: 'info' });
     setTimeout(() => setLayoutMessage(null), 2000);
   }, [setEdges, setNodes, currentWorkflowId]);
 
@@ -460,7 +480,7 @@ export default function WorkflowMonitor() {
     >
       <div className="w-[78%] flex flex-col min-w-0 pr-3 pl-6 py-4">
         <div className="flex items-center gap-3 mb-4 flex-shrink-0">
-          <h1 className="text-xl font-bold text-zinc-100">工作流助手</h1>
+          <h1 className="text-xl font-bold text-zinc-100">监控</h1>
           {controllerActive ? (
             <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/50 gap-1">
               <Rocket className="w-3 h-3" />
@@ -509,6 +529,20 @@ export default function WorkflowMonitor() {
           >
             <RotateCcw className="w-4 h-4 mr-1" />
             Reset
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              purgeAllMutation.mutate(undefined, {
+                onSuccess: () => addLog('action', '已清空所有队列'),
+              })
+            }
+            disabled={purgeAllMutation.isPending}
+            className="h-8 border-amber-500/50 text-amber-400 hover:bg-amber-500/10"
+          >
+            <Trash2 className="w-4 h-4 mr-1" />
+            {purgeAllMutation.isPending ? '清理中…' : '清理'}
           </Button>
           <Button
             variant="outline"

@@ -51,7 +51,7 @@ class NovelViewer:
         self.font_small = ("微软雅黑", base_size - 2)
         self.font_content = ("微软雅黑", base_size + 1)
         
-        self.query = NovelQuery(workspace_root)
+        self.query = NovelQuery()
         self.current_novel: Optional[str] = None
         self.current_chapter: Optional[int] = None
         self.content_text_widget: Optional[tk.Text] = None
@@ -318,22 +318,17 @@ class NovelViewer:
         user_feedback = task.get('user_feedback')
         
         try:
-            existing_chapters = self.file_manager.list_chapters(novel_name)
+            info = self.query.get_novel_info(novel_name)
+            existing_chapters = info.get("chapters") or []
             previous_chapters = [ch for ch in existing_chapters if ch < chapter_num]
             previous_context = None
-            
             if previous_chapters:
                 previous_context = []
                 for ch_num in previous_chapters[-3:]:
-                    ch_path = self.file_manager.get_chapter_path(novel_name, ch_num)
-                    outline_path = ch_path / "outline.md"
-                    if outline_path.exists():
-                        outline = self.file_manager.load_content(outline_path)
-                        previous_context.append({
-                            "chapter_num": ch_num,
-                            "outline": outline[:200]
-                        })
-            
+                    ch_info = self.query.get_chapter_info(novel_name, ch_num)
+                    outline = (ch_info.get("outline") or "")[:200]
+                    if outline:
+                        previous_context.append({"chapter_num": ch_num, "outline": outline})
             initial_state: AgentState = {
                 "novel_name": novel_name,
                 "chapter_num": chapter_num,
@@ -373,34 +368,20 @@ class NovelViewer:
         rewrite_type = task.get('rewrite_type', 'content')
         
         try:
-            chapter_path = self.file_manager.get_chapter_path(novel_name, chapter_num)
-            outline_path = chapter_path / "outline.md"
-            content_path = chapter_path / "content.md"
-            
-            existing_outline = None
-            existing_content = None
-            
-            if outline_path.exists():
-                existing_outline = self.file_manager.load_content(outline_path)
-            if content_path.exists():
-                existing_content = self.file_manager.load_content(content_path)
-            
-            existing_chapters = self.file_manager.list_chapters(novel_name)
+            ch_info = self.query.get_chapter_info(novel_name, chapter_num)
+            existing_outline = ch_info.get("outline") or None
+            existing_content = ch_info.get("content") or None
+            info = self.query.get_novel_info(novel_name)
+            existing_chapters = info.get("chapters") or []
             previous_chapters = [ch for ch in existing_chapters if ch < chapter_num]
             previous_context = None
-            
             if previous_chapters:
                 previous_context = []
                 for ch_num in previous_chapters[-3:]:
-                    ch_path = self.file_manager.get_chapter_path(novel_name, ch_num)
-                    prev_outline_path = ch_path / "outline.md"
-                    if prev_outline_path.exists():
-                        outline = self.file_manager.load_content(prev_outline_path)
-                        previous_context.append({
-                            "chapter_num": ch_num,
-                            "outline": outline[:200]
-                        })
-            
+                    prev_info = self.query.get_chapter_info(novel_name, ch_num)
+                    outline = (prev_info.get("outline") or "")[:200]
+                    if outline:
+                        previous_context.append({"chapter_num": ch_num, "outline": outline})
             if rewrite_type == 'outline':
                 initial_state: AgentState = {
                     "novel_name": novel_name,
@@ -977,11 +958,10 @@ class NovelViewer:
             return
         
         try:
-            chapter_path = self.file_manager.get_chapter_path(self.current_novel, self.current_chapter)
-            if chapter_path.exists():
-                import shutil
-                shutil.rmtree(chapter_path)
-            
+            from ..core.db_service import DatabaseService
+            novel = DatabaseService.get_novel_by_title(self.current_novel)
+            if novel:
+                DatabaseService.delete_chapter_by_index(novel.id, self.current_chapter)
             self.current_chapter = None
             self.show_novel_detail_view(self.current_novel)
             self.refresh_novel_list()

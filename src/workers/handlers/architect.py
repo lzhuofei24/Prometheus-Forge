@@ -119,6 +119,7 @@ class ArchitectHandler(BaseAgentHandler):
             {"summary": outline},
             workflow_id=workflow_id,
             source_agent="architect",
+            workflow_type=workflow_type,
         )
 
         return {"outline": outline}

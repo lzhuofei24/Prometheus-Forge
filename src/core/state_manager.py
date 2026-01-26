@@ -64,11 +64,21 @@ class StateManager:
     def init_workflow(self, workflow_id: str, initial_state: Dict[str, Any]):
         self.update_state(workflow_id, initial_state)
         self.redis_client.set(f"workflow:{workflow_id}:created_at", datetime.now().isoformat())
+        workflow_type = (initial_state.get("workflow_type") or "").strip() or "generate_chapter"
+        self.redis_client.sadd(f"workflow_type_index:{workflow_type}", workflow_id)
 
     def delete_workflow(self, workflow_id: str):
+        state = self.get_state(workflow_id)
+        workflow_type = (state.get("workflow_type") or "").strip() or "generate_chapter"
         self.redis_client.delete(f"workflow:{workflow_id}:state")
         self.redis_client.delete(f"workflow:{workflow_id}:audit")
         self.redis_client.delete(f"workflow:{workflow_id}:created_at")
+        self.redis_client.srem(f"workflow_type_index:{workflow_type}", workflow_id)
+
+    def list_workflow_ids_by_type(self, workflow_type: str) -> List[str]:
+        """返回该 workflow_type 下所有 workflow_id（含仅存在于索引但 state 已删的，调用方需按 state 存在性过滤）。"""
+        key = f"workflow_type_index:{(workflow_type or '').strip() or 'generate_chapter'}"
+        return list(self.redis_client.smembers(key) or [])
 
     def get_token_stats(self) -> Dict[str, Any]:
         stats = {}

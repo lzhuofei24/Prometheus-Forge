@@ -33,7 +33,7 @@ state_manager = StateManager(
 redis_client = _get_redis_client()
 
 # 与 celery_config 中队列命名一致：Redis List key 即队列名
-AGENTS = ["architect", "writer", "critic", "media", "knowledge", "censor"]
+AGENTS = ["architect", "writer", "critic", "media", "censor"]
 CONTROLLER_HEARTBEAT_KEY = "system:controller:heartbeat"
 
 
@@ -146,7 +146,6 @@ def _minimal_workers_list(controller_online: bool) -> List[Dict[str, Any]]:
         "writer": "Writer",
         "critic": "Critic",
         "media": "Media",
-        "knowledge": "Knowledge",
         "censor": "Censor",
     }
     out = []
@@ -261,8 +260,6 @@ def get_all_workers_info(active_data=None, inspect_timeout: float = 3.0) -> list
                     queues_handled.add('critic_pending')
                 elif routing_key.startswith('media.'):
                     queues_handled.add('media_pending')
-                elif routing_key.startswith('knowledge.'):
-                    queues_handled.add('knowledge_pending')
                 elif routing_key.startswith('censor.'):
                     queues_handled.add('censor_pending')
             
@@ -276,8 +273,6 @@ def get_all_workers_info(active_data=None, inspect_timeout: float = 3.0) -> list
                     queues_handled.add('critic_pending')
                 elif 'media' in worker_name_lower:
                     queues_handled.add('media_pending')
-                elif 'knowledge' in worker_name_lower:
-                    queues_handled.add('knowledge_pending')
                 elif 'censor' in worker_name_lower:
                     queues_handled.add('censor_pending')
                 elif 'controller' in worker_name_lower:
@@ -297,8 +292,6 @@ def get_all_workers_info(active_data=None, inspect_timeout: float = 3.0) -> list
                 display_name = 'Critic'
             elif 'media' in worker_name_lower:
                 display_name = 'Media'
-            elif 'knowledge' in worker_name_lower:
-                display_name = 'Knowledge'
             elif 'censor' in worker_name_lower:
                 display_name = 'Censor'
             elif 'controller' in worker_name_lower:
@@ -354,7 +347,7 @@ def get_all_workers_info(active_data=None, inspect_timeout: float = 3.0) -> list
 
 
 def _agent_from_worker_or_task(worker_name: str, task_name: str) -> str:
-    """根据 worker 名或任务名推断 agent（architect/writer/critic/media/knowledge/censor）。"""
+    """根据 worker 名或任务名推断 agent（architect/writer/critic/media/censor）。knowledge 已脱离工作流。"""
     w = (worker_name or "").lower()
     t = (task_name or "").lower()
     if "architect" in w or "outline" in t or "architect." in t:
@@ -365,8 +358,6 @@ def _agent_from_worker_or_task(worker_name: str, task_name: str) -> str:
         return "critic"
     if "media" in w or "generate_media" in t or "media." in t:
         return "media"
-    if "knowledge" in w or "update_knowledge" in t or "knowledge." in t:
-        return "knowledge"
     if "censor" in w or "check_content" in t or "censor." in t:
         return "censor"
     return ""
@@ -374,7 +365,7 @@ def _agent_from_worker_or_task(worker_name: str, task_name: str) -> str:
 
 def get_reserved_and_scheduled_by_agent(inspect_timeout: float = 1.0) -> tuple:
     """返回 (reserved_by_agent, scheduled_by_agent)，每个为 dict agent -> count。"""
-    reserved_counts = {a: 0 for a in ("architect", "writer", "critic", "media", "knowledge", "censor")}
+    reserved_counts = {a: 0 for a in ("architect", "writer", "critic", "media", "censor")}
     scheduled_counts = {a: 0 for a in reserved_counts}
     try:
         insp = celery_app.control.inspect(timeout=inspect_timeout)
@@ -410,7 +401,6 @@ def get_active_tasks_by_agent(active_data=None) -> dict:
             'writer': None,
             'critic': None,
             'media': None,
-            'knowledge': None,
             'censor': None,
         }
         
@@ -442,11 +432,6 @@ def get_active_tasks_by_agent(active_data=None) -> dict:
                         'task_name': task.get('name', ''),
                         'time_start': task.get('time_start', 0),
                     }
-                elif 'update_knowledge' in task_name or ('knowledge' in task_name and 'update' in task_name):
-                    agent_tasks['knowledge'] = {
-                        'task_name': task.get('name', ''),
-                        'time_start': task.get('time_start', 0),
-                    }
                 elif 'check_content' in task_name or ('censor' in task_name and 'check' in task_name):
                     agent_tasks['censor'] = {
                         'task_name': task.get('name', ''),
@@ -460,7 +445,6 @@ def get_active_tasks_by_agent(active_data=None) -> dict:
             'writer': None,
             'critic': None,
             'media': None,
-            'knowledge': None,
             'censor': None,
         }
 
@@ -482,6 +466,36 @@ async def get_resources():
 
     logger.debug("Queue lengths: %s, controller_online=%s", mon["queues"], mon["controller"].get("online"))
     return TokenStatsResponse(stats=stats)
+
+
+@router.post("/queues/purge-all")
+async def purge_all_queues():
+    """清空所有 agent 的 pending / completed / suspended 队列，便于调试。"""
+    from fastapi import HTTPException
+    total_purged = 0
+    queues: Dict[str, int] = {}
+    try:
+        for agent in AGENTS:
+            for suffix in ("_pending", "_completed", "_suspended"):
+                queue_name = f"{agent}{suffix}"
+                try:
+                    if suffix == "_pending":
+                        with celery_app.connection_or_acquire() as conn:
+                            channel = conn.default_channel
+                            channel.queue_declare(queue=queue_name, passive=True)
+                            purged = channel.queue_purge(queue=queue_name)
+                    else:
+                        purged = redis_client.llen(queue_name)
+                        redis_client.delete(queue_name)
+                    queues[queue_name] = purged
+                    total_purged += purged
+                except Exception as e:
+                    logger.warning("Failed to purge %s: %s", queue_name, e)
+                    queues[queue_name] = 0
+        return {"success": True, "total_purged": total_purged, "queues": queues}
+    except Exception as e:
+        logger.error("purge_all_queues failed: %s", e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.post("/queues/{queue_name}/purge")
@@ -569,7 +583,7 @@ def _redrive_suspended_to_pending(agent_name: str) -> int:
 @router.post("/agents/{agent_name}/enable")
 async def enable_agent(agent_name: str):
     """启用指定的 agent，并将挂起队列中的任务全部弹回 pending。"""
-    AGENTS = ['architect', 'writer', 'critic', 'media', 'knowledge', 'censor']
+    AGENTS = ['architect', 'writer', 'critic', 'media', 'censor']
     if agent_name not in AGENTS:
         from fastapi import HTTPException
         raise HTTPException(status_code=400, detail=f"Invalid agent name. Must be one of: {', '.join(AGENTS)}")

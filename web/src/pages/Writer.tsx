@@ -2,21 +2,91 @@ import { useState, useEffect, useMemo } from 'react';
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { useWorkflowState, useWorkflowTrace, useStartWorkflow } from '../hooks/useWorkflow';
+import { useWorkflowState, useStartWorkflow, useWorkflowTasks, WORKFLOW_ID_GENERATE_CHAPTER, WORKFLOW_ID_OUTLINE_ONLY, WORKFLOW_ID_CONTENT_ONLY, WORKFLOW_ID_MEDIA_ONLY } from '../hooks/useWorkflow';
+import { useConcepts } from '../hooks/useConcepts';
+import { workflowApi } from '../api/client';
 import { useNovels, useChapters, useChapterContent, useCreateChapter, useSaveChapter, useDeleteChapter } from '../hooks/useNovels';
 import { chaptersApi } from '../api/services';
+import { retrievalApi, type RetrievalSearchItem } from '../api/client';
 import { Button } from '../components/ui/button';
 import { ScrollArea } from '../components/ui/scroll-area';
 import ProjectSwitcher from '../components/writer/ProjectSwitcher';
 import ChapterList from '../components/writer/ChapterList';
 import EditorArea from '../components/writer/EditorArea';
-import NeuralTrace from '../components/writer/NeuralTrace';
+import type { WorkflowTaskItem } from '../types';
 import { logger } from '../utils/logger';
 import { cn } from '../lib/utils';
-import { Sparkles, FileText, Loader2, List, Plus, Trash2, Save, Edit } from 'lucide-react';
+import { Loader2, List, Plus, Trash2, Save, Edit, FileText, Sparkles, Search } from 'lucide-react';
 
+const NODE_LABELS: Record<string, string> = {
+  system: '已创建',
+  architect: '架构师',
+  writer: '写作',
+  censor: '审核',
+  critic: '审稿',
+  media: '媒体',
+};
+
+function WorkflowLaunchBlock({
+  title,
+  workflowType,
+  tasks,
+  isLoading,
+  onStart,
+}: {
+  title: string;
+  workflowType: string;
+  tasks: WorkflowTaskItem[];
+  isLoading: boolean;
+  onStart: () => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-sm font-medium text-zinc-300">{title}</span>
+        <Button
+          size="sm"
+          variant="outline"
+          className="border-zinc-600 text-zinc-300 hover:bg-zinc-800"
+          disabled={isLoading}
+          onClick={onStart}
+        >
+          {workflowType === WORKFLOW_ID_GENERATE_CHAPTER ? (
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+          ) : (
+            <FileText className="w-3.5 h-3.5 mr-1.5" />
+          )}
+          {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" /> : null}
+          {title}
+        </Button>
+      </div>
+      <ul className="space-y-1.5 rounded border border-zinc-800 bg-zinc-900/50 p-2 max-h-40 overflow-y-auto">
+        {tasks.length === 0 ? (
+          <li className="text-xs text-zinc-500 py-2 text-center">暂无该类型任务</li>
+        ) : (
+          tasks.map((t) => (
+            <li
+              key={t.workflow_id}
+              className="text-xs rounded px-2 py-1.5 bg-zinc-800/60 border border-zinc-700/50"
+            >
+              <div className="font-medium text-zinc-200 truncate">
+                {t.novel_name} · 第{t.chapter_num}章
+              </div>
+              <div className="text-zinc-500 mt-0.5">
+                节点: {NODE_LABELS[t.current_node] ?? t.current_node} · {t.status}
+              </div>
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
+  );
+}
+
+/** 写作助手：小说列表、目录、正文、大纲均来自 useNovels/useChapters/useChapterContent → novels API（数据库）。 */
 export default function Writer() {
   const { t } = useTranslation();
+  const { getConceptLabel } = useConcepts();
   const queryClient = useQueryClient();
   const [workflowId, setWorkflowId] = useState<string | null>(null);
   const [selectedNovelId, setSelectedNovelId] = useState<string | null>(() => {
@@ -37,7 +107,10 @@ export default function Writer() {
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1920);
   const [editorContent, setEditorContent] = useState<string>('');
   const [outlineContent, setOutlineContent] = useState<string>('');
-  const [editMode, setEditMode] = useState<'body' | 'outline'>('body');
+  const [editMode, setEditMode] = useState<'body' | 'outline' | 'retrieval'>('body');
+  const [retrievalQuery, setRetrievalQuery] = useState('');
+  const [retrievalResults, setRetrievalResults] = useState<RetrievalSearchItem[]>([]);
+  const [retrievalLoading, setRetrievalLoading] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,8 +128,12 @@ export default function Writer() {
   const { data: chapters, isLoading: chaptersLoading } = useChapters(selectedNovelId);
   const { data: chapterContent } = useChapterContent(selectedNovelId, selectedChapterIndex);
   const { data: workflowState } = useWorkflowState(workflowId, !!workflowId);
-  const { data: workflowTrace } = useWorkflowTrace(workflowId, !!workflowId);
   const startWorkflowMutation = useStartWorkflow();
+  const tasksGenerateChapter = useWorkflowTasks(WORKFLOW_ID_GENERATE_CHAPTER);
+  const tasksOutlineOnly = useWorkflowTasks(WORKFLOW_ID_OUTLINE_ONLY);
+  const tasksContentOnly = useWorkflowTasks(WORKFLOW_ID_CONTENT_ONLY);
+  const tasksApprovalOnly = useWorkflowTasks('approval_only');
+  const tasksMediaOnly = useWorkflowTasks(WORKFLOW_ID_MEDIA_ONLY);
   const createChapterMutation = useCreateChapter();
   const saveChapterMutation = useSaveChapter();
   const deleteChapterMutation = useDeleteChapter();
@@ -121,87 +198,36 @@ export default function Writer() {
     }
   }, [chapterContent?.summary, selectedChapterIndex]);
 
-  const handleStartWorkflow = async () => {
-    logger.action('Writer', 'User clicked Start Workflow button', {
-      novelId: selectedNovelId,
-      chapterIndex: selectedChapterIndex,
-      novelTitle: currentNovel?.title,
-    });
-
+  const startWorkflowByType = async (workflowType: string) => {
     if (!selectedNovelId || selectedChapterIndex === null) {
-      logger.warn('Writer', 'Cannot start workflow: no chapter selected');
       alert(t('common.select_chapter_first'));
       return;
     }
-
     if (!currentNovel) {
-      logger.warn('Writer', 'Cannot start workflow: no novel selected');
       alert(t('common.select_novel_first'));
       return;
     }
-
     try {
       const result = await startWorkflowMutation.mutateAsync({
         novel_name: currentNovel.title,
         chapter_num: selectedChapterIndex,
+        workflow_type: workflowType,
+        ...((workflowType === WORKFLOW_ID_CONTENT_ONLY || workflowType === WORKFLOW_ID_MEDIA_ONLY) && selectedNovelId
+          ? { novel_id: selectedNovelId }
+          : {}),
       });
       setWorkflowId(result.workflow_id);
-      logger.action('Writer', 'Workflow started successfully', {
+      logger.action('Writer', 'Workflow started', {
         workflowId: result.workflow_id,
+        workflowType,
         novelName: currentNovel.title,
         chapterNum: selectedChapterIndex,
       });
       alert(t('common.task_started'));
-    } catch (error) {
-      logger.error('Writer', 'Failed to start workflow', { error });
-      console.error(t('common.start_workflow_failed'), error);
-    }
-  };
-
-  const handleGenerateOutline = async () => {
-    if (!selectedNovelId || selectedChapterIndex === null) {
-      alert(t('common.select_chapter_first'));
-      return;
-    }
-
-    if (!currentNovel) {
-      alert(t('common.select_novel_first'));
-      return;
-    }
-
-    try {
-      logger.action('Writer', 'Generate outline button clicked', {
-        novelId: selectedNovelId,
-        chapterIndex: selectedChapterIndex,
-        novelName: currentNovel.title,
-      });
-      
-      const result = await startWorkflowMutation.mutateAsync({
-        novel_name: currentNovel.title,
-        chapter_num: selectedChapterIndex,
-      });
-      
-      setWorkflowId(result.workflow_id);
-      logger.action('Writer', 'Generate outline started', {
-        workflowId: result.workflow_id,
-        taskId: result.task_id,
-        architectPendingAfterSend: result.architect_pending_after_send,
-        novelName: currentNovel.title,
-        chapterNum: selectedChapterIndex,
-      });
-      const queueHint =
-        typeof result.architect_pending_after_send === 'number'
-          ? `；Architect 待消费队列（发送后）: ${result.architect_pending_after_send}`
-          : '';
-      alert(`任务已启动！工作流 ID: ${result.workflow_id}${queueHint}`);
     } catch (error: any) {
-      logger.error('Writer', 'Failed to generate outline', { 
-        error: error?.message || String(error),
-        stack: error?.stack,
-        response: error?.response?.data,
-      });
-      const errorMessage = error?.response?.data?.detail || error?.message || '生成大纲失败';
-      alert(`生成大纲失败: ${errorMessage}`);
+      logger.error('Writer', 'Failed to start workflow', { error: error?.message || String(error) });
+      const msg = error?.response?.data?.detail || error?.message || t('common.start_workflow_failed');
+      alert(msg);
     }
   };
 
@@ -407,33 +433,6 @@ export default function Writer() {
             )}
             保存章节
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handleGenerateOutline}
-            disabled={!selectedChapterIndex || startWorkflowMutation.isPending}
-            className="border-zinc-700 text-zinc-300 hover:bg-zinc-800"
-          >
-            {startWorkflowMutation.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <FileText className="w-4 h-4 mr-2" />
-            )}
-            {t('writer.toolbar.generate_outline')}
-          </Button>
-          <Button
-            size="sm"
-            onClick={handleStartWorkflow}
-            disabled={!selectedChapterIndex || startWorkflowMutation.isPending}
-            className="shadow-lg shadow-indigo-500/50 hover:shadow-indigo-500/70"
-          >
-            {startWorkflowMutation.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Sparkles className="w-4 h-4 mr-2" />
-            )}
-            {t('writer.toolbar.start_workflow')}
-          </Button>
         </div>
       </div>
 
@@ -477,7 +476,7 @@ export default function Writer() {
 
           <Panel defaultSize={showSidebar ? 35 : 100} minSize={25}>
             <div className="h-full flex flex-col">
-              {selectedChapterIndex !== null && (
+              {selectedNovelId && (
                 <div className="flex-shrink-0 flex items-center gap-1 border-b border-zinc-800 bg-zinc-950/50 px-3 py-1.5">
                   <button
                     type="button"
@@ -503,19 +502,94 @@ export default function Writer() {
                   >
                     大纲
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditMode('retrieval')}
+                    className={cn(
+                      'rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
+                      editMode === 'retrieval'
+                        ? 'bg-indigo-600/80 text-white'
+                        : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
+                    )}
+                  >
+                    检索
+                  </button>
                 </div>
               )}
               <div className="flex-1 min-h-0">
-                <EditorArea
-                  chapterId={selectedChapterIndex}
-                  content={
-                    editMode === 'body'
-                      ? workflowState?.draft_content || chapterContent?.content || editorContent || ''
-                      : outlineContent
-                  }
-                  onContentChange={editMode === 'body' ? setEditorContent : setOutlineContent}
-                  mode={editMode}
-                />
+                {editMode === 'retrieval' ? (
+                  (() => {
+                    const runSearch = () => {
+                      if (!retrievalQuery.trim() || retrievalLoading) return;
+                      setRetrievalLoading(true);
+                      retrievalApi
+                        .search({ q: retrievalQuery.trim(), novel_id: selectedNovelId ?? undefined, top_k: 15 })
+                        .then(setRetrievalResults)
+                        .catch(() => {
+                          setRetrievalResults([]);
+                          logger.error('Writer', 'Retrieval search failed', {});
+                        })
+                        .finally(() => setRetrievalLoading(false));
+                    };
+                    return (
+                  <div className="h-full flex flex-col p-4 gap-3 bg-zinc-950 text-zinc-100">
+                    <div className="flex gap-2 flex-shrink-0">
+                      <input
+                        type="text"
+                        value={retrievalQuery}
+                        onChange={(e) => setRetrievalQuery(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), runSearch())}
+                        placeholder="输入关键词或句子，在已索引内容中向量检索…"
+                        className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                      <Button
+                        size="sm"
+                        className="bg-indigo-600 hover:bg-indigo-700 shrink-0"
+                        disabled={retrievalLoading || !retrievalQuery.trim()}
+                        onClick={runSearch}
+                      >
+                        {retrievalLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+                        检索
+                      </Button>
+                    </div>
+                    <ScrollArea className="flex-1 min-h-0 rounded-lg border border-zinc-800 bg-zinc-900/50">
+                      <div className="p-3 space-y-2">
+                        {retrievalResults.length === 0 && !retrievalLoading && (
+                          <p className="text-sm text-zinc-500">
+                            {retrievalQuery.trim() ? '无匹配结果，或尚未为该范围建索引。' : '输入查询后点击「检索」。可限定当前小说或全库（未选小说时）。'}
+                          </p>
+                        )}
+                        {retrievalResults.map((r, i) => (
+                          <div
+                            key={i}
+                            className="rounded border border-zinc-700/80 bg-zinc-800/50 px-3 py-2 text-sm"
+                          >
+                            <div className="text-zinc-400 text-xs mb-1">
+                              《{r.novel_name}》{r.chapter_num != null ? ` 第${r.chapter_num}章` : ''}
+                              {typeof r.distance === 'number' && (
+                                <span className="ml-2">相似度距离 {r.distance.toFixed(4)}</span>
+                              )}
+                            </div>
+                            <p className="text-zinc-200 whitespace-pre-wrap break-words">{r.text}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  </div>
+                    );
+                  })()
+                ) : (
+                  <EditorArea
+                    chapterId={selectedChapterIndex}
+                    content={
+                      editMode === 'body'
+                        ? workflowState?.draft_content || chapterContent?.content || editorContent || ''
+                        : outlineContent
+                    }
+                    onContentChange={editMode === 'body' ? setEditorContent : setOutlineContent}
+                    mode={editMode}
+                  />
+                )}
               </div>
             </div>
           </Panel>
@@ -528,11 +602,17 @@ export default function Writer() {
 
           <Panel defaultSize={showSidebar ? defaultSize : 0} minSize={minSize} maxSize={maxSize}>
             <div className="h-full w-full flex flex-col bg-zinc-950/50 overflow-hidden">
-              <div className="h-16 flex items-center px-8 border-b border-white/5 flex-shrink-0">
-                <h2 className="text-lg font-semibold text-zinc-100 leading-tight">{t('writer.trace.title')}</h2>
+              <div className="h-14 flex items-center px-6 border-b border-white/5 flex-shrink-0">
+                <h2 className="text-lg font-semibold text-zinc-100 leading-tight">{getConceptLabel('flow_type')}启动</h2>
               </div>
               <ScrollArea className="flex-1 min-w-0">
-                <NeuralTrace logs={workflowTrace?.logs || []} />
+                <div className="p-4 space-y-6">
+                  <WorkflowLaunchBlock title="生成新章节" workflowType={WORKFLOW_ID_GENERATE_CHAPTER} tasks={tasksGenerateChapter.data ?? []} isLoading={startWorkflowMutation.isPending} onStart={() => startWorkflowByType(WORKFLOW_ID_GENERATE_CHAPTER)} />
+                  <WorkflowLaunchBlock title="仅生成大纲" workflowType={WORKFLOW_ID_OUTLINE_ONLY} tasks={tasksOutlineOnly.data ?? []} isLoading={startWorkflowMutation.isPending} onStart={() => startWorkflowByType(WORKFLOW_ID_OUTLINE_ONLY)} />
+                  <WorkflowLaunchBlock title="仅生成正文" workflowType={WORKFLOW_ID_CONTENT_ONLY} tasks={tasksContentOnly.data ?? []} isLoading={startWorkflowMutation.isPending} onStart={() => startWorkflowByType(WORKFLOW_ID_CONTENT_ONLY)} />
+                  <WorkflowLaunchBlock title="仅进行审批" workflowType="approval_only" tasks={tasksApprovalOnly.data ?? []} isLoading={startWorkflowMutation.isPending} onStart={() => startWorkflowByType('approval_only')} />
+                  <WorkflowLaunchBlock title="仅生成媒体" workflowType={WORKFLOW_ID_MEDIA_ONLY} tasks={tasksMediaOnly.data ?? []} isLoading={startWorkflowMutation.isPending} onStart={() => startWorkflowByType(WORKFLOW_ID_MEDIA_ONLY)} />
+                </div>
               </ScrollArea>
             </div>
           </Panel>

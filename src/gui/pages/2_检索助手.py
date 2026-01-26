@@ -36,8 +36,7 @@ def init_components():
             st.session_state.workspace_root = None
     
     if "query" not in st.session_state or st.session_state.query is None:
-        if st.session_state.file_manager and hasattr(st.session_state, 'workspace_root'):
-            st.session_state.query = NovelQuery(st.session_state.workspace_root)
+        st.session_state.query = NovelQuery()
     
     if "search_results" not in st.session_state:
         st.session_state.search_results = None
@@ -84,8 +83,7 @@ def main():
             # 确保 indexer 已初始化并缓存
             if st.session_state.vector_indexer is None:
                 from src.rag.indexer import VectorIndexer
-                from pathlib import Path
-                persist_dir = Path(st.session_state.workspace_root).parent / "data" / "novel_content_db"
+                persist_dir = project_root / "data" / "novel_content_db"
                 try:
                     st.session_state.vector_indexer = VectorIndexer(persist_directory=persist_dir, collection_name="novel_content")
                 except Exception:

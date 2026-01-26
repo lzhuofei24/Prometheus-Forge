@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { useConcepts } from '../hooks/useConcepts';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { ScrollArea } from '../components/ui/scroll-area';
@@ -31,8 +32,9 @@ function workflowLabel(wt: string, workflowTypes: { id: string; name: string }[]
 
 export default function PromptManager() {
   const { t } = useTranslation();
+  const { getConceptLabel } = useConcepts();
   const queryClient = useQueryClient();
-  /** 筛选：null=全部，''=默认，其余=工作流 id */
+  /** 筛选：null=全部，''=默认，其余=流程类型 id */
   const [workflowFilter, setWorkflowFilter] = useState<string | null>(() => '');
   const [selected, setSelected] = useState<{ key: string; workflow_type: string } | null>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -172,7 +174,7 @@ export default function PromptManager() {
     <div className="h-full flex flex-col bg-zinc-50 dark:bg-zinc-900">
       <div className="flex-none px-4 py-3 border-b border-zinc-200 dark:border-zinc-800">
         <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-          {t('prompts.title', '提示词助手')}
+          {t('prompts.title', 'Prompt')}
         </h1>
         <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
           {t('prompts.subtitle', '查看与编辑数据库中的提示词模板')}
@@ -180,10 +182,10 @@ export default function PromptManager() {
         <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-2">
           {t('prompts.db_first_hint', '所有 AI 请求均优先从本库按 key 读取；未配置时回退到 config/prompts/*.yaml。')}
           {' '}
-          {t('prompts.workflow_hint', '可按工作流筛选：默认模板供所有工作流回退使用，专有工作流可配置独立版本。')}
+          {t('prompts.workflow_hint', `可按${getConceptLabel('flow_type')}筛选：默认模板供所有流程回退使用，专有流程类型可配置独立版本。`)}
         </p>
         <div className="mt-2 flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">工作流筛选：</span>
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">{getConceptLabel('flow_type')}筛选：</span>
           <select
             value={workflowFilter === null ? '__all__' : workflowFilter}
             onChange={(e) => {

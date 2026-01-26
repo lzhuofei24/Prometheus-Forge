@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useConcepts } from '../hooks/useConcepts';
 import {
   PenLine,
   BookOpen,
@@ -13,19 +14,25 @@ import {
 const FEATURES = [
   { icon: Zap, title: '多智能体流水线', desc: 'Architect → Writer → Censor → Critic，Controller 驱动下一步。' },
   { icon: RefreshCw, title: '自动反馈环', desc: 'Critic 评分 &lt; 75 触发修订，默认最多 3 次。' },
-  { icon: Activity, title: '端到端可观测', desc: '审计日志 + 工作流拓扑与实时追踪。' },
+  { icon: Activity, title: '端到端可观测', desc: '审计日志 + 流程拓扑与实时追踪。' },
   { icon: Database, title: '向量与上下文', desc: 'ChromaDB + 近期章节与大纲，支撑长线一致性。' },
 ] as const;
 
-const QUICK_LINKS = [
+const QUICK_LINKS_BASE = [
   { path: '/writer', label: '写作', icon: PenLine },
   { path: '/reader', label: '阅读', icon: BookOpen },
-  { path: '/workflow', label: '工作流助手', icon: GitBranch },
+  { path: '/workflow', labelKey: 'workflow_monitor' as const, icon: GitBranch },
   { path: '/resources', label: '资源', icon: BarChart3 },
 ] as const;
 
 export default function Home() {
   const navigate = useNavigate();
+  const { getConceptLabel } = useConcepts();
+  const QUICK_LINKS = QUICK_LINKS_BASE.map((item) =>
+    'labelKey' in item
+      ? { ...item, label: item.labelKey === 'workflow_monitor' ? '监控' : getConceptLabel(item.labelKey) }
+      : item
+  ) as { path: string; label: string; icon: typeof PenLine }[];
 
   return (
     <div className="h-full w-full overflow-auto bg-gradient-to-br from-zinc-950 via-indigo-950/15 to-zinc-950 relative">

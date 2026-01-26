@@ -6,9 +6,10 @@ import Home from './pages/Home';
 import Writer from './pages/Writer';
 import Reader from './pages/Reader';
 import WorkflowMonitor from './pages/WorkflowMonitor';
-import ResourceMonitor from './pages/ResourceMonitor';
 import PromptManager from './pages/PromptManager';
 import ApprovalAssistant from './pages/ApprovalAssistant';
+import RetrievalAssistant from './pages/RetrievalAssistant';
+import Help from './pages/Help';
 import './App.css';
 
 const queryClient = new QueryClient({
@@ -33,9 +34,11 @@ function App() {
                 <Route path="/reader" element={<Reader />} />
                 <Route path="/controller" element={<Navigate to="/workflow" replace />} />
                 <Route path="/workflow" element={<WorkflowMonitor />} />
-                <Route path="/resources" element={<ResourceMonitor />} />
+                <Route path="/resources" element={<Navigate to="/" replace />} />
                 <Route path="/prompts" element={<PromptManager />} />
                 <Route path="/approvals" element={<ApprovalAssistant />} />
+                <Route path="/retrieval" element={<RetrievalAssistant />} />
+                <Route path="/help" element={<Help />} />
               </Route>
             </Routes>
           </BrowserRouter>

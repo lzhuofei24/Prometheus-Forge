@@ -13,13 +13,14 @@ export default function MainLayout() {
   const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
 
   const navItems = [
-    { path: '/', label: t('nav.home'), value: 'home' },
-    { path: '/writer', label: t('nav.writer'), value: 'writer' },
-    { path: '/reader', label: t('nav.reader'), value: 'reader' },
-    { path: '/workflow', label: t('nav.workflow', '工作流助手'), value: 'workflow' },
-    { path: '/resources', label: t('nav.resources'), value: 'resources' },
-    { path: '/prompts', label: t('nav.prompts'), value: 'prompts' },
-    { path: '/approvals', label: t('nav.approvals', '审批助手'), value: 'approvals' },
+    { path: '/', label: t('nav.home', '首页'), value: 'home' },
+    { path: '/writer', label: t('nav.writer', '写作'), value: 'writer' },
+    { path: '/retrieval', label: t('nav.retrieval', '检索'), value: 'retrieval' },
+    { path: '/approvals', label: t('nav.approvals', '审批'), value: 'approvals' },
+    { path: '/reader', label: t('nav.reader', '阅读'), value: 'reader' },
+    { path: '/prompts', label: t('nav.prompts', 'Prompt'), value: 'prompts' },
+    { path: '/workflow', label: t('nav.workflow', '监控'), value: 'workflow' },
+    { path: '/help', label: t('nav.help', '帮助'), value: 'help' },
   ];
 
   const currentValue = navItems.find((item) => location.pathname === item.path)?.value || 'home';

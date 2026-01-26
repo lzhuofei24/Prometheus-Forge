@@ -57,6 +57,8 @@ export interface WorkflowStartRequest {
   chapter_num: number;
   /** 工作流唯一标识，不传则后端使用 generate_chapter */
   workflow_type?: string;
+  /** content_only / media_only 时用于从库拉取大纲/正文，不传则按 novel_name 解析 */
+  novel_id?: string;
 }
 
 export interface WorkflowTypeItem {
@@ -70,6 +72,16 @@ export interface WorkflowStartResponse {
   task_id?: string;
   /** 发送任务后立刻读到的 architect_pending 队列长度，便于确认入队情况 */
   architect_pending_after_send?: number;
+}
+
+/** 按 workflow_type 列出的单条任务，用于工作流启动区域展示 */
+export interface WorkflowTaskItem {
+  workflow_id: string;
+  novel_name: string;
+  chapter_num: number;
+  status: string;
+  created_at: string | null;
+  current_node: string;
 }
 
 // 重新导出 monitor.ts 中的所有类型

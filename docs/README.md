@@ -9,6 +9,7 @@
 | [SYSTEM_OVERVIEW.md](SYSTEM_OVERVIEW.md) | 系统概览：架构、智能体、队列、技术栈 |
 | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | 一页纸速查：启动方式、常用命令 |
 | [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | 项目目录与文件组织说明 |
+| [PAGES.md](PAGES.md) | 前端页面文档：首页、写作、检索、审批、阅读、Prompt、监控、帮助——各页介绍、架构与技术实现 |
 
 ## 开发与运维
 

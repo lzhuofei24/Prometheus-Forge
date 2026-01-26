@@ -92,6 +92,7 @@ class PendingWrite(Base):
     chapter_index = Column(Integer, nullable=False, index=True)
     payload = Column(JSON, nullable=False)  # { "content"?: str, "summary"?: str, "critique_data"?: dict }
     workflow_id = Column(String(64), nullable=True, index=True)
+    workflow_type = Column(String(64), nullable=True, index=True)  # 启动形式：generate_chapter / outline_only 等
     source_agent = Column(String(64), nullable=True)
     status = Column(
         String(16), default=PendingWriteStatus.PENDING.value, nullable=False, index=True
@@ -113,3 +114,17 @@ class NovelSetting(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
     __table_args__ = (Index("idx_novel_setting_novel_key", "novel_id", "key", unique=True),)
+
+
+class SystemConcept(Base):
+    """系统概念表：用于帮助页展示与全站术语统一。仅通过数据库查询得到，可在帮助页编辑。"""
+    __tablename__ = "system_concepts"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    key = Column(String(64), nullable=False, unique=True, index=True)  # 如 workflow_type, run, start_form
+    label = Column(String(128), nullable=False)  # 面向用户的名称，如「流程类型」「运行」
+    description = Column(Text, nullable=True)  # 概念说明
+    scope = Column(String(64), nullable=True, default="")  # 可选分类，如 workflow, approval
+    sort_order = Column(Integer, nullable=False, default=0)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

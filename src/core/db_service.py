@@ -56,6 +56,15 @@ class DatabaseService:
             return db.execute(select(Novel).where(Novel.title == title)).scalar_one_or_none()
 
     @staticmethod
+    def list_novels(order_by_updated: bool = True) -> List[Novel]:
+        """列出所有小说，用于替代工作区目录扫描。"""
+        with SessionLocal() as db:
+            q = select(Novel)
+            if order_by_updated:
+                q = q.order_by(Novel.updated_at.desc())
+            return list(db.execute(q).scalars().all())
+
+    @staticmethod
     def get_or_create_chapter(novel_id: str, index: int, title: Optional[str] = None) -> Chapter:
         with SessionLocal() as db:
             chapter = db.execute(
@@ -286,6 +295,35 @@ class DatabaseService:
             db.commit()
 
     @staticmethod
+    def update_chapter_title(novel_id: str, chapter_index: int, title: Optional[str]) -> None:
+        """更新章节标题。"""
+        with SessionLocal() as db:
+            chapter = db.execute(
+                select(Chapter).where(
+                    and_(Chapter.novel_id == novel_id, Chapter.index == chapter_index)
+                )
+            ).scalar_one_or_none()
+            if chapter:
+                chapter.title = title
+                chapter.updated_at = datetime.utcnow()
+                db.commit()
+
+    @staticmethod
+    def delete_chapter_by_index(novel_id: str, chapter_index: int) -> bool:
+        """按小说 id 与章节序号删除章节，返回是否删除成功。"""
+        with SessionLocal() as db:
+            chapter = db.execute(
+                select(Chapter).where(
+                    and_(Chapter.novel_id == novel_id, Chapter.index == chapter_index)
+                )
+            ).scalar_one_or_none()
+            if not chapter:
+                return False
+            db.delete(chapter)
+            db.commit()
+            return True
+
+    @staticmethod
     def get_chapters_content_batch(novel_id: str, chapter_indices: List[int]) -> Dict[int, Optional[str]]:
         results = DatabaseService.get_chapters_with_drafts(novel_id, chapter_indices)
         return {idx: data.get("content") for idx, data in results.items()}
@@ -298,8 +336,9 @@ class DatabaseService:
         payload: Dict[str, Any],
         workflow_id: Optional[str] = None,
         source_agent: Optional[str] = None,
+        workflow_type: Optional[str] = None,
     ) -> str:
-        """提交待审批写入，由审批助手通过后再落库。返回 pending id。"""
+        """提交待审批写入，由审批助手通过后再落库。workflow_type 为启动形式（generate_chapter/outline_only 等）。返回 pending id。"""
         with SessionLocal() as db:
             pw = PendingWrite(
                 id=str(uuid.uuid4()),
@@ -308,6 +347,7 @@ class DatabaseService:
                 chapter_index=chapter_index,
                 payload=payload,
                 workflow_id=workflow_id,
+                workflow_type=workflow_type,
                 source_agent=source_agent,
                 status=PendingWriteStatus.PENDING.value,
                 created_at=datetime.utcnow(),
@@ -330,16 +370,21 @@ class DatabaseService:
 
     @staticmethod
     def get_novel_global_settings(novel_id: str) -> Dict[str, Any]:
-        """返回小说全局设定 {bios, world, story_summary}，仅从 DB 读取，无则返回空。"""
+        """返回小说全局设定 {bios, world, story_summary, relations}，仅从 DB 读取，无则返回空。"""
         import json
         bios_raw = DatabaseService.get_novel_setting(novel_id, "bios")
         world = DatabaseService.get_novel_setting(novel_id, "world") or ""
         story_summary = DatabaseService.get_novel_setting(novel_id, "story_summary") or ""
+        relations_raw = DatabaseService.get_novel_setting(novel_id, "relation_graph")
         try:
             bios = json.loads(bios_raw) if bios_raw else []
         except Exception:
             bios = []
-        return {"bios": bios, "world": world, "story_summary": story_summary}
+        try:
+            relations = json.loads(relations_raw) if relations_raw else {}
+        except Exception:
+            relations = {}
+        return {"bios": bios, "world": world, "story_summary": story_summary, "relations": relations}
 
     @staticmethod
     def set_novel_setting(novel_id: str, key: str, value: str) -> None:

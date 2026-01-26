@@ -10,28 +10,12 @@ HEARTBEAT_TTL = 30
 from src.core.state_manager import StateManager
 from src.core.celery_config import celery_app
 from src.core.app_settings import get_settings
+from src.core.routing import RoutingRule
 from src.core.workflows import get_routing_rules, DEFAULT_WORKFLOW_ID
 
 logger = logging.getLogger(__name__)
 
-
-class RoutingRule:
-    def __init__(
-        self,
-        source_agent: str,
-        next_agents: List[str],
-        condition: Optional[callable] = None,
-        else_agents: Optional[List[str]] = None
-    ):
-        self.source_agent = source_agent
-        self.next_agents = next_agents
-        self.condition = condition
-        self.else_agents = else_agents or []
-
-    def decide(self, data: Dict[str, Any]) -> List[str]:
-        if self.condition and not self.condition(data):
-            return self.else_agents
-        return self.next_agents
+__all__ = ["CentralController", "RoutingRule"]
 
 
 class CentralController:
@@ -46,7 +30,6 @@ class CentralController:
             "writer_completed",
             "critic_completed",
             "media_completed",
-            "knowledge_completed",
             "censor_completed"
         ]
         
@@ -55,7 +38,6 @@ class CentralController:
             "writer": "writer.write_content",
             "critic": "critic.critique_content",
             "media": "media.generate_media",
-            "knowledge": "knowledge.update_knowledge",
             "censor": "censor.check_content"
         }
 
@@ -180,8 +162,6 @@ class CentralController:
         elif target_agent == "critic":
             args = [workflow_id]
         elif target_agent == "media":
-            args = [workflow_id]
-        elif target_agent == "knowledge":
             args = [workflow_id]
         elif target_agent == "censor":
             args = [workflow_id]

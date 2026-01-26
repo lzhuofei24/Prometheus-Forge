@@ -173,7 +173,7 @@ def init_components():
             
             st.session_state.workflow = workflow
             st.session_state.file_manager = file_manager
-            st.session_state.query = NovelQuery(workspace_root)
+            st.session_state.query = NovelQuery()
             if "prompt_router" not in st.session_state or st.session_state.prompt_router is None:
                 try:
                     st.session_state.prompt_router = PromptRouter()
@@ -189,7 +189,7 @@ def init_components():
                     config = Settings.load_from_yaml(project_root / "config" / "settings.yaml")
                     workspace_root = Path(config.paths.workspace)
                     st.session_state.file_manager = ProjectManager(workspace_root)
-                    st.session_state.query = NovelQuery(workspace_root)
+                    st.session_state.query = NovelQuery()
                 except Exception as e2:
                     logger.error(f"基础组件初始化也失败：{str(e2)}")
                     st.error(f"系统初始化失败：{str(e)}")
@@ -731,10 +731,17 @@ def main():
                 
                 try:
                     logger.info(f"用户点击新建章节: {novel_name}")
-                    next_chapter_num = file_manager.get_next_chapter_num(novel_name)
+                    query = st.session_state.query
+                    info = query.get_novel_info(novel_name)
+                    chapters = info.get("chapters") or []
+                    next_chapter_num = (max(chapters) + 1) if chapters else 1
                     logger.info(f"下一个章节号: {next_chapter_num}")
-                    
-                    file_manager.init_chapter(novel_name, next_chapter_num)
+                    from src.core.db_service import DatabaseService
+                    novel = DatabaseService.get_novel_by_title(novel_name)
+                    if novel:
+                        DatabaseService.get_or_create_chapter(novel.id, next_chapter_num)
+                    if file_manager:
+                        file_manager.init_chapter(novel_name, next_chapter_num)
                     logger.info("章节目录初始化完成")
                     
                     st.session_state.current_chapter = next_chapter_num
@@ -1160,41 +1167,23 @@ def main():
 
 
 def save_chapter(novel_name: str, chapter_num: int, title: Optional[str], content: Optional[str], outline: Optional[str]):
-    file_manager = st.session_state.file_manager
-    chapter_path = file_manager.get_chapter_path(novel_name, chapter_num)
-    
-    if content is not None:
-        file_manager.save_content(chapter_path / "content.md", content)
-    
+    from src.core.db_service import DatabaseService
+    novel = DatabaseService.get_novel_by_title(novel_name)
+    if not novel:
+        raise ValueError(f"小说不存在：{novel_name}")
     if outline is not None:
-        file_manager.save_content(chapter_path / "outline.md", outline)
-    
-    meta_path = chapter_path / "meta.json"
-    if meta_path.exists():
-        meta = file_manager.load_content(meta_path)
-    else:
-        meta = {}
-    
-    if title is not None:
-        meta["title"] = title
-    
-    meta["chapter_num"] = chapter_num
+        DatabaseService.save_outline(novel.id, chapter_num, outline)
     if content is not None:
-        meta["word_count"] = len(content)
-    meta["updated_at"] = datetime.now().isoformat()
-    if not meta.get("created_at"):
-        meta["created_at"] = meta["updated_at"]
-    
-    file_manager.save_content(meta_path, meta)
+        DatabaseService.save_content(novel.id, chapter_num, content)
+    if title is not None:
+        DatabaseService.update_chapter_title(novel.id, chapter_num, title)
 
 
 def delete_chapter(novel_name: str, chapter_num: int):
-    file_manager = st.session_state.file_manager
-    chapter_path = file_manager.get_chapter_path(novel_name, chapter_num)
-    
-    if chapter_path.exists():
-        import shutil
-        shutil.rmtree(chapter_path)
+    from src.core.db_service import DatabaseService
+    novel = DatabaseService.get_novel_by_title(novel_name)
+    if novel:
+        DatabaseService.delete_chapter_by_index(novel.id, chapter_num)
 
 
 if __name__ == "__main__":

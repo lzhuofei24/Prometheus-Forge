@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { novelsApi, chaptersApi, type CreateNovelRequest, type CreateChapterRequest, type SaveChapterRequest } from '../api/services';
 
+/** 写作/阅读助手数据 hooks：小说列表、目录、正文、大纲均来自 novels/chapters API（数据库），无文件或本地源。 */
 export function useNovels() {
   return useQuery({
     queryKey: ['novels'],

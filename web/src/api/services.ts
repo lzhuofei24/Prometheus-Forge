@@ -57,6 +57,7 @@ export interface ImportNovelResponse {
   }>;
 }
 
+/** 小说列表、详情：写作/阅读助手唯一数据源，仅数据库。 */
 export const novelsApi = {
   list: async (): Promise<Novel[]> => {
     const response = await apiClient.get<Novel[]>('/novels');
@@ -89,6 +90,7 @@ export const novelsApi = {
   },
 };
 
+/** 章节目录、章节内容(正文+大纲)：写作/阅读助手唯一数据源，仅数据库。 */
 export const chaptersApi = {
   list: async (novelId: string): Promise<Chapter[]> => {
     const response = await apiClient.get<Chapter[]>(`/novels/${novelId}/chapters`);

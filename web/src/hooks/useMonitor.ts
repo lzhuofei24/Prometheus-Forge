@@ -21,3 +21,13 @@ export function usePurgeQueue() {
     },
   });
 }
+
+export function usePurgeAllQueues() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => monitorApi.purgeAllQueues(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['monitor', 'stats'] });
+    },
+  });
+}

@@ -3,6 +3,7 @@ import { type Node, type Edge, MarkerType } from '@xyflow/react';
 import { Plus, Trash2, ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
 import { cn } from '../../lib/utils';
+import { useConcepts } from '../../hooks/useConcepts';
 
 /** 与 WorkflowMonitor 中 STYLES 保持一致的连线样式映射 */
 const EDGE_STYLE_MAP = {
@@ -39,11 +40,11 @@ export interface ControllerLogicPanelProps {
   edges: Edge[];
   setEdges: (edges: Edge[] | ((eds: Edge[]) => Edge[])) => void;
   onEdgeClick?: (edgeId: string) => void;
-  /** 工作流切换：当前选中的工作流 id */
+  /** 流程类型切换：当前选中的流程类型 id */
   currentWorkflowId?: string;
-  /** 工作流选项（id, name），用于下拉 */
+  /** 流程类型选项（id, name），用于下拉 */
   workflowOptions?: { id: string; name: string }[];
-  /** 切换工作流时回调 */
+  /** 切换流程类型时回调 */
   onWorkflowChange?: (workflowId: string) => void;
 }
 
@@ -56,6 +57,7 @@ export function ControllerLogicPanel({
   workflowOptions = [],
   onWorkflowChange,
 }: ControllerLogicPanelProps) {
+  const { getConceptLabel } = useConcepts();
   const [showAddForm, setShowAddForm] = useState(false);
   const [addSource, setAddSource] = useState('');
   const [addTarget, setAddTarget] = useState('');
@@ -135,7 +137,7 @@ export function ControllerLogicPanel({
   return (
     <div className="flex h-full min-h-0 flex-col bg-zinc-900">
       <div className="flex flex-shrink-0 flex-col gap-2 border-b border-zinc-800 px-3 py-2">
-        <span className="text-xs font-semibold text-zinc-200">工作流切换</span>
+        <span className="text-xs font-semibold text-zinc-200">{getConceptLabel('flow_type')}切换</span>
         {workflowOptions.length > 0 && onWorkflowChange && (
           <select
             value={currentWorkflowId ?? ''}

@@ -46,14 +46,51 @@ class PendingDetail(BaseModel):
     existing_critique_data: Optional[dict]
 
 
+class WorkflowWithCount(BaseModel):
+    workflow_id: str
+    count: int
+
+
+class WorkflowTypeWithCount(BaseModel):
+    workflow_type: str
+    count: int
+
+
+@router.get("/workflow-types", response_model=List[WorkflowTypeWithCount])
+async def list_workflow_types_with_pending(
+    status: Optional[str] = None,
+    db: AsyncSession = Depends(get_db),
+):
+    """返回有待审批项的启动形式（workflow_type）及数量，用于审批助手最左侧「启动形式」层。"""
+    rows = await ApprovalService.list_workflow_types_with_pending(db, status=status or "pending")
+    return [WorkflowTypeWithCount(workflow_type=r["workflow_type"], count=r["count"]) for r in rows]
+
+
+@router.get("/workflows", response_model=List[WorkflowWithCount])
+async def list_workflows_with_pending(
+    status: Optional[str] = None,
+    workflow_type: Optional[str] = None,
+    db: AsyncSession = Depends(get_db),
+):
+    """返回有待审批项的工作流 id 及数量；可按 workflow_type（启动形式）筛选。"""
+    rows = await ApprovalService.list_workflows_with_pending(
+        db, status=status or "pending", workflow_type=workflow_type
+    )
+    return [WorkflowWithCount(workflow_id=r["workflow_id"], count=r["count"]) for r in rows]
+
+
 @router.get("/pending", response_model=List[PendingItem])
 async def list_pending(
     limit: int = 50,
     status: Optional[str] = None,
+    workflow_id: Optional[str] = None,
+    workflow_type: Optional[str] = None,
     db: AsyncSession = Depends(get_db),
 ):
-    """列出待审批写入；不传 status 时默认只返回 pending。"""
-    items = await ApprovalService.list_pending(db, limit=limit, status=status)
+    """列出待审批写入；可按 workflow_type、workflow_id 筛选；不传 status 时默认只返回 pending。"""
+    items = await ApprovalService.list_pending(
+        db, limit=limit, status=status, workflow_id=workflow_id, workflow_type=workflow_type
+    )
     return [PendingItem(**x) for x in items]
 
 

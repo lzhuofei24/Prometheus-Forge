@@ -26,10 +26,10 @@ class ModelConfig(BaseModel):
 
 
 class PathsConfig(BaseModel):
-    """路径配置"""
+    """路径配置。小说列表/目录/正文/大纲已来自数据库，workspace 仅供部分遗留逻辑或媒体缓存等使用。"""
     raw_data: str = "./data/raw"
     chroma_db: str = "./data/chroma_db"
-    workspace: str = "./workspace"
+    workspace: str = "./workspace"  # 可选；业务数据以 DB 为准
 
 
 class ChunkingConfig(BaseModel):

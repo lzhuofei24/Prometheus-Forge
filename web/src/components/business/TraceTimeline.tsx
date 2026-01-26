@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import type { AuditLogEntry } from '../../types';
 import { EventType, EventSource } from '../../types';
+import { useConcepts } from '../../hooks/useConcepts';
 
 interface TraceTimelineProps {
   logs: AuditLogEntry[];
@@ -61,26 +62,22 @@ const getSourceColor = (source: string) => {
   }
 };
 
-const getEventTypeLabel = (eventType: string): string => {
-  const labels: Record<string, string> = {
-    [EventType.WORKFLOW_STARTED]: '工作流启动',
-    [EventType.TASK_DISPATCHED]: '任务派发',
-    [EventType.TASK_STARTED]: '任务开始',
-    [EventType.TASK_COMPLETED]: '任务完成',
-    [EventType.TASK_FAILED]: '任务失败',
-    [EventType.OUTLINE_GENERATED]: '大纲生成',
-    [EventType.CONTENT_WRITTEN]: '内容撰写',
-    [EventType.CRITIQUE_COMPLETED]: '审稿完成',
-    [EventType.REVISION_REQUESTED]: '重写请求',
-    [EventType.MEDIA_GENERATED]: '媒体生成',
-  };
-  return labels[eventType] || eventType;
+const EVENT_TYPE_LABELS: Record<string, string> = {
+  [EventType.TASK_DISPATCHED]: '任务派发',
+  [EventType.TASK_STARTED]: '任务开始',
+  [EventType.TASK_COMPLETED]: '任务完成',
+  [EventType.TASK_FAILED]: '任务失败',
+  [EventType.OUTLINE_GENERATED]: '大纲生成',
+  [EventType.CONTENT_WRITTEN]: '内容撰写',
+  [EventType.CRITIQUE_COMPLETED]: '审稿完成',
+  [EventType.REVISION_REQUESTED]: '重写请求',
+  [EventType.MEDIA_GENERATED]: '媒体生成',
 };
 
 const getSourceLabel = (source: string): string => {
   const labels: Record<string, string> = {
     [EventSource.DISPATCHER]: '调度器',
-    [EventSource.AGENT_WRITER]: '写作助手',
+    [EventSource.AGENT_WRITER]: '写作',
     [EventSource.AGENT_CRITIC]: '审稿助手',
     [EventSource.AGENT_ARCHITECT]: '架构助手',
     [EventSource.AGENT_MEDIA]: '媒体助手',
@@ -90,6 +87,11 @@ const getSourceLabel = (source: string): string => {
 };
 
 export default function TraceTimeline({ logs }: TraceTimelineProps) {
+  const { getConceptLabel } = useConcepts();
+  const runStartLabel = getConceptLabel('run') + '启动';
+  const getEventTypeLabel = (eventType: string): string =>
+    eventType === EventType.WORKFLOW_STARTED ? runStartLabel : (EVENT_TYPE_LABELS[eventType] ?? eventType);
+
   const [expandedLog, setExpandedLog] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const prevLogsLengthRef = useRef(0);
