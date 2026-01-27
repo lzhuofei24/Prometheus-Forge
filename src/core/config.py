@@ -12,6 +12,11 @@ from pydantic_settings import BaseSettings
 import yaml
 import os
 
+# 项目根目录与统一存储基路径，供 index_ops / inspector / retrieval / graph_store 等使用，避免读写不一致
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+CHROMA_BASE = _PROJECT_ROOT / "data" / "chroma_db"
+GRAPH_STORE_BASE = _PROJECT_ROOT / "data" / "graph_store"
+
 
 class ModelConfig(BaseModel):
     """模型配置"""

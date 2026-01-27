@@ -30,6 +30,8 @@ sentence-transformers>=2.2.0
 # 工作流与逻辑
 langchain>=0.1.0
 langgraph>=0.0.20
+langgraph-checkpoint-sqlite>=2.0.0
+networkx>=3.0
 
 # 工具与工具链
 requests>=2.31.0

@@ -95,6 +95,27 @@ class WriterHandler(BaseAgentHandler):
 
         novel = DatabaseService.get_or_create_novel(novel_name)
         existing_content = DatabaseService.get_chapter_content(novel.id, chapter_num)
+
+        # GraphRAG 混合检索：向量 + 图谱，拼到 reference_context 后
+        try:
+            from src.rag.hybrid import hybrid_retrieve
+            query = (outline[:500] if isinstance(outline, str) else str(outline)[:500]) if outline else ""
+            entity_hint = []
+            try:
+                if isinstance(outline, str) and outline:
+                    import json
+                    o = json.loads(outline)
+                    for sc in (o.get("scenes") or []):
+                        for c in (sc.get("key_characters") or []):
+                            if isinstance(c, str) and c.strip():
+                                entity_hint.append(c.strip())
+            except Exception:
+                pass
+            extra = hybrid_retrieve(novel.id, novel_name, query, top_k=5, entity_hint=entity_hint or None)
+            if extra:
+                reference_context = (reference_context or "") + "\n\n" + extra
+        except Exception as e:
+            logger.debug("hybrid_retrieve in writer skipped: %s", e)
         
         rewrite_mode = feedback is not None
         if rewrite_mode and existing_content:

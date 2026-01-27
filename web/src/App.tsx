@@ -8,7 +8,7 @@ import Reader from './pages/Reader';
 import WorkflowMonitor from './pages/WorkflowMonitor';
 import PromptManager from './pages/PromptManager';
 import ApprovalAssistant from './pages/ApprovalAssistant';
-import RetrievalAssistant from './pages/RetrievalAssistant';
+import IndexInspector from './pages/IndexInspector.tsx';
 import Help from './pages/Help';
 import './App.css';
 
@@ -37,7 +37,7 @@ function App() {
                 <Route path="/resources" element={<Navigate to="/" replace />} />
                 <Route path="/prompts" element={<PromptManager />} />
                 <Route path="/approvals" element={<ApprovalAssistant />} />
-                <Route path="/retrieval" element={<RetrievalAssistant />} />
+                <Route path="/inspector" element={<IndexInspector />} />
                 <Route path="/help" element={<Help />} />
               </Route>
             </Routes>

@@ -1,0 +1,221 @@
+{
+  "nodes": [
+    {
+      "id": "林未",
+      "label": "林未",
+      "type": "Person",
+      "status": "Alive",
+      "description": "林家少年"
+    },
+    {
+      "id": "基础心法",
+      "label": "基础心法",
+      "type": "Item",
+      "status": "Active",
+      "description": "记载心法要诀的典籍"
+    },
+    {
+      "id": "吐纳方式",
+      "label": "吐纳方式",
+      "type": "Concept"
+    },
+    {
+      "id": "热气",
+      "label": "热气",
+      "type": "Concept"
+    },
+    {
+      "id": "阿福",
+      "label": "阿福",
+      "type": "Person",
+      "status": "Alive",
+      "description": "同镇少年"
+    },
+    {
+      "id": "家",
+      "label": "家",
+      "type": "Location"
+    },
+    {
+      "id": "心随意动",
+      "label": "心随意动",
+      "type": "Concept"
+    },
+    {
+      "id": "鱼",
+      "label": "鱼",
+      "type": "Item"
+    }
+  ],
+  "edges": [
+    {
+      "source": "林未",
+      "target": "基础心法",
+      "relation": "拥有",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "少年林未背靠老槐树，手里攥着一本破旧的册子。册子上写着「基础心法」四字",
+      "context": "林未在秋日午后阅读祖上留下的基础心法"
+    },
+    {
+      "source": "林未",
+      "target": "基础心法",
+      "relation": "拥有",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "少年林未背靠老槐树，手里攥着一本破旧的册子",
+      "context": "林未持有祖传的修行心法"
+    },
+    {
+      "source": "林未",
+      "target": "基础心法",
+      "relation": "隐藏",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "迅速把册子塞进怀里",
+      "context": "听到脚步声后藏起心法册子"
+    },
+    {
+      "source": "林未",
+      "target": "基础心法",
+      "relation": "拥有",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "少年林未背靠老槐树，手里攥着一本破旧的册子。",
+      "context": "林未在老槐树下阅读祖上传下的基础心法"
+    },
+    {
+      "source": "林未",
+      "target": "吐纳方式",
+      "relation": "尝试",
+      "chapter": 1,
+      "location": "老槐树下",
+      "state": "入门阶段",
+      "quote": "试着按照册子前几页的吐纳方式调息",
+      "context": "林未首次尝试按照基础心法中的吐纳方式调息"
+    },
+    {
+      "source": "林未",
+      "target": "吐纳方式",
+      "relation": "尝试",
+      "chapter": 1,
+      "location": "老槐树下",
+      "state": "入门阶段",
+      "quote": "试着按照册子前几页的吐纳方式调息",
+      "context": "首次尝试心法记载的吐纳方法"
+    },
+    {
+      "source": "林未",
+      "target": "吐纳方式",
+      "relation": "尝试",
+      "chapter": 1,
+      "location": "老槐树下",
+      "state": "入门阶段",
+      "quote": "试着按照册子前几页的吐纳方式调息。",
+      "context": "林未在老槐树下首次尝试吐纳方式"
+    },
+    {
+      "source": "林未",
+      "target": "热气",
+      "relation": "感受到",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "小腹处似有一丝热气缓缓升起",
+      "context": "林未在尝试吐纳时感受到一丝热气"
+    },
+    {
+      "source": "林未",
+      "target": "热气",
+      "relation": "感受",
+      "chapter": 1,
+      "state": "微弱",
+      "quote": "小腹处似有一丝热气缓缓升起",
+      "context": "吐纳时产生的修行感应"
+    },
+    {
+      "source": "林未",
+      "target": "家",
+      "relation": "前往",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "林未笑了笑，说：“好。”",
+      "context": "林未接受阿福的邀请，准备前往阿福家"
+    },
+    {
+      "source": "基础心法",
+      "target": "吐纳方式",
+      "relation": "包含",
+      "chapter": 1,
+      "quote": "他翻到最后一页，上面只有一句：心随意动，意随脉走",
+      "context": "基础心法中记载了吐纳方式"
+    },
+    {
+      "source": "基础心法",
+      "target": "吐纳方式",
+      "relation": "包含",
+      "chapter": 1,
+      "quote": "他翻到最后一页，上面只有一句：心随意动，意随脉走。",
+      "context": "基础心法中记载了吐纳方式"
+    },
+    {
+      "source": "基础心法",
+      "target": "心随意动",
+      "relation": "包含",
+      "chapter": 1,
+      "quote": "最后一页写着：心随意动，意随脉走",
+      "context": "心法记载的修行要诀"
+    },
+    {
+      "source": "阿福",
+      "target": "林未",
+      "relation": "邀请",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "林未，还在琢磨你那本破书呐？走，今晚到我家喝鱼汤",
+      "context": "阿福邀请林未去他家喝鱼汤"
+    },
+    {
+      "source": "阿福",
+      "target": "林未",
+      "relation": "邀请",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "走，今晚到我家喝鱼汤",
+      "context": "阿福邀请林未共进晚餐"
+    },
+    {
+      "source": "阿福",
+      "target": "林未",
+      "relation": "邀请",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "林未，还在琢磨你那本破书呐？走，今晚到我家喝鱼汤。",
+      "context": "阿福邀请林未去他家喝鱼汤"
+    },
+    {
+      "source": "阿福",
+      "target": "家",
+      "relation": "邀请去",
+      "chapter": 1,
+      "quote": "走，今晚到我家喝鱼汤",
+      "context": "阿福邀请林未去他家喝鱼汤"
+    },
+    {
+      "source": "阿福",
+      "target": "家",
+      "relation": "邀请去",
+      "chapter": 1,
+      "location": "老槐树下",
+      "quote": "走，今晚到我家喝鱼汤。",
+      "context": "阿福邀请林未去他家喝鱼汤"
+    },
+    {
+      "source": "阿福",
+      "target": "鱼",
+      "relation": "携带",
+      "chapter": 1,
+      "quote": "拎着两尾鱼晃过来",
+      "context": "阿福带着捕获的鱼"
+    }
+  ]
+}

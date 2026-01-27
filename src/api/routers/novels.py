@@ -146,6 +146,19 @@ async def list_chapters(
     ]
 
 
+@router.get("/{novel_id}/chapters/wordcounts", response_model=dict)
+async def get_chapter_wordcounts(
+    novel_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """批量返回该小说所有章节的正文字数 (index -> 字数)，写作页侧栏用，一次请求。"""
+    novel = await NovelService.get_novel_by_id(db, novel_id)
+    if not novel:
+        raise HTTPException(status_code=404, detail="Novel not found")
+    counts = await NovelService.get_chapter_wordcounts(db, novel_id)
+    return {str(k): v for k, v in counts.items()}
+
+
 @router.get("/{novel_id}/chapters/{chapter_index}", response_model=ChapterContentResponse)
 async def get_chapter_content(
     novel_id: str,
@@ -193,6 +206,24 @@ class ImportResponse(BaseModel):
     novel_title: str
     chapters_count: int
     chapters: List[dict]
+
+
+@router.get("/{novel_id}/graph", response_model=dict)
+async def get_novel_graph(novel_id: str, db: AsyncSession = Depends(get_db)):
+    """GraphRAG：返回该小说的人物/实体关系图谱 (nodes, edges)，供前端 GraphRAGViewer 展示。"""
+    novel = await NovelService.get_novel_by_id(db, novel_id)
+    if not novel:
+        raise HTTPException(status_code=404, detail="Novel not found")
+    try:
+        from src.rag.graph_store import NetworkXGraphStore
+        from src.core.config import GRAPH_STORE_BASE
+        store = NetworkXGraphStore(persist_path=str(GRAPH_STORE_BASE), novel_id=novel_id)
+        store.load()
+        nodes, edges = store.get_all()
+        return {"nodes": nodes, "edges": edges}
+    except Exception as e:
+        logger.warning("get_novel_graph failed: %s", e)
+        return {"nodes": [], "edges": []}
 
 
 @router.get("/{novel_id}/settings", response_model=dict)

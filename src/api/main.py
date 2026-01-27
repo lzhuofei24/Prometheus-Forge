@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.routers import workflow, monitor, novels, prompts, approvals, help as help_router, retrieval
+from src.api.routers import workflow, monitor, novels, prompts, approvals, help as help_router, retrieval, inspector
+from src.api.websocket import router as ws_router, start_broadcast_consumer
 from src.core.database import init_db
 from src.core.container import init_container
 from src.core.app_settings import get_settings, reload_settings
@@ -30,12 +31,18 @@ app.include_router(prompts.router)
 app.include_router(approvals.router)
 app.include_router(help_router.router)
 app.include_router(retrieval.router)
+app.include_router(inspector.router)
+app.include_router(ws_router)
 
 
 @app.on_event("startup")
 async def startup_event():
     await init_db()
     init_container()
+    try:
+        start_broadcast_consumer()
+    except Exception:
+        pass
     project_root = Path(__file__).parent.parent.parent
     app.state.config = Settings.load_from_yaml(project_root / "config" / "settings.yaml")
 

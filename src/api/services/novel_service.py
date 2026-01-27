@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, and_, update
+from sqlalchemy import select, and_, update, func
 from sqlalchemy.orm import selectinload
 from typing import Optional, List, Dict, Any
 from datetime import datetime
@@ -145,6 +145,22 @@ class NovelService:
         if active_draft.critique_data:
             result["critique_data"] = active_draft.critique_data
         return result
+
+    @staticmethod
+    async def get_chapter_wordcounts(db: AsyncSession, novel_id: str) -> Dict[int, int]:
+        """返回该小说所有章节的正文字数 (chapter_index -> 字数)，用于写作页侧栏展示，一次查询。"""
+        q = (
+            select(Chapter.index, func.coalesce(func.length(ChapterDraft.content), 0).label("wordcount"))
+            .select_from(Chapter)
+            .outerjoin(
+                ChapterDraft,
+                and_(ChapterDraft.chapter_id == Chapter.id, ChapterDraft.is_active == True),
+            )
+            .where(Chapter.novel_id == novel_id)
+            .order_by(Chapter.index.asc())
+        )
+        result = await db.execute(q)
+        return {int(r.index): int(r.wordcount or 0) for r in result.all()}
 
     @staticmethod
     async def save_draft(

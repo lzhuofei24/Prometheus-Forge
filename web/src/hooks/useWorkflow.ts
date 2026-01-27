@@ -39,6 +39,18 @@ export function useWorkflowTasks(workflowType: string, enabled = true) {
   });
 }
 
+/** 一次请求拉取多种类型的任务，写作页用可把 5 次请求并成 1 次。返回 data 为 { workflow_type: WorkflowTaskItem[] } */
+export function useWorkflowTasksBatch(workflowTypes: string[], enabled = true) {
+  const isVisible = usePageVisible();
+  const key = workflowTypes.slice().sort().join(',');
+  return useQuery({
+    queryKey: ['workflow', 'tasks', 'batch', key],
+    queryFn: () => workflowApi.getTasksBatch(workflowTypes),
+    enabled: enabled && workflowTypes.length > 0 && isVisible,
+    refetchInterval: isVisible ? 4000 : false,
+  });
+}
+
 export function useStartWorkflow() {
   const queryClient = useQueryClient();
 
@@ -48,6 +60,7 @@ export function useStartWorkflow() {
       queryClient.invalidateQueries({ queryKey: ['workflow', data.workflow_id] });
       const wt = variables.workflow_type || WORKFLOW_ID_GENERATE_CHAPTER;
       queryClient.invalidateQueries({ queryKey: ['workflow', 'tasks', wt] });
+      queryClient.invalidateQueries({ queryKey: ['workflow', 'tasks'] });
       queryClient.invalidateQueries({ queryKey: ['monitor', 'stats'] });
     },
   });

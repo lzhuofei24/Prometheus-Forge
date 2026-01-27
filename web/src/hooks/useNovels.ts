@@ -49,6 +49,17 @@ export function useChapterContent(novelId: string | null, chapterIndex: number |
   });
 }
 
+/** 批量拉取该小说所有章节字数，写作页侧栏用，一次请求代替 N 次 get。 */
+export function useChapterWordCounts(novelId: string | null) {
+  return useQuery({
+    queryKey: ['novels', novelId, 'chapters', 'wordcounts'],
+    queryFn: () => chaptersApi.getWordCounts(novelId!),
+    enabled: !!novelId,
+    staleTime: 60000,
+    gcTime: 300000,
+  });
+}
+
 export function useCreateNovel() {
   const queryClient = useQueryClient();
 
@@ -67,6 +78,7 @@ export function useCreateChapter() {
     mutationFn: (data: CreateChapterRequest) => chaptersApi.create(data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['novels', variables.novel_id, 'chapters'] });
+      queryClient.invalidateQueries({ queryKey: ['novels', variables.novel_id, 'chapters', 'wordcounts'] });
     },
   });
 }
@@ -80,6 +92,7 @@ export function useSaveChapter() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['novels', variables.novelId, 'chapters', variables.chapterIndex] });
       queryClient.invalidateQueries({ queryKey: ['novels', variables.novelId, 'chapters'] });
+      queryClient.invalidateQueries({ queryKey: ['novels', variables.novelId, 'chapters', 'wordcounts'] });
     },
   });
 }
@@ -92,6 +105,7 @@ export function useDeleteChapter() {
       chaptersApi.delete(novelId, chapterIndex),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['novels', variables.novelId, 'chapters'] });
+      queryClient.invalidateQueries({ queryKey: ['novels', variables.novelId, 'chapters', 'wordcounts'] });
     },
   });
 }

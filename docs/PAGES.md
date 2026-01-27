@@ -1,8 +1,8 @@
 # 前端页面文档
 
-本文档描述 Prometheus Forge 前端 SPA 中八个主要页面的**介绍**、**架构**与**技术**实现，便于开发与维护时快速对齐能力与数据流。
+本文档描述 Prometheus Forge 前端 SPA 中九个主要页面的**介绍**、**架构**与**技术**实现，便于开发与维护时快速对齐能力与数据流。
 
-顶栏导航顺序：**首页** → **写作** → **检索** → **审批** → **阅读** → **Prompt** → **监控** → **帮助**。路由与入口见 [App.tsx](../web/src/App.tsx)、[MainLayout.tsx](../web/src/components/layout/MainLayout.tsx)。
+顶栏导航顺序：**首页** → **写作** → **检索** → **索引洞察** → **审批** → **阅读** → **Prompt** → **监控** → **帮助**。路由与入口见 [App.tsx](../web/src/App.tsx)、[MainLayout.tsx](../web/src/components/layout/MainLayout.tsx)。
 
 ---
 
@@ -83,7 +83,60 @@
 
 ---
 
-## 4. 审批 (Approval Assistant)
+## 4. 索引洞察 (Index Inspector)
+
+**路由**：`/inspector`  
+**组件**：`web/src/pages/IndexInspector.tsx`
+
+### 介绍
+
+- **用途**：RAG 索引可视化调试与知识图谱探索。提供「向量透视」与「图谱探索」两个 Tab，用于查看向量索引状态、进行语义搜索，以及可视化知识图谱的实体关系网络。
+- **面向用户**：开发者、调试人员，需要检查向量索引质量、查看知识图谱结构、调试 RAG 与 GraphRAG 状态。
+
+### 架构
+
+- **在系统中的位置**：调试与可视化工具。与 RAG/ChromaDB 和知识图谱存储对应；不参与创作流程，仅用于观察与调试。
+- **数据流**：
+  - **向量透视**：`inspectorApi.getVectorChunks()` 获取向量切片列表或搜索结果；`retrievalApi.listIndexed()` 获取已索引小说列表；索引的添加/删除/更新由 knowledge worker 执行。
+  - **图谱探索**：`inspectorApi.getGraph(novel_id)` 获取知识图谱数据（节点与边），支持按章节过滤；图谱数据由 Knowledge 智能体在抽取实体关系时构建。
+
+### 技术
+
+#### 向量透视 (Vector Inspector)
+
+- **功能**：
+  - 索引管理：查看已索引章节，添加/删除/更新索引（由 knowledge worker 执行）
+  - 语义搜索：输入查询词进行语义检索，显示相似度分数
+  - 分页列表：按章节顺序展示最新切片，支持加载更多
+- **状态**：`selectedNovelId`、`query`、`submittedQuery`、`offset`；TanStack Query 的 `['inspector', 'vector', ...]`、`['retrieval', 'indexed']`。
+- **UI**：小说选择器 + 搜索框 + 索引管理区 + 切片列表（显示章节号、块索引、相似度、文本内容）。
+
+#### 图谱探索 (Graph Explorer)
+
+- **功能**：
+  - **2-Hop 同心圆布局**：点击节点自动聚焦，中心节点（Level 0）+ 直接邻居（Level 1，半径 150px）+ 间接邻居（Level 2，半径 280px）形成同心圆结构
+  - **时空维度过滤**：底部章节滑块，可过滤不同时间点的关系网络
+  - **节点语义化展示**：根据节点类型（人物/地点/物品/概念）使用不同颜色和大小；节点名称显示在节点内部
+  - **关系标签**：连线上的关系名称清晰可见，支持彩色区分；Focus Mode 时连线为直线（curvature=0）
+  - **聚焦模式**：点击节点后自动居中，邻居节点高亮，其余节点半透明；点击「恢复全局视图」按钮返回全量视图
+  - **侧边栏详情**：始终显示在右侧，点击节点后展示节点信息（ID、标签、类型、状态、描述、入边、出边）
+- **状态**：`focusNodeId`（聚焦节点 ID）、`selectedNode`（选中节点详情）、`selectedChapter`（章节过滤）、`hoveredNode`（悬停节点）、`contextMenu`（右键菜单）。
+- **布局算法**：
+  - **Focus Mode**：使用自定义径向力（`d3Force('radial1')`、`d3Force('radial2')`）实现同心圆布局；中心节点固定到 `(0, 0)`；布局稳定后自动调用 `zoomToFit()` 适配视图
+  - **Global Mode**：标准力导向布局，节点大小根据连接数（度数）动态调整
+- **视觉分层**：
+  - 节点大小：Center (12) > Level 1 (8) > Level 2 (4)
+  - 颜色：Center 节点金色描边 + 光晕，Level 1 白色半透明描边，Level 2 降低透明度到 0.75
+  - 连线：根据层级调整宽度（Center→Level1: 2.5, Level1之间: 2.0, Level2: 1.5）
+- **交互**：
+  - 点击节点：设置 `focusNodeId`，触发布局重算与自动适配
+  - 点击「恢复全局视图」按钮：清空 `focusNodeId`，恢复全局视图
+  - 右键节点/连线：显示上下文菜单（删除节点/连线、修改关系名称、合并节点，当前为占位功能）
+- **关键依赖**：`react-force-graph-2d`、`inspectorApi`、`useNovels`、`GraphNodeWithDegree`、`GraphLinkWithMeta`。
+
+---
+
+## 5. 审批 (Approval Assistant)
 
 **路由**：`/approvals`  
 **组件**：`web/src/pages/ApprovalAssistant.tsx`
@@ -109,7 +162,7 @@
 
 ---
 
-## 5. 阅读 (Reader)
+## 6. 阅读 (Reader)
 
 **路由**：`/reader`  
 **组件**：`web/src/pages/Reader.tsx`
@@ -133,7 +186,7 @@
 
 ---
 
-## 6. Prompt (Prompt Manager)
+## 7. Prompt (Prompt Manager)
 
 **路由**：`/prompts`  
 **组件**：`web/src/pages/PromptManager.tsx`
@@ -159,7 +212,7 @@
 
 ---
 
-## 7. 监控 (Workflow Monitor)
+## 8. 监控 (Workflow Monitor)
 
 **路由**：`/workflow`  
 **组件**：`web/src/pages/WorkflowMonitor.tsx`
@@ -185,7 +238,7 @@
 
 ---
 
-## 8. 帮助 (Help)
+## 9. 帮助 (Help)
 
 **路由**：`/help`  
 **组件**：`web/src/pages/Help.tsx`

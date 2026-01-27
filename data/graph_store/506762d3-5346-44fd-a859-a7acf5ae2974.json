@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "id": "林未",
+      "label": "林未"
+    },
+    {
+      "id": "基础心法",
+      "label": "基础心法"
+    },
+    {
+      "id": "修行",
+      "label": "修行"
+    },
+    {
+      "id": "吐纳方式",
+      "label": "吐纳方式"
+    },
+    {
+      "id": "阿福",
+      "label": "阿福"
+    }
+  ],
+  "edges": [
+    {
+      "source": "林未",
+      "target": "基础心法",
+      "relation": "拥有"
+    },
+    {
+      "source": "林未",
+      "target": "吐纳方式",
+      "relation": "尝试"
+    },
+    {
+      "source": "基础心法",
+      "target": "修行",
+      "relation": "属于"
+    },
+    {
+      "source": "阿福",
+      "target": "林未",
+      "relation": "邀请"
+    }
+  ]
+}

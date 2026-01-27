@@ -1,5 +1,7 @@
 import { useMonitorStats, usePurgeQueue, usePurgeAllQueues } from '../hooks/useMonitor';
 import { useConcepts } from '../hooks/useConcepts';
+import { useQuery } from '@tanstack/react-query';
+import { workflowApi } from '../api/client';
 import { DispatchTerminal } from '../components/monitor/DispatchTerminal';
 import { ControllerLogicPanel } from '../components/monitor/ControllerLogicPanel';
 import { Button } from '../components/ui/button';
@@ -156,6 +158,13 @@ export default function WorkflowMonitor() {
   );
 
   const [editingItem, setEditingItem] = useState<EditData | null>(null);
+  const [historyWorkflowId, setHistoryWorkflowId] = useState('');
+  const [selectedSnapshot, setSelectedSnapshot] = useState<{ checkpoint_id: string; values?: Record<string, unknown> } | null>(null);
+  const { data: historyList = [] } = useQuery({
+    queryKey: ['workflow-history', historyWorkflowId],
+    queryFn: () => workflowApi.getHistory(historyWorkflowId, 30),
+    enabled: historyWorkflowId.length > 0,
+  });
 
   const queueLengths = stats?.stats?.queues || {};
   const workersList = stats?.stats?.workers?.list || [];
@@ -604,6 +613,40 @@ export default function WorkflowMonitor() {
             workflowOptions={WORKFLOW_OPTIONS}
             onWorkflowChange={setCurrentWorkflowId}
           />
+        </div>
+        <div className="flex flex-col border-t border-zinc-800 p-2 flex-shrink-0">
+          <span className="text-xs font-medium text-zinc-500 mb-1">时光机（历史快照）</span>
+          <input
+            className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1 text-xs text-zinc-200 placeholder-zinc-500"
+            placeholder="workflow_id"
+            value={historyWorkflowId}
+            onChange={(e) => setHistoryWorkflowId(e.target.value.trim())}
+          />
+          {historyList.length > 0 && (
+            <div className="mt-1 max-h-24 overflow-y-auto space-y-0.5">
+              {historyList.map((h: { checkpoint_id: string; values?: Record<string, unknown> }, i: number) => (
+                <button
+                  key={h.checkpoint_id || i}
+                  type="button"
+                  className="block w-full text-left rounded px-2 py-0.5 text-xs text-zinc-400 hover:bg-zinc-800 truncate"
+                  onClick={() => setSelectedSnapshot(h)}
+                >
+                  {h.checkpoint_id || `#${i + 1}`}
+                </button>
+              ))}
+            </div>
+          )}
+          {selectedSnapshot && (
+            <div className="mt-2 rounded border border-zinc-700 bg-zinc-900 p-2 text-xs text-zinc-300 max-h-32 overflow-y-auto">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-zinc-500">快照</span>
+                <button type="button" className="text-zinc-500 hover:text-zinc-300" onClick={() => setSelectedSnapshot(null)}>关闭</button>
+              </div>
+              {selectedSnapshot.values?.outline != null && <pre className="whitespace-pre-wrap break-words">{(selectedSnapshot.values.outline as string)?.slice?.(0, 200)}…</pre>}
+              {selectedSnapshot.values?.critique_score != null && <p>评分: {String(selectedSnapshot.values.critique_score)}</p>}
+              {selectedSnapshot.values?.content != null && <pre className="whitespace-pre-wrap break-words mt-1">{(selectedSnapshot.values.content as string)?.slice?.(0, 150)}…</pre>}
+            </div>
+          )}
         </div>
       </div>
 

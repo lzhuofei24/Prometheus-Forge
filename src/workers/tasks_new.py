@@ -1,7 +1,8 @@
 import json
 import logging
-from pathlib import Path
 import os
+from pathlib import Path
+from typing import Optional
 from src.core.celery_config import celery_app
 from src.core.state_manager import StateManager
 from src.core.dispatcher import Dispatcher
@@ -290,6 +291,60 @@ def task_update_knowledge(self, workflow_id: str):
         state_manager.update_state(workflow_id, {"status": "timeout"})
         logger.error(f"Task timeout for workflow {workflow_id}")
         raise
+
+
+@celery_app.task(name="knowledge.add_index", time_limit=300, soft_time_limit=270, bind=True)
+def task_add_index(self, novel_id: str, chapter_index: int):
+    """由 knowledge worker 执行：为指定小说章节添加向量索引并写入知识图谱三元组，日志打在本 worker 终端。"""
+    logger.info("knowledge.add_index 收到任务 novel_id=%s chapter_index=%s", novel_id, chapter_index)
+    try:
+        from src.rag.index_ops import run_index_chapter
+        from src.workers.handlers.knowledge import KnowledgeHandler
+        novel = DatabaseService.get_novel_by_id(novel_id)
+        if not novel:
+            logger.warning("knowledge.add_index 未找到小说 novel_id=%s", novel_id)
+            return {"success": False, "error": "Novel not found"}
+        ch = DatabaseService.get_chapter_by_novel_and_index(novel_id, chapter_index)
+        if not ch:
+            logger.warning("knowledge.add_index 未找到章节 novel_id=%s chapter_index=%s", novel_id, chapter_index)
+            return {"success": False, "error": "Chapter not found"}
+        content = DatabaseService.get_chapter_content(novel_id, chapter_index) or ""
+        if not (content or "").strip():
+            logger.warning("knowledge.add_index 章节无正文 novel_id=%s chapter_index=%s", novel_id, chapter_index)
+            return {"success": False, "error": "Chapter has no content"}
+        run_index_chapter(novel.title, chapter_index, content)
+        graph_triplets = 0
+        try:
+            sm, disp, llm, fm, _ = _init_components()
+            handler = KnowledgeHandler(sm, disp, llm, fm)
+            graph_triplets = handler.update_graph_for_chapter(novel_id, novel.title, content, chapter_index)
+            if graph_triplets:
+                logger.info("knowledge.add_index 图谱已更新 %d 条三元组 novel_id=%s chapter_index=%s", graph_triplets, novel_id, chapter_index)
+        except Exception as eg:
+            logger.warning("knowledge.add_index 图谱更新跳过（向量索引已成功）: %s", eg)
+        logger.info("knowledge.add_index 完成 novel_id=%s chapter_index=%s", novel_id, chapter_index)
+        return {"success": True, "novel_title": novel.title, "chapter_index": chapter_index, "graph_triplets": graph_triplets}
+    except Exception as e:
+        logger.exception("knowledge.add_index 失败 novel_id=%s chapter_index=%s: %s", novel_id, chapter_index, e)
+        return {"success": False, "error": str(e)}
+
+
+@celery_app.task(name="knowledge.delete_index", time_limit=120, soft_time_limit=90, bind=True)
+def task_delete_index(self, novel_id: str, chapter_index: Optional[int] = None):
+    """由 knowledge worker 执行：删除指定小说下某章或全部向量索引，日志打在本 worker 终端。"""
+    logger.info("knowledge.delete_index 收到任务 novel_id=%s chapter_index=%s", novel_id, chapter_index)
+    try:
+        from src.rag.index_ops import run_delete_index
+        novel = DatabaseService.get_novel_by_id(novel_id)
+        if not novel:
+            logger.warning("knowledge.delete_index 未找到小说 novel_id=%s", novel_id)
+            return {"success": False, "error": "Novel not found"}
+        run_delete_index(novel.title, chapter_index)
+        logger.info("knowledge.delete_index 完成 novel_id=%s chapter_index=%s", novel_id, chapter_index)
+        return {"success": True, "novel_title": novel.title, "chapter_index": chapter_index}
+    except Exception as e:
+        logger.exception("knowledge.delete_index 失败 novel_id=%s chapter_index=%s: %s", novel_id, chapter_index, e)
+        return {"success": False, "error": str(e)}
 
 
 @celery_app.task(

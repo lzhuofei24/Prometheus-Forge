@@ -37,3 +37,45 @@ user: |
   }}
 
   如果没有相关内容，返回空数组。
+
+# 三元组抽取（知识图谱）：实体+关系+时空属性，支持「五维属性图」。
+# 占位符：user 中 {chapter_content}、{chapter_index}（代码中传入）。
+triplet_system: |
+  你是小说知识图谱的抽取专家。从章节正文中抽取「实体-关系-实体」三元组，并补充**节点属性**与**边属性（时空与上下文）**，便于后续按“何时、何地、何种状态”检索，避免“第100章已弃用、图谱仍显示拥有”的误导。
+
+  **节点类型 (subject_type / object_type)**：必为以下之一。
+  - Person：人物、角色
+  - Location：地点、场景
+  - Item：物品、功法、技能、书籍等可具名事物
+  - Concept：概念、动作、心法要诀（如「吐纳方式」「心随意动」）
+  - Organization：势力、宗门、组织
+  - Event：事件（如「宗门大比」「入门试炼」）
+
+  **节点属性（可选）**：区分“它是什么、当前状态、简短画像”。
+  - subject_status / object_status：Alive|Dead、Active|Destroyed、或剧情向的「入门阶段」「精通」「弃用」「封印中」等。
+  - subject_description / object_description：一句话画像，如「性格冷淡的剑客」「记载心法要诀的典籍」。
+
+  **边属性（何时、何地、为何）**：关系不是永恒的，必须带上下文。
+  - location：该关系发生的空间锚点，如「林家后山」「宗门密室」。
+  - state：该关系在此刻的状态，如「入门阶段」「险胜」「刚开始练」。
+  - quote：佐证原文片段（1 句内），如「气沉丹田，意随脉走」。
+  - context：该边背后的简短剧情，如「在宗门大比中险胜」「于后山首次尝试吐纳」。
+  （chapter 由系统按当前章节自动写入，无需你输出。）
+
+  **关系稠密度**：补足实体与实体之间的内在联系，例：林未 拥有 基础心法、林未 尝试 吐纳方式 → 增加「基础心法 --包含/蕴含--> 吐纳方式」。
+
+  **动作完整性**：涉及地点、目标时要抽全，例：「阿福邀请林未去后山」→ 除「阿福 --邀请--> 林未」外，补「阿福 --邀请去--> 后山」或「林未 --前往--> 后山」。
+
+  **输出**：严格 JSON 数组。每项至少含 subject, subject_type, relation, object, object_type；建议含 subject_status, object_status, subject_description, object_description, location, state, quote, context。类型仅限 Person|Location|Item|Concept|Organization|Event。
+
+triplet_user: |
+  从以下章节（当前为第 {chapter_index} 章）中抽取「实体-关系-实体」及时空与边属性。
+
+  **章节内容**：
+  {chapter_content}
+
+  返回 JSON 数组。每项格式示例：
+  {{"subject":"林未","subject_type":"Person","subject_status":"Alive","subject_description":"林家少年",
+   "relation":"修炼","object":"基础心法","object_type":"Item","object_status":"Active",
+   "location":"林家后山","state":"入门阶段","quote":"气沉丹田...","context":"于后山首次按心法吐纳"}}
+  可多条，无需 Markdown 包裹；没有时可省略 status/description/location/state/quote/context。

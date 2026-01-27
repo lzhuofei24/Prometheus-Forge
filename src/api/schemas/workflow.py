@@ -8,6 +8,7 @@ class WorkflowStartRequest(BaseModel):
     chapter_num: int
     workflow_type: Optional[str] = None  # 工作流唯一标识，缺省为 generate_chapter
     novel_id: Optional[str] = None  # content_only/media_only 时用于查库，不传则按 novel_name 解析
+    use_langgraph: Optional[bool] = False  # True 时用 LangGraph 编排（仅 generate_chapter），支持 history/resume
 
 
 class WorkflowStateResponse(BaseModel):
@@ -50,3 +51,14 @@ class WorkflowTaskItem(BaseModel):
 
 class TokenStatsResponse(BaseModel):
     stats: Dict[str, Dict[str, Any]]
+
+
+class WorkflowHistoryEntry(BaseModel):
+    """LangGraph 状态快照历史中的单条。"""
+    checkpoint_id: str
+    metadata: Optional[Dict[str, Any]] = None
+    values: Optional[Dict[str, Any]] = None  # 该时刻的 NovelState 摘要（outline/content/score 等）
+
+
+class WorkflowResumeRequest(BaseModel):
+    user_feedback: Optional[str] = None  # 从 human_review 恢复时传入的人工指令

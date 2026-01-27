@@ -48,7 +48,10 @@ class KnowledgeHandler(BaseAgentHandler):
         
         workflow_type = state.get("workflow_type")
         entities = self._extract_entities(chapter_content, novel_name, chapter_num, workflow_type=workflow_type)
-        
+        triplets = self._extract_triplets(chapter_content, novel_name, chapter_num, workflow_type=workflow_type)
+        novel = DatabaseService.get_novel_by_title(novel_name)
+        novel_id = novel.id if novel else novel_name
+        self._update_graph_store(novel_id, triplets, chapter_num=chapter_num)
         self._update_rag(novel_name, chapter_content, entities, chapter_num)
         
         rolling_summary = self._update_rolling_summary(novel_name, chapter_num, chapter_content, workflow_type=workflow_type)
@@ -58,6 +61,106 @@ class KnowledgeHandler(BaseAgentHandler):
             "rolling_summary": rolling_summary,
             "chapter_indexed": chapter_num
         }
+
+    def _extract_triplets(
+        self,
+        chapter_content: str,
+        novel_name: str,
+        chapter_num: int,
+        workflow_type: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        """调用 LLM 从文本中抽取 (Entity, Relation, Entity) 三元组，支持 subject_type/object_type 用于图谱节点着色。"""
+        try:
+            prompt_raw = resolve_prompt("knowledge_extraction", workflow_type=workflow_type)
+            prompt_data = yaml.safe_load(prompt_raw) or {}
+            # 优先使用 triplet 专用 prompt（含类型、稠密度、动作完整性）
+            sys_text = prompt_data.get("triplet_system") or prompt_data.get("system") or ""
+            user_tpl = prompt_data.get("triplet_user") or "从以下章节中仅抽取「实体-关系-实体」三元组。\n\n章节内容：\n{chapter_content}"
+            user_prompt = format_prompt_template(user_tpl, chapter_content=chapter_content[:2000], chapter_index=chapter_num)
+            out_fmt = (
+                '\n\n输出 JSON 数组，每项含 subject, subject_type, relation, object, object_type。'
+                'subject_type/object_type 取 Person|Item|Concept|Location 之一。'
+                '格式示例：[{"subject":"林未","subject_type":"Person","relation":"拥有","object":"基础心法","object_type":"Item"},...]'
+            )
+            if "subject_type" not in sys_text and "object_type" not in sys_text:
+                sys_text += out_fmt
+            messages = [
+                {"role": "system", "content": sys_text},
+                {"role": "user", "content": user_prompt},
+            ]
+            response = self.llm_client.chat(messages, temperature=0.2, max_tokens=1536)
+            from src.utils.json_utils import parse_json_from_response
+            raw = parse_json_from_response(response)
+            if isinstance(raw, list):
+                return [x for x in raw if isinstance(x, dict) and x.get("subject") and x.get("object")]
+            if isinstance(raw, dict) and "triplets" in raw:
+                return [x for x in (raw.get("triplets") or []) if isinstance(x, dict) and x.get("subject") and x.get("object")]
+            return []
+        except Exception as e:
+            logger.warning("三元组抽取失败: %s", e)
+            return []
+
+    def _update_graph_store(self, novel_id: str, triplets: List[Dict[str, Any]], chapter_num: int = 0) -> None:
+        """将三元组写入 GraphStore 并持久化；支持节点 type/status/description、边属性 chapter/location/state/quote/context。"""
+        if not triplets:
+            return
+        try:
+            from src.rag.graph_store import NetworkXGraphStore
+            from src.core.config import GRAPH_STORE_BASE
+            store = NetworkXGraphStore(persist_path=str(GRAPH_STORE_BASE), novel_id=novel_id)
+            store.load()
+            allowed_types = ("person", "item", "concept", "location", "organization", "event")
+            for t in triplets:
+                s, r, o = str(t.get("subject", "")).strip(), str(t.get("relation", "相关")).strip(), str(t.get("object", "")).strip()
+                if not s or not o:
+                    continue
+                st_raw = (str(t.get("subject_type") or "").strip())[:20]
+                ot_raw = (str(t.get("object_type") or "").strip())[:20]
+                st = st_raw.capitalize() if st_raw.lower() in allowed_types else ""
+                ot = ot_raw.capitalize() if ot_raw.lower() in allowed_types else ""
+                subj_meta = {}
+                if st:
+                    subj_meta["type"] = st
+                for key, attr in (("subject_status", "status"), ("subject_description", "description")):
+                    v = t.get(key)
+                    if isinstance(v, str) and v.strip():
+                        subj_meta[attr] = v.strip()[:200]
+                obj_meta = {}
+                if ot:
+                    obj_meta["type"] = ot
+                for key, attr in (("object_status", "status"), ("object_description", "description")):
+                    v = t.get(key)
+                    if isinstance(v, str) and v.strip():
+                        obj_meta[attr] = v.strip()[:200]
+                edge_meta = {"chapter": chapter_num}
+                for k in ("location", "state", "quote", "context"):
+                    v = t.get(k)
+                    if isinstance(v, str) and v.strip():
+                        edge_meta[k] = v.strip()[:300]
+                meta = {}
+                if subj_meta:
+                    meta["subj_meta"] = subj_meta
+                if obj_meta:
+                    meta["obj_meta"] = obj_meta
+                meta["edge_meta"] = edge_meta
+                store.upsert_triplet(s, r or "相关", o, meta=meta)
+            store.save()
+            logger.info("GraphStore 已更新 %d 条三元组", len(triplets))
+        except Exception as e:
+            logger.warning("GraphStore 更新失败: %s", e)
+
+    def update_graph_for_chapter(
+        self,
+        novel_id: str,
+        novel_name: str,
+        chapter_content: str,
+        chapter_num: int,
+        workflow_type: Optional[str] = None,
+    ) -> int:
+        """仅做三元组抽取并写入图谱，供「添加索引」等手动入口调用。返回写入的三元组数量。"""
+        triplets = self._extract_triplets(chapter_content, novel_name, chapter_num, workflow_type=workflow_type)
+        self._update_graph_store(novel_id, triplets, chapter_num=chapter_num)
+        return len(triplets)
 
     def _extract_entities(
         self,
@@ -95,40 +198,18 @@ class KnowledgeHandler(BaseAgentHandler):
     def _update_rag(self, novel_name: str, chapter_content: str, entities: Dict[str, Any], chapter_num: int) -> None:
         """
         Step 2: RAG 更新
-        将章节内容和实体信息存入 ChromaDB
+        将章节内容和实体信息存入 ChromaDB，path/collection 与 index_ops 一致。
         """
         try:
-            project_root = Path(__file__).parent.parent.parent.parent
-            chroma_db_path = project_root / "data" / "chroma_db" / novel_name
-            chroma_db_path.mkdir(parents=True, exist_ok=True)
-            
-            import re
-            safe_novel_name = re.sub(r'[^a-zA-Z0-9._-]', '_', novel_name)
-            safe_novel_name = safe_novel_name.strip('_')
-            
-            if not safe_novel_name or len(safe_novel_name) < 3:
-                novel_hash = abs(hash(novel_name)) % 100000
-                safe_novel_name = f"novel_{novel_hash}"
-            
-            if not re.match(r'^[a-zA-Z0-9]', safe_novel_name):
-                safe_novel_name = f"n_{safe_novel_name}"
-            
-            if not re.match(r'[a-zA-Z0-9]$', safe_novel_name):
-                safe_novel_name = f"{safe_novel_name}x"
-            
-            collection_name = f"{safe_novel_name}_chapters"
-            if len(collection_name) < 3:
-                novel_hash = abs(hash(novel_name)) % 100000
-                collection_name = f"novel_{novel_hash}_chapters"
-            
-            indexer = VectorIndexer(chroma_db_path, collection_name=collection_name)
-            
+            from src.rag import index_ops
+            chroma_path, cn = index_ops.get_chroma_path_and_collection_name(novel_name)
+            chroma_path.mkdir(parents=True, exist_ok=True)
+            indexer = VectorIndexer(chroma_path, collection_name=cn)
             metadata = {
-                "novel_name": novel_name,
+                "novel_name": index_ops._normalize_novel_name(novel_name),
                 "chapter_num": chapter_num,
-                "entities": json.dumps(entities, ensure_ascii=False)
+                "entities": json.dumps(entities, ensure_ascii=False),
             }
-            
             indexer.index_text(chapter_content, metadata=metadata, batch_size=64)
             logger.info(f"章节 {chapter_num} 已索引到 RAG")
         except Exception as e:

@@ -9,7 +9,7 @@
 | [SYSTEM_OVERVIEW.md](SYSTEM_OVERVIEW.md) | 系统概览：架构、智能体、队列、技术栈 |
 | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | 一页纸速查：启动方式、常用命令 |
 | [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | 项目目录与文件组织说明 |
-| [PAGES.md](PAGES.md) | 前端页面文档：首页、写作、检索、审批、阅读、Prompt、监控、帮助——各页介绍、架构与技术实现 |
+| [PAGES.md](PAGES.md) | 前端页面文档：首页、写作、检索、索引洞察、审批、阅读、Prompt、监控、帮助——各页介绍、架构与技术实现 |
 
 ## 开发与运维
 
@@ -37,3 +37,22 @@
 | [DATABASE_OPTIMIZATION.md](DATABASE_OPTIMIZATION.md) | 数据库查询与优化思路 |
 | [OPTIMIZATION_ROADMAP.md](OPTIMIZATION_ROADMAP.md) | 优化与演进路线 |
 | [IMAGE_GENERATION.md](IMAGE_GENERATION.md) | 图片生成（Media 智能体）说明 |
+
+## 文档阅读路径
+
+### 新用户入门
+1. [README.md](../README.md) - 项目概览与快速开始
+2. [SYSTEM_OVERVIEW.md](SYSTEM_OVERVIEW.md) - 系统架构与核心组件
+3. [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - 常用命令速查
+4. [PAGES.md](PAGES.md) - 前端页面功能说明
+
+### 开发者
+1. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 项目目录结构
+2. [DEVELOPMENT.md](DEVELOPMENT.md) - 开发环境配置
+3. [ARCHITECTURE.md](ARCHITECTURE.md) - 架构设计详解
+4. [API.md](API.md) - API 接口文档
+
+### 运维人员
+1. [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - 启动与常用命令
+2. [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - 故障排查
+3. [SCRIPTS.md](SCRIPTS.md) - 辅助脚本说明

@@ -101,8 +101,12 @@ class CentralController:
                     for target_agent in next_agents:
                         self.dispatch_task(workflow_id, target_agent)
                 else:
-                    logger.info(f"✅ Workflow {workflow_id} completed (no next steps)")
-                    self.state_manager.update_state(workflow_id, {"status": "completed"})
+                    if source_agent == "censor" and output_data.get("is_sensitive"):
+                        logger.info(f"⏸ Workflow {workflow_id} blocked (censor marked sensitive, needs review)")
+                        self.state_manager.update_state(workflow_id, {"status": "blocked"})
+                    else:
+                        logger.info(f"✅ Workflow {workflow_id} completed (no next steps)")
+                        self.state_manager.update_state(workflow_id, {"status": "completed"})
             else:
                 error = data.get("error", "Unknown error")
                 logger.error(f"❌ Task failed for workflow {workflow_id}: {error}")

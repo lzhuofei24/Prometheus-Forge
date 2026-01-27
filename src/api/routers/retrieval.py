@@ -4,7 +4,6 @@
 """
 import asyncio
 import logging
-import re
 from pathlib import Path
 from typing import List, Optional
 
@@ -13,44 +12,29 @@ from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.api.services.novel_service import NovelService
+from src.core.config import CHROMA_BASE
 from src.core.database import get_db
+from src.rag import index_ops
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/retrieval", tags=["retrieval"])
 
-_project_root = Path(__file__).resolve().parent.parent.parent.parent
-_chroma_base = _project_root / "data" / "chroma_db"
-
-
-def _safe_collection_name(novel_name: str) -> str:
-    """与 KnowledgeHandler._update_rag 保持一致"""
-    s = re.sub(r"[^a-zA-Z0-9._-]", "_", novel_name).strip("_")
-    if not s or len(s) < 3:
-        s = f"novel_{abs(hash(novel_name)) % 100000}"
-    if not re.match(r"^[a-zA-Z0-9]", s):
-        s = f"n_{s}"
-    if not re.match(r"[a-zA-Z0-9]$", s):
-        s = f"{s}x"
-    name = f"{s}_chapters"
-    return name if len(name) >= 3 else f"novel_{abs(hash(novel_name)) % 100000}_chapters"
-
 
 def _get_indexer_and_collection(novel_name: str):
-    """返回 (VectorIndexer, collection) 用于该小说，调用方在同步线程中使用。"""
+    """返回 (VectorIndexer, collection)，与 index_ops 使用同一 path/collection 解析。"""
     from src.rag.indexer import VectorIndexer
-    chroma_path = _chroma_base / novel_name
+    chroma_path, cn = index_ops.get_chroma_path_and_collection_name(novel_name)
     chroma_path.mkdir(parents=True, exist_ok=True)
-    cn = _safe_collection_name(novel_name)
     indexer = VectorIndexer(chroma_path, collection_name=cn)
     return indexer, indexer.collection
 
 
 def _list_indexed_novel_dirs() -> List[str]:
-    """返回已存在 Chroma 目录的小说名（目录名即 novel_name/title）。"""
-    if not _chroma_base.exists():
+    """返回已存在 Chroma 目录名（与 index_ops 的 path key 一致）。"""
+    if not CHROMA_BASE.exists():
         return []
-    return [d.name for d in _chroma_base.iterdir() if d.is_dir()]
+    return [d.name for d in CHROMA_BASE.iterdir() if d.is_dir()]
 
 
 def _indexed_chapters_for_novel(novel_name: str) -> List[int]:
@@ -70,31 +54,16 @@ def _indexed_chapters_for_novel(novel_name: str) -> List[int]:
         return []
 
 
-def _run_index_chapter(novel_name: str, chapter_num: int, content: str) -> None:
-    """同步执行：将一章内容写入 RAG（仅索引，无实体抽取/摘要）。"""
-    from src.rag.indexer import VectorIndexer
-    indexer, _ = _get_indexer_and_collection(novel_name)
-    metadata = {"novel_name": novel_name, "chapter_num": chapter_num}
-    indexer.index_text(content, metadata=metadata, batch_size=64)
+def _enqueue_add_index(novel_id: str, chapter_index: int):
+    """将添加索引任务发往 knowledge 队列，由 knowledge worker 执行并打日志。"""
+    from src.workers.tasks_new import task_add_index
+    return task_add_index.delay(novel_id, chapter_index)
 
 
-def _run_delete_index(novel_name: str, chapter_num: Optional[int]) -> None:
-    """同步执行：删除该小说下某章的索引，或整本小说的索引。"""
-    _, coll = _get_indexer_and_collection(novel_name)
-    if chapter_num is not None:
-        # Chroma where: chapter_num 可能存为 int
-        ids_to_del = []
-        data = coll.get(include=["metadatas"])
-        if data and data.get("ids") and data.get("metadatas"):
-            for i, meta in enumerate(data["metadatas"]):
-                if meta and meta.get("novel_name") == novel_name and meta.get("chapter_num") == chapter_num:
-                    ids_to_del.append(data["ids"][i])
-        if ids_to_del:
-            coll.delete(ids=ids_to_del)
-    else:
-        data = coll.get(include=[])
-        if data and data.get("ids"):
-            coll.delete(ids=data["ids"])
+def _enqueue_delete_index(novel_id: str, chapter_index: Optional[int] = None):
+    """将删除索引任务发往 knowledge 队列，由 knowledge worker 执行并打日志。"""
+    from src.workers.tasks_new import task_delete_index
+    return task_delete_index.delay(novel_id, chapter_index)
 
 
 def _run_search(query: str, novel_name: Optional[str], top_k: int) -> List[dict]:
@@ -196,29 +165,34 @@ async def list_indexed(db: AsyncSession = Depends(get_db)):
     return out
 
 
+_ENQUEUE_TIMEOUT = 5.0  # 入队等待 Redis/Celery 的超时，避免接口一直挂起
+
+
 @router.post("/index", response_model=dict)
 async def add_index(
     body: AddIndexBody,
     db: AsyncSession = Depends(get_db),
 ):
-    """为指定小说的指定章节建立索引（仅写入 RAG，无实体/摘要）。"""
+    """提交添加索引任务到 knowledge 队列，由 knowledge worker 执行（日志在其终端）。不在本接口拉取正文，避免大章导致超时。"""
     novel = await NovelService.get_novel_by_id(db, body.novel_id)
     if not novel:
         raise HTTPException(status_code=404, detail="Novel not found")
     chapter = await NovelService.get_chapter_by_novel_and_index(db, body.novel_id, body.chapter_index)
     if not chapter:
         raise HTTPException(status_code=404, detail="Chapter not found")
-    content_res = await NovelService.get_chapter_content(db, chapter.id)
-    content = (content_res.get("content") or "") if content_res else ""
-    if not (content or "").strip():
-        raise HTTPException(status_code=400, detail="Chapter has no content to index")
-    await asyncio.to_thread(
-        _run_index_chapter,
-        novel.title,
-        body.chapter_index,
-        content,
-    )
-    return {"success": True, "novel_title": novel.title, "chapter_index": body.chapter_index}
+    # 不做 get_chapter_content：正文由 worker 内加载，避免大章导致接口读超时
+    try:
+        result = await asyncio.wait_for(
+            asyncio.to_thread(_enqueue_add_index, body.novel_id, body.chapter_index),
+            timeout=_ENQUEUE_TIMEOUT,
+        )
+        return {"success": True, "queued": True, "task_id": getattr(result, "id", None), "novel_title": novel.title, "chapter_index": body.chapter_index}
+    except asyncio.TimeoutError:
+        logger.warning("add_index enqueue timeout (redis/celery?) novel_id=%s chapter_index=%s", body.novel_id, body.chapter_index)
+        raise HTTPException(status_code=503, detail="Queue busy or Redis unavailable, enqueue timed out. Check Redis and knowledge worker.")
+    except Exception as e:
+        logger.warning("add_index enqueue failed: %s", e)
+        raise HTTPException(status_code=503, detail=f"Enqueue failed: {e}. Check Redis and Celery broker.")
 
 
 @router.delete("/index", response_model=dict)
@@ -227,9 +201,19 @@ async def delete_index(
     chapter_index: Optional[int] = Query(None, description="不传则删除该小说下全部索引"),
     db: AsyncSession = Depends(get_db),
 ):
-    """删除指定小说下某章的索引，或该小说下全部索引。"""
+    """提交删除索引任务到 knowledge 队列，由 knowledge worker 执行（日志在其终端）。"""
     novel = await NovelService.get_novel_by_id(db, novel_id)
     if not novel:
         raise HTTPException(status_code=404, detail="Novel not found")
-    await asyncio.to_thread(_run_delete_index, novel.title, chapter_index)
-    return {"success": True, "novel_title": novel.title, "chapter_index": chapter_index}
+    try:
+        result = await asyncio.wait_for(
+            asyncio.to_thread(_enqueue_delete_index, novel_id, chapter_index),
+            timeout=_ENQUEUE_TIMEOUT,
+        )
+        return {"success": True, "queued": True, "task_id": getattr(result, "id", None), "novel_title": novel.title, "chapter_index": chapter_index}
+    except asyncio.TimeoutError:
+        logger.warning("delete_index enqueue timeout novel_id=%s", novel_id)
+        raise HTTPException(status_code=503, detail="Queue busy or Redis unavailable, enqueue timed out. Check Redis and knowledge worker.")
+    except Exception as e:
+        logger.warning("delete_index enqueue failed: %s", e)
+        raise HTTPException(status_code=503, detail=f"Enqueue failed: {e}. Check Redis and Celery broker.")

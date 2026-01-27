@@ -99,7 +99,7 @@ class TestControllerWorkflow:
         calls = controller.celery.send_task.call_args_list
         target_agents = [call[1]["queue"].replace("_pending", "") for call in calls]
         assert "media" in target_agents
-        assert "knowledge" in target_agents
+        # knowledge 已脱离工作流，仅支持手动索引管理，不再由 controller 调度
 
     def test_workflow_critic_low_score_rewrite(self, controller, test_redis):
         workflow_id = "test-workflow-3"

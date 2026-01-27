@@ -42,6 +42,7 @@ ENV/
 Thumbs.db
 
 # 项目特定
+config/prompts_local/
 data/chroma_db/*
 !data/chroma_db/.keep
 workspace/*

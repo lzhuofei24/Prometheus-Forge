@@ -15,7 +15,7 @@ export default function MainLayout() {
   const navItems = [
     { path: '/', label: t('nav.home', '首页'), value: 'home' },
     { path: '/writer', label: t('nav.writer', '写作'), value: 'writer' },
-    { path: '/retrieval', label: t('nav.retrieval', '检索'), value: 'retrieval' },
+    { path: '/inspector', label: t('nav.inspector', '索引洞察'), value: 'inspector' },
     { path: '/approvals', label: t('nav.approvals', '审批'), value: 'approvals' },
     { path: '/reader', label: t('nav.reader', '阅读'), value: 'reader' },
     { path: '/prompts', label: t('nav.prompts', 'Prompt'), value: 'prompts' },

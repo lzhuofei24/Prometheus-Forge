@@ -34,7 +34,20 @@ def parse_json_from_response(response: str) -> dict:
         return json.loads(json_text)
     except json.JSONDecodeError as e:
         logger.warning(f"JSON 解析失败: {e}，尝试修复...")
-        
+        # 兼容 LLM 返回「多行独立 JSON 对象」而非单个数组，例如：
+        #   {"subject":"A","relation":"R","object":"B"},\n  {"subject":"B",...}
+        if "Extra data" in str(e) and json_text.strip().startswith("{"):
+            try:
+                t = json_text.strip()
+                while t.rstrip().endswith(","):
+                    t = t.rstrip()[:-1].rstrip()
+                wrapped = "[" + t + "]"
+                out = json.loads(wrapped)
+                if isinstance(out, list):
+                    logger.info("按「多对象拼接」解析成功，共 %d 条", len(out))
+                    return out
+            except json.JSONDecodeError:
+                pass
         try:
             json_match = re.search(r'\{.*\}', json_text, re.DOTALL)
             if json_match:
@@ -42,7 +55,6 @@ def parse_json_from_response(response: str) -> dict:
                 return json.loads(json_text)
         except Exception as e2:
             logger.warning(f"正则提取也失败: {e2}")
-        
         try:
             lines = json_text.split('\n')
             fixed_lines = []

@@ -6,11 +6,28 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 # 仅运行 tests/e2e 时不加载 app/celery，由 e2e/conftest 自包含
+# 仅运行 tests/e2e 或 tests/test_new_arch（且未运行 test_e2e_smoke）时不加载 app/celery
 _e2e_only = "tests/e2e" in " ".join(sys.argv)
+_new_arch_only = "test_new_arch" in " ".join(sys.argv)
+_run_e2e_smoke = "e2e_smoke" in " ".join(sys.argv)
+if _run_e2e_smoke:
+    try:
+        import celery  # noqa: F401
+    except ImportError:
+        _run_e2e_smoke = False
+_skip_app = _e2e_only or (_new_arch_only and not _run_e2e_smoke)
 
-if not _e2e_only:
+if _skip_app:
+    @pytest.fixture
+    def async_client():
+        pytest.skip("app not loaded (e2e_smoke 需安装 celery)")
+    @pytest.fixture
+    def state_manager():
+        pytest.skip("app not loaded (e2e_smoke 需安装 celery)")
+
+if not _skip_app:
     import pytest_asyncio
-    from httpx import AsyncClient
+    from httpx import ASGITransport, AsyncClient
     from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
     from sqlalchemy.pool import StaticPool
     from typing import AsyncGenerator
@@ -21,9 +38,9 @@ if not _e2e_only:
     from src.core.database import Base, get_db
     from src.core.state_manager import StateManager
 
-TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:" if not _e2e_only else ""
+TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:" if not _skip_app else ""
 
-if not _e2e_only:
+if not _skip_app:
     test_engine = create_async_engine(
         TEST_DATABASE_URL,
         echo=False,
@@ -43,7 +60,7 @@ if not _e2e_only:
     )
 
 
-if not _e2e_only:
+if not _skip_app:
     @pytest_asyncio.fixture
     async def db_session() -> AsyncGenerator[AsyncSession, None]:
         async with test_engine.begin() as conn:
@@ -73,7 +90,8 @@ if not _e2e_only:
     @pytest_asyncio.fixture
     async def async_client(override_get_db):
         app.dependency_overrides[get_db] = override_get_db
-        async with AsyncClient(app=app, base_url="http://test") as client:
+        transport = ASGITransport(app=app)
+        async with AsyncClient(transport=transport, base_url="http://test") as client:
             yield client
         app.dependency_overrides.clear()
 

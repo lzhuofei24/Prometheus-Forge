@@ -56,6 +56,12 @@ class DatabaseService:
             return db.execute(select(Novel).where(Novel.title == title)).scalar_one_or_none()
 
     @staticmethod
+    def get_novel_by_id(novel_id: str) -> Optional[Novel]:
+        """按 id 查询小说，供 worker 等同步场景使用。"""
+        with SessionLocal() as db:
+            return db.execute(select(Novel).where(Novel.id == novel_id)).scalar_one_or_none()
+
+    @staticmethod
     def list_novels(order_by_updated: bool = True) -> List[Novel]:
         """列出所有小说，用于替代工作区目录扫描。"""
         with SessionLocal() as db:

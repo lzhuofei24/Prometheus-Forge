@@ -5,6 +5,7 @@
 """
 
 import os
+import re
 import logging
 import gc
 from pathlib import Path
@@ -243,9 +244,16 @@ class VectorIndexer:
         
         # 2. 准备基础元数据
         base_metadata = metadata.copy() if metadata else {}
-        
-        # 获取当前集合中的文档数量，用于生成唯一 ID
-        existing_count = self.collection.count()
+        # 若有 novel_name + chapter_num，使用稳定 id，同章重复写入会覆盖，避免重复块
+        use_stable_id = (
+            base_metadata.get("novel_name") is not None
+            and base_metadata.get("chapter_num") is not None
+        )
+        if use_stable_id:
+            _sn = re.sub(r"[^a-zA-Z0-9_\u4e00-\u9fff]", "_", str(base_metadata.get("novel_name", "")))[:48]
+            _ch = base_metadata.get("chapter_num")
+        else:
+            existing_count = self.collection.count()
         
         # 3. 分批处理
         successful_batches = 0
@@ -267,9 +275,7 @@ class VectorIndexer:
             
             for i, chunk in enumerate(current_batch):
                 global_index = batch_start + i
-                
-                # 生成唯一 ID
-                chunk_id = f"chunk_{existing_count + global_index}"
+                chunk_id = f"{_sn}_ch{_ch}_{global_index}" if use_stable_id else f"chunk_{existing_count + global_index}"
                 batch_ids.append(chunk_id)
                 batch_documents.append(chunk)
                 

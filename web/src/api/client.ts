@@ -156,6 +156,29 @@ export const workflowApi = {
     });
     return response.data;
   },
+
+  /** 一次请求拉取多种类型的任务，返回 { workflow_type: WorkflowTaskItem[] } */
+  getTasksBatch: async (
+    workflowTypes: string[]
+  ): Promise<Record<string, WorkflowTaskItem[]>> => {
+    if (workflowTypes.length === 0) return {};
+    const response = await apiClient.get<Record<string, WorkflowTaskItem[]>>(
+      '/workflow/tasks/batch',
+      { params: { workflow_types: workflowTypes.join(',') } }
+    );
+    return response.data || {};
+  },
+  getHistory: async (workflowId: string, limit = 50): Promise<{ checkpoint_id: string; metadata?: Record<string, unknown>; values?: Record<string, unknown> }[]> => {
+    const response = await apiClient.get(`/workflow/${workflowId}/history`, { params: { limit } });
+    return response.data;
+  },
+  resume: async (workflowId: string, userFeedback: string): Promise<{ workflow_id: string; status: string }> => {
+    const response = await apiClient.post<{ workflow_id: string; status: string }>(
+      `/workflow/${workflowId}/resume`,
+      { user_feedback: userFeedback }
+    );
+    return response.data;
+  },
 };
 
 /** /monitor/resources 会拉取 Celery inspect，耗时可能超过默认 30s，单独延长超时 */
@@ -428,6 +451,69 @@ export const retrievalApi = {
       '/retrieval/index',
       { params }
     );
+    return response.data;
+  },
+};
+
+/** Index Inspector：向量透视 + 图谱导出，与后端 /inspector 保持一致 */
+export interface InspectorVectorChunk {
+  text: string;
+  metadata?: Record<string, unknown> | null;
+  distance: number | null;
+  novel_name: string;
+  id?: string | null;
+}
+
+export interface InspectorGraphNode {
+  id: string;
+  label?: string | null;
+  type?: string | null;
+  status?: string | null;
+  description?: string | null;
+}
+
+export interface InspectorGraphEdgeProperties {
+  chapter?: number | null;
+  location?: string | null;
+  state?: string | null;
+  quote?: string | null;
+  context?: string | null;
+}
+
+export interface InspectorGraphLink {
+  source: string;
+  target: string;
+  relation?: string | null;
+  properties?: InspectorGraphEdgeProperties | null;
+}
+
+export type InspectorGraphLinkWithProps = InspectorGraphLink;
+
+export interface InspectorGraphExport {
+  nodes: InspectorGraphNode[];
+  links: InspectorGraphLink[];
+}
+
+export const inspectorApi = {
+  getVectorChunks: async (params: {
+    novel_id: string;
+    q?: string | null;
+    top_k?: number;
+    limit?: number;
+    offset?: number;
+  }): Promise<InspectorVectorChunk[]> => {
+    const p: Record<string, string | number> = { novel_id: params.novel_id };
+    if (params.q != null && params.q !== '') p.q = params.q;
+    if (params.top_k != null) p.top_k = params.top_k;
+    if (params.limit != null) p.limit = params.limit;
+    if (params.offset != null) p.offset = params.offset;
+    const response = await apiClient.get<InspectorVectorChunk[]>('/inspector/vector/chunks', { params: p });
+    return response.data;
+  },
+  getGraph: async (novel_id: string): Promise<InspectorGraphExport> => {
+    const response = await apiClient.get<InspectorGraphExport>('/inspector/graph', {
+      params: { novel_id },
+    });
     return response.data;
   },
 };

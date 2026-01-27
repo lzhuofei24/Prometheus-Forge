@@ -77,10 +77,10 @@ class TestCentralController:
         next_agents = controller.decide_next_step("test-wf-1", "censor", {"is_sensitive": True})
         assert next_agents == []
 
-    def test_routing_critic_high_score_to_media_knowledge(self, controller):
+    def test_routing_critic_high_score_to_media(self, controller):
+        """critic 高分 -> media；knowledge 已脱离工作流，仅支持手动索引管理。"""
         next_agents = controller.decide_next_step("test-wf-1", "critic", {"score": 80})
         assert "media" in next_agents
-        assert "knowledge" in next_agents
 
     def test_routing_critic_low_score_to_writer(self, controller):
         next_agents = controller.decide_next_step("test-wf-1", "critic", {"score": 60})
@@ -164,7 +164,8 @@ class TestControllerIntegration:
         client.flushdb()
 
     def test_completed_queue_write_and_read(self, real_redis):
-        queue_name = "architect_completed"
+        """验证 Redis 队列可写可读，使用独立 key 避免与业务队列或并发测试冲突。"""
+        queue_name = "test:controller:queue:write_read"
         payload = {
             "version": "1.0",
             "workflow_id": "test-workflow-1",
@@ -173,11 +174,10 @@ class TestControllerIntegration:
             "data": {"outline": "测试大纲"},
             "timestamp": "2026-01-25T10:00:00"
         }
-        
-        real_redis.rpush(queue_name, json.dumps(payload, ensure_ascii=False))
-        
-        result = real_redis.blpop([queue_name], timeout=1)
-        assert result is not None
+        n = real_redis.rpush(queue_name, json.dumps(payload, ensure_ascii=False))
+        assert n == 1, "rpush 应返回 1"
+        result = real_redis.blpop([queue_name], timeout=2)
+        assert result is not None, "blpop 应得到刚写入的元素"
         queue, data = result
         parsed = json.loads(data)
         assert parsed["workflow_id"] == "test-workflow-1"

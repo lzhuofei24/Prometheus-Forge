@@ -1,12 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
-import { useQueries, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { useWorkflowState, useStartWorkflow, useWorkflowTasks, WORKFLOW_ID_GENERATE_CHAPTER, WORKFLOW_ID_OUTLINE_ONLY, WORKFLOW_ID_CONTENT_ONLY, WORKFLOW_ID_MEDIA_ONLY } from '../hooks/useWorkflow';
+import { useWorkflowState, useStartWorkflow, useWorkflowTasksBatch, WORKFLOW_ID_GENERATE_CHAPTER, WORKFLOW_ID_OUTLINE_ONLY, WORKFLOW_ID_CONTENT_ONLY, WORKFLOW_ID_MEDIA_ONLY } from '../hooks/useWorkflow';
 import { useConcepts } from '../hooks/useConcepts';
-import { workflowApi } from '../api/client';
-import { useNovels, useChapters, useChapterContent, useCreateChapter, useSaveChapter, useDeleteChapter } from '../hooks/useNovels';
-import { chaptersApi } from '../api/services';
+import { useNovels, useChapters, useChapterContent, useChapterWordCounts, useCreateChapter, useSaveChapter, useDeleteChapter } from '../hooks/useNovels';
 import { retrievalApi, type RetrievalSearchItem } from '../api/client';
 import { Button } from '../components/ui/button';
 import { ScrollArea } from '../components/ui/scroll-area';
@@ -129,37 +127,22 @@ export default function Writer() {
   const { data: chapterContent } = useChapterContent(selectedNovelId, selectedChapterIndex);
   const { data: workflowState } = useWorkflowState(workflowId, !!workflowId);
   const startWorkflowMutation = useStartWorkflow();
-  const tasksGenerateChapter = useWorkflowTasks(WORKFLOW_ID_GENERATE_CHAPTER);
-  const tasksOutlineOnly = useWorkflowTasks(WORKFLOW_ID_OUTLINE_ONLY);
-  const tasksContentOnly = useWorkflowTasks(WORKFLOW_ID_CONTENT_ONLY);
-  const tasksApprovalOnly = useWorkflowTasks('approval_only');
-  const tasksMediaOnly = useWorkflowTasks(WORKFLOW_ID_MEDIA_ONLY);
+  const WORKFLOW_TYPES = useMemo(
+    () => [WORKFLOW_ID_GENERATE_CHAPTER, WORKFLOW_ID_OUTLINE_ONLY, WORKFLOW_ID_CONTENT_ONLY, 'approval_only', WORKFLOW_ID_MEDIA_ONLY],
+    []
+  );
+  const tasksBatch = useWorkflowTasksBatch(WORKFLOW_TYPES);
+  const tasksByType = tasksBatch.data ?? {};
+  const tasksGenerateChapter = { data: tasksByType[WORKFLOW_ID_GENERATE_CHAPTER] ?? [], isLoading: tasksBatch.isLoading };
+  const tasksOutlineOnly = { data: tasksByType[WORKFLOW_ID_OUTLINE_ONLY] ?? [], isLoading: tasksBatch.isLoading };
+  const tasksContentOnly = { data: tasksByType[WORKFLOW_ID_CONTENT_ONLY] ?? [], isLoading: tasksBatch.isLoading };
+  const tasksApprovalOnly = { data: tasksByType['approval_only'] ?? [], isLoading: tasksBatch.isLoading };
+  const tasksMediaOnly = { data: tasksByType[WORKFLOW_ID_MEDIA_ONLY] ?? [], isLoading: tasksBatch.isLoading };
+  const { data: wordCountsMap } = useChapterWordCounts(selectedNovelId);
+  const wordCounts: Record<number, number> = wordCountsMap ?? {};
   const createChapterMutation = useCreateChapter();
   const saveChapterMutation = useSaveChapter();
   const deleteChapterMutation = useDeleteChapter();
-
-  const chapterContentQueries = useQueries({
-    queries: (chapters || []).map((chapter) => ({
-      queryKey: ['novels', selectedNovelId, 'chapters', chapter.index, 'wordcount'],
-      queryFn: () => chaptersApi.get(selectedNovelId!, chapter.index),
-      enabled: !!selectedNovelId && !!chapters && chapters.length > 0,
-      staleTime: 60000,
-      gcTime: 300000,
-    })),
-  });
-
-  const wordCounts = useMemo(() => {
-    const counts: Record<number, number> = {};
-    if (chapters && chapters.length > 0 && chapterContentQueries.length === chapters.length) {
-      chapters.forEach((chapter, index) => {
-        const query = chapterContentQueries[index];
-        if (query?.data?.content) {
-          counts[chapter.index] = query.data.content.length;
-        }
-      });
-    }
-    return counts;
-  }, [chapterContentQueries, chapters]);
 
   const currentNovel = novels?.find((n) => n.id === selectedNovelId);
   const selectedChapter = chapters?.find((c) => c.index === selectedChapterIndex);

@@ -88,6 +88,13 @@ export const novelsApi = {
     });
     return response.data;
   },
+
+  getGraph: async (novelId: string): Promise<{ nodes: { id: string; label?: string }[]; edges: { source: string; target: string; relation?: string }[] }> => {
+    const response = await apiClient.get<{ nodes: { id: string; label?: string }[]; edges: { source: string; target: string; relation?: string }[] }>(
+      `/novels/${novelId}/graph`
+    );
+    return response.data;
+  },
 };
 
 /** 章节目录、章节内容(正文+大纲)：写作/阅读助手唯一数据源，仅数据库。 */
@@ -102,6 +109,19 @@ export const chaptersApi = {
       `/novels/${novelId}/chapters/${chapterIndex}`
     );
     return response.data;
+  },
+
+  /** 批量返回各章正文字数 (index -> 字数)，写作页侧栏用，一次请求。 */
+  getWordCounts: async (novelId: string): Promise<Record<number, number>> => {
+    const response = await apiClient.get<Record<string, number>>(
+      `/novels/${novelId}/chapters/wordcounts`
+    );
+    const out: Record<number, number> = {};
+    for (const [k, v] of Object.entries(response.data || {})) {
+      const i = parseInt(k, 10);
+      if (!Number.isNaN(i)) out[i] = v;
+    }
+    return out;
   },
 
   create: async (data: CreateChapterRequest): Promise<Chapter> => {
