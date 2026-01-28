@@ -1,0 +1,297 @@
+{
+  "nodes": [
+    {
+      "id": "李明",
+      "label": "李明",
+      "type": "Person",
+      "status": "Alive",
+      "description": "普通的大学生"
+    },
+    {
+      "id": "神秘的邮件",
+      "label": "神秘的邮件",
+      "type": "Item",
+      "status": "Active"
+    },
+    {
+      "id": "接受按钮",
+      "label": "接受按钮",
+      "type": "Item"
+    },
+    {
+      "id": "虚拟世界",
+      "label": "虚拟世界",
+      "type": "Location"
+    },
+    {
+      "id": "机械的声音",
+      "label": "机械的声音",
+      "type": "Person",
+      "status": "Active",
+      "description": "虚拟世界的引导声音"
+    },
+    {
+      "id": "虚拟世界历险记",
+      "label": "虚拟世界历险记",
+      "type": "Event"
+    },
+    {
+      "id": "小径",
+      "label": "小径",
+      "type": "Location"
+    },
+    {
+      "id": "村庄",
+      "label": "村庄",
+      "type": "Location"
+    },
+    {
+      "id": "村长",
+      "label": "村长",
+      "type": "Person",
+      "status": "Alive",
+      "description": "新手村引导者"
+    },
+    {
+      "id": "新手任务",
+      "label": "新手任务",
+      "type": "Event"
+    },
+    {
+      "id": "木剑",
+      "label": "木剑",
+      "type": "Item",
+      "status": "Active",
+      "description": "新手装备"
+    },
+    {
+      "id": "系统提示音",
+      "label": "系统提示音",
+      "type": "Concept"
+    },
+    {
+      "id": "森林深处",
+      "label": "森林深处",
+      "type": "Location"
+    },
+    {
+      "id": "野狼",
+      "label": "野狼",
+      "type": "Person",
+      "status": "Dead",
+      "description": "敌对生物"
+    },
+    {
+      "id": "经验",
+      "label": "经验",
+      "type": "Concept"
+    },
+    {
+      "id": "金币",
+      "label": "金币",
+      "type": "Item"
+    },
+    {
+      "id": "游戏",
+      "label": "游戏",
+      "type": "Concept"
+    },
+    {
+      "id": "陌生的森林",
+      "label": "陌生的森林",
+      "type": "Location"
+    }
+  ],
+  "edges": [
+    {
+      "source": "李明",
+      "target": "神秘的邮件",
+      "relation": "收到",
+      "chapter": 1,
+      "context": "收到邀请参加虚拟现实游戏测试的邮件"
+    },
+    {
+      "source": "李明",
+      "target": "神秘的邮件",
+      "relation": "收到",
+      "chapter": 1,
+      "context": "某天，李明收到了一封神秘的邮件"
+    },
+    {
+      "source": "李明",
+      "target": "接受按钮",
+      "relation": "点击",
+      "chapter": 1,
+      "context": "点击邮件中的接受按钮"
+    },
+    {
+      "source": "李明",
+      "target": "接受按钮",
+      "relation": "点击",
+      "chapter": 1,
+      "context": "李明毫不犹豫地点击了'接受'按钮"
+    },
+    {
+      "source": "李明",
+      "target": "虚拟世界",
+      "relation": "进入",
+      "chapter": 1,
+      "location": "陌生的森林",
+      "state": "初始进入",
+      "context": "通过邮件邀请进入虚拟世界"
+    },
+    {
+      "source": "李明",
+      "target": "虚拟世界",
+      "relation": "进入",
+      "chapter": 1,
+      "location": "虚拟世界",
+      "context": "李明点击接受按钮后，进入了虚拟世界"
+    },
+    {
+      "source": "李明",
+      "target": "小径",
+      "relation": "发现",
+      "chapter": 2,
+      "location": "未知区域",
+      "context": "环顾四周后发现通往村庄的路径"
+    },
+    {
+      "source": "李明",
+      "target": "村庄",
+      "relation": "前往",
+      "chapter": 2,
+      "location": "小径尽头",
+      "context": "沿着小径到达新手村"
+    },
+    {
+      "source": "李明",
+      "target": "新手任务",
+      "relation": "完成",
+      "chapter": 2,
+      "state": "已达成",
+      "context": "按照系统提示完成初始引导"
+    },
+    {
+      "source": "李明",
+      "target": "木剑",
+      "relation": "获得",
+      "chapter": 2,
+      "context": "完成新手任务的奖励"
+    },
+    {
+      "source": "李明",
+      "target": "木剑",
+      "relation": "握紧",
+      "chapter": 3,
+      "location": "森林深处",
+      "context": "李明握紧木剑，准备战斗"
+    },
+    {
+      "source": "李明",
+      "target": "森林深处",
+      "relation": "进入",
+      "chapter": 3,
+      "location": "森林深处",
+      "context": "离开新手村后，李明进入了森林深处"
+    },
+    {
+      "source": "李明",
+      "target": "野狼",
+      "relation": "击败",
+      "chapter": 3,
+      "location": "森林深处",
+      "context": "经过一番激战，李明成功击败了野狼"
+    },
+    {
+      "source": "李明",
+      "target": "经验",
+      "relation": "获得",
+      "chapter": 3,
+      "location": "森林深处",
+      "context": "李明成功击败了野狼，获得了经验和金币奖励"
+    },
+    {
+      "source": "李明",
+      "target": "金币",
+      "relation": "获得",
+      "chapter": 3,
+      "location": "森林深处",
+      "context": "李明成功击败了野狼，获得了经验和金币奖励"
+    },
+    {
+      "source": "李明",
+      "target": "游戏",
+      "relation": "自言自语",
+      "chapter": 3,
+      "location": "森林深处",
+      "quote": "看来这个游戏还挺有趣的。",
+      "context": "李明自言自语道"
+    },
+    {
+      "source": "李明",
+      "target": "陌生的森林",
+      "relation": "站在",
+      "chapter": 1,
+      "location": "陌生的森林",
+      "context": "李明进入虚拟世界后，发现自己站在一个陌生的森林中"
+    },
+    {
+      "source": "机械的声音",
+      "target": "李明",
+      "relation": "欢迎",
+      "chapter": 1,
+      "location": "虚拟世界",
+      "quote": "欢迎来到虚拟世界。",
+      "context": "李明进入虚拟世界后的系统提示"
+    },
+    {
+      "source": "机械的声音",
+      "target": "李明",
+      "relation": "欢迎",
+      "chapter": 1,
+      "location": "虚拟世界",
+      "quote": "欢迎来到虚拟世界。",
+      "context": "李明进入虚拟世界后，听到一个机械的声音欢迎他"
+    },
+    {
+      "source": "虚拟世界历险记",
+      "target": "李明",
+      "relation": "吸引",
+      "chapter": 1,
+      "context": "游戏名称吸引李明参与"
+    },
+    {
+      "source": "村长",
+      "target": "李明",
+      "relation": "欢迎",
+      "chapter": 2,
+      "location": "村庄入口",
+      "quote": "年轻人，欢迎来到新手村",
+      "context": "初次见面问候"
+    },
+    {
+      "source": "新手任务",
+      "target": "村庄",
+      "relation": "要求前往",
+      "chapter": 2,
+      "context": "任务目标指引"
+    },
+    {
+      "source": "系统提示音",
+      "target": "李明",
+      "relation": "发布任务",
+      "chapter": 2,
+      "quote": "你的第一个任务是找到村庄",
+      "context": "游戏初始引导"
+    },
+    {
+      "source": "野狼",
+      "target": "李明",
+      "relation": "攻击",
+      "chapter": 3,
+      "location": "森林深处",
+      "context": "突然，一只野狼从树后跳了出来"
+    }
+  ]
+}

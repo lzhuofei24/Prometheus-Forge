@@ -406,12 +406,13 @@ function GraphExplorerView({
       ...(l.properties ? { properties: l.properties } : {}),
     })) as GraphLinkWithMeta[];
     
-    // 章节过滤
+    // 章节过滤：只显示当前选中章节的数据
     const hasChapterInfo = allLinks.some((l) => l.properties?.chapter != null);
     let filteredLinks = allLinks;
     if (hasChapterInfo) {
-      filteredLinks = allLinks.filter((l) => (l.properties?.chapter ?? 0) <= selectedChapter);
-      if (filteredLinks.length === 0 && allLinks.length > 0) {
+      filteredLinks = allLinks.filter((l) => (l.properties?.chapter ?? 0) === selectedChapter);
+      // 如果过滤后没有边，且 selectedChapter 为 0，可能是没有章节信息，显示所有
+      if (filteredLinks.length === 0 && selectedChapter === 0) {
         filteredLinks = allLinks;
       }
     }
@@ -525,12 +526,24 @@ function GraphExplorerView({
 
   const incoming = useMemo(() => {
     if (!selectedNode || !graph?.links) return [];
-    return graph.links.filter((l) => l.target === selectedNode.id);
-  }, [selectedNode, graph?.links]);
+    const links = graph.links.filter((l) => l.target === selectedNode.id);
+    // 只显示当前章节的边
+    const hasChapterInfo = links.some((l) => l.properties?.chapter != null);
+    if (hasChapterInfo) {
+      return links.filter((l) => (l.properties?.chapter ?? 0) === selectedChapter);
+    }
+    return links;
+  }, [selectedNode, graph?.links, selectedChapter]);
   const outgoing = useMemo(() => {
     if (!selectedNode || !graph?.links) return [];
-    return graph.links.filter((l) => l.source === selectedNode.id);
-  }, [selectedNode, graph?.links]);
+    const links = graph.links.filter((l) => l.source === selectedNode.id);
+    // 只显示当前章节的边
+    const hasChapterInfo = links.some((l) => l.properties?.chapter != null);
+    if (hasChapterInfo) {
+      return links.filter((l) => (l.properties?.chapter ?? 0) === selectedChapter);
+    }
+    return links;
+  }, [selectedNode, graph?.links, selectedChapter]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const fgRef = useRef<any>(null);

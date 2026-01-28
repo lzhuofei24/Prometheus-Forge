@@ -1,0 +1,1797 @@
+{
+  "nodes": [
+    {
+      "id": "小爱",
+      "label": "小爱",
+      "type": "Person",
+      "status": "高潮成瘾",
+      "description": "伪装成夜总会小姐的调查员"
+    },
+    {
+      "id": "触手魔族",
+      "label": "触手魔族",
+      "type": "Person",
+      "status": "Alive",
+      "description": "拥有多条触手的魔族"
+    },
+    {
+      "id": "白色丁字裤",
+      "label": "白色丁字裤",
+      "type": "Item",
+      "status": "被毁坏"
+    },
+    {
+      "id": "魔族男",
+      "label": "魔族男",
+      "type": "Person",
+      "status": "Dead",
+      "description": "被触手控制的低阶魔族"
+    },
+    {
+      "id": "魔族灵魂",
+      "label": "魔族灵魂",
+      "type": "Concept"
+    },
+    {
+      "id": "白衣巫女",
+      "label": "白衣巫女",
+      "type": "Person",
+      "description": "李家能量中和祭祀",
+      "status": "惊慌"
+    },
+    {
+      "id": "逃逸魔族",
+      "label": "逃逸魔族",
+      "type": "Person"
+    },
+    {
+      "id": "李氏家族",
+      "label": "李氏家族",
+      "type": "Organization"
+    },
+    {
+      "id": "镇妖塔",
+      "label": "镇妖塔",
+      "type": "Location",
+      "description": "三座红色发光石塔"
+    },
+    {
+      "id": "李家第三类修炼",
+      "label": "李家第三类修炼",
+      "type": "Concept"
+    },
+    {
+      "id": "外围封印",
+      "label": "外围封印",
+      "type": "Concept"
+    },
+    {
+      "id": "C市北部山脉",
+      "label": "C市北部山脉",
+      "type": "Location"
+    },
+    {
+      "id": "白衣女孩",
+      "label": "白衣女孩",
+      "type": "Person"
+    },
+    {
+      "id": "手术台",
+      "label": "手术台",
+      "type": "Location"
+    },
+    {
+      "id": "腹腔",
+      "label": "腹腔",
+      "type": "Concept",
+      "status": "血污"
+    },
+    {
+      "id": "白大褂男人",
+      "label": "白大褂男人",
+      "type": "Person",
+      "description": "手术室主任"
+    },
+    {
+      "id": "细胞置换液",
+      "label": "细胞置换液",
+      "type": "Item"
+    },
+    {
+      "id": "身体",
+      "label": "身体",
+      "type": "Concept",
+      "status": "部分改造"
+    },
+    {
+      "id": "噩梦",
+      "label": "噩梦",
+      "type": "Event"
+    },
+    {
+      "id": "雅玲",
+      "label": "雅玲",
+      "type": "Person",
+      "description": "小爱的姐姐"
+    },
+    {
+      "id": "奇怪的事情",
+      "label": "奇怪的事情",
+      "type": "Event"
+    },
+    {
+      "id": "乱七八糟的东西",
+      "label": "乱七八糟的东西",
+      "type": "Item"
+    },
+    {
+      "id": "魔族",
+      "label": "魔族",
+      "type": "Organization",
+      "status": "重伤",
+      "description": "两翼四手、通体绿色皮肤的高等魔族"
+    },
+    {
+      "id": "工作人员",
+      "label": "工作人员",
+      "type": "Person",
+      "status": "Dead"
+    },
+    {
+      "id": "警察",
+      "label": "警察",
+      "type": "Person",
+      "status": "Dead"
+    },
+    {
+      "id": "石峰区五一文路第二小学校区",
+      "label": "石峰区五一文路第二小学校区",
+      "type": "Location"
+    },
+    {
+      "id": "修文",
+      "label": "修文",
+      "type": "Person",
+      "description": "刚毕业的修真家族青年"
+    },
+    {
+      "id": "魔族袭击情报",
+      "label": "魔族袭击情报",
+      "type": "Event"
+    },
+    {
+      "id": "郝师叔",
+      "label": "郝师叔",
+      "type": "Person",
+      "description": "李家中年修真高手"
+    },
+    {
+      "id": "安达利尔的面具",
+      "label": "安达利尔的面具",
+      "type": "Item"
+    },
+    {
+      "id": "奔龙山城堡",
+      "label": "奔龙山城堡",
+      "type": "Location"
+    },
+    {
+      "id": "空间漩涡",
+      "label": "空间漩涡",
+      "type": "Event"
+    },
+    {
+      "id": "魔界",
+      "label": "魔界",
+      "type": "Location"
+    },
+    {
+      "id": "李家长老",
+      "label": "李家长老",
+      "type": "Organization"
+    },
+    {
+      "id": "魔族军团",
+      "label": "魔族军团",
+      "type": "Organization"
+    },
+    {
+      "id": "魔族士兵",
+      "label": "魔族士兵",
+      "type": "Person",
+      "status": "大量死亡"
+    },
+    {
+      "id": "仙术流星",
+      "label": "仙术流星",
+      "type": "Item"
+    },
+    {
+      "id": "李家年轻弟子",
+      "label": "李家年轻弟子",
+      "type": "Person"
+    },
+    {
+      "id": "艾丝帝西娅",
+      "label": "艾丝帝西娅",
+      "type": "Person",
+      "status": "重伤",
+      "description": "魔族将领，被迫硬接流星雨攻击"
+    },
+    {
+      "id": "李家高手",
+      "label": "李家高手",
+      "type": "Organization"
+    },
+    {
+      "id": "魔族大军",
+      "label": "魔族大军",
+      "type": "Organization"
+    },
+    {
+      "id": "魔界皇帝",
+      "label": "魔界皇帝",
+      "type": "Person"
+    },
+    {
+      "id": "魔界之门",
+      "label": "魔界之门",
+      "type": "Concept"
+    },
+    {
+      "id": "未知",
+      "label": "未知",
+      "type": "Event"
+    },
+    {
+      "id": "激进",
+      "label": "激进",
+      "type": "Concept"
+    },
+    {
+      "id": "大长老",
+      "label": "大长老",
+      "type": "Person"
+    },
+    {
+      "id": "阿米巴",
+      "label": "阿米巴",
+      "type": "Person",
+      "description": "执行性虐的侍从",
+      "status": "欲望爆发"
+    },
+    {
+      "id": "夏克",
+      "label": "夏克",
+      "type": "Person",
+      "description": "与老头子有血缘关系的魔族"
+    },
+    {
+      "id": "魔气使用",
+      "label": "魔气使用",
+      "type": "Concept"
+    },
+    {
+      "id": "谋反",
+      "label": "谋反",
+      "type": "Event"
+    },
+    {
+      "id": "淫兽",
+      "label": "淫兽",
+      "type": "Item",
+      "status": "兴奋",
+      "description": "成百上千条触手的淫兽"
+    },
+    {
+      "id": "触手",
+      "label": "触手",
+      "type": "Item",
+      "status": "兴奋"
+    },
+    {
+      "id": "被残虐",
+      "label": "被残虐",
+      "type": "Concept",
+      "status": "高潮中"
+    },
+    {
+      "id": "封印",
+      "label": "封印",
+      "type": "Item",
+      "status": "被破坏"
+    },
+    {
+      "id": "普拉米斯",
+      "label": "普拉米斯",
+      "type": "Person"
+    },
+    {
+      "id": "皇帝",
+      "label": "皇帝",
+      "type": "Person"
+    },
+    {
+      "id": "破旧小杂货店",
+      "label": "破旧小杂货店",
+      "type": "Location"
+    },
+    {
+      "id": "魔都监狱",
+      "label": "魔都监狱",
+      "type": "Location"
+    },
+    {
+      "id": "铁链",
+      "label": "铁链",
+      "type": "Item"
+    },
+    {
+      "id": "牛头",
+      "label": "牛头",
+      "type": "Person",
+      "description": "施虐的魔族"
+    },
+    {
+      "id": "银针",
+      "label": "银针",
+      "type": "Item"
+    },
+    {
+      "id": "乳房",
+      "label": "乳房",
+      "type": "Concept",
+      "status": "被撕裂"
+    },
+    {
+      "id": "皇宫大门",
+      "label": "皇宫大门",
+      "type": "Location"
+    },
+    {
+      "id": "大门",
+      "label": "大门",
+      "type": "Location"
+    },
+    {
+      "id": "广场",
+      "label": "广场",
+      "type": "Location"
+    },
+    {
+      "id": "卫兵阵列",
+      "label": "卫兵阵列",
+      "type": "Organization"
+    },
+    {
+      "id": "大小宫殿和广场",
+      "label": "大小宫殿和广场",
+      "type": "Location"
+    },
+    {
+      "id": "大殿",
+      "label": "大殿",
+      "type": "Location"
+    },
+    {
+      "id": "阿米巴的触手",
+      "label": "阿米巴的触手",
+      "type": "Item"
+    },
+    {
+      "id": "小爱的内衣",
+      "label": "小爱的内衣",
+      "type": "Item"
+    },
+    {
+      "id": "小爱的阴道/肛门",
+      "label": "小爱的阴道/肛门",
+      "type": "Concept",
+      "status": "扩张撕裂"
+    },
+    {
+      "id": "小爱的子宫",
+      "label": "小爱的子宫",
+      "type": "Concept",
+      "status": "波浪形凸起"
+    },
+    {
+      "id": "小爱的鼻泪管",
+      "label": "小爱的鼻泪管",
+      "type": "Concept"
+    },
+    {
+      "id": "小爱的眼球",
+      "label": "小爱的眼球",
+      "type": "Concept",
+      "status": "被黏液覆盖"
+    },
+    {
+      "id": "小爱的面部",
+      "label": "小爱的面部",
+      "type": "Concept"
+    },
+    {
+      "id": "器官破坏",
+      "label": "器官破坏",
+      "type": "Concept"
+    },
+    {
+      "id": "粪便",
+      "label": "粪便",
+      "type": "Item",
+      "status": "大量流入"
+    },
+    {
+      "id": "飞龙灾害",
+      "label": "飞龙灾害",
+      "type": "Event"
+    },
+    {
+      "id": "魔界责任",
+      "label": "魔界责任",
+      "type": "Concept"
+    },
+    {
+      "id": "淫兽群",
+      "label": "淫兽群",
+      "type": "Organization"
+    },
+    {
+      "id": "淫兽王",
+      "label": "淫兽王",
+      "type": "Person",
+      "description": "变异后的淫兽首领"
+    },
+    {
+      "id": "子宫被撑裂",
+      "label": "子宫被撑裂",
+      "type": "Concept"
+    },
+    {
+      "id": "林颖馨",
+      "label": "林颖馨",
+      "type": "Person",
+      "status": "失踪",
+      "description": "首都卫戍军区副司令的千金，17岁少女"
+    },
+    {
+      "id": "未知势力",
+      "label": "未知势力",
+      "type": "Organization"
+    },
+    {
+      "id": "金牙胖子",
+      "label": "金牙胖子",
+      "type": "Person",
+      "description": "夜总会猥琐客人"
+    },
+    {
+      "id": "魔气持有者",
+      "label": "魔气持有者",
+      "type": "Person"
+    },
+    {
+      "id": "壮硕大汉",
+      "label": "壮硕大汉",
+      "type": "Person"
+    },
+    {
+      "id": "天上人间夜总会",
+      "label": "天上人间夜总会",
+      "type": "Location"
+    },
+    {
+      "id": "市长侄子",
+      "label": "市长侄子",
+      "type": "Person"
+    },
+    {
+      "id": "H1型血少女",
+      "label": "H1型血少女",
+      "type": "Concept"
+    },
+    {
+      "id": "子宫",
+      "label": "子宫",
+      "type": "Concept"
+    },
+    {
+      "id": "S市旅馆",
+      "label": "S市旅馆",
+      "type": "Location"
+    },
+    {
+      "id": "神秘大汉",
+      "label": "神秘大汉",
+      "type": "Person",
+      "description": "疑似魔气携带者"
+    },
+    {
+      "id": "魔气",
+      "label": "魔气",
+      "type": "Concept"
+    },
+    {
+      "id": "S市警方",
+      "label": "S市警方",
+      "type": "Organization"
+    },
+    {
+      "id": "连环失踪案",
+      "label": "连环失踪案",
+      "type": "Event"
+    },
+    {
+      "id": "李家",
+      "label": "李家",
+      "type": "Organization"
+    },
+    {
+      "id": "少女失踪案",
+      "label": "少女失踪案",
+      "type": "Event"
+    },
+    {
+      "id": "失踪少女们",
+      "label": "失踪少女们",
+      "type": "Person",
+      "status": "失踪"
+    },
+    {
+      "id": "H1型稀有血型",
+      "label": "H1型稀有血型",
+      "type": "Concept"
+    }
+  ],
+  "edges": [
+    {
+      "source": "小爱",
+      "target": "触手魔族",
+      "relation": "被触手捆缚",
+      "chapter": 1,
+      "location": "废弃工厂",
+      "state": "被多条触手紧紧勒住",
+      "quote": "嘿！你这分身看起来很不错的样子……要不要来试试强暴我……，如果把我干翻了，你好象比较有机会逃出去呢。",
+      "context": "小爱被触手魔族突然袭击，触手紧紧捆住她的身体，但她却主动提出被强暴的建议"
+    },
+    {
+      "source": "小爱",
+      "target": "触手魔族",
+      "relation": "主动求虐",
+      "chapter": 1,
+      "location": "废弃工厂",
+      "state": "被触手捆缚",
+      "quote": "嘿！你这分身看起来很不错的样子……要不要来试试强暴我……，如果把我干翻了，你好象比较有机会逃出去呢。",
+      "context": "小爱在被触手捆缚后，主动提出被强暴的建议，表现出心理堕落的状态"
+    },
+    {
+      "source": "小爱",
+      "target": "白色丁字裤",
+      "relation": "被撕碎内裤",
+      "chapter": 1,
+      "location": "废弃工厂",
+      "state": "阴部暴露",
+      "quote": "嘿嘿~~，原来是这样的贱货，等着，一会我要让你哭都来不及！",
+      "context": "触手魔族撕碎小爱的内裤，准备进一步侵犯她"
+    },
+    {
+      "source": "小爱",
+      "target": "魔族男",
+      "relation": "诱惑",
+      "chapter": 2,
+      "location": "厂房",
+      "state": "触手勃起状态",
+      "quote": "小爱脸上仍挂着浅浅的笑意，仿佛正准备享受美味的大餐",
+      "context": "通过声音诱惑使魔族男进入狂暴状态"
+    },
+    {
+      "source": "小爱",
+      "target": "魔族男",
+      "relation": "击杀",
+      "chapter": 2,
+      "location": "厂房",
+      "state": "身体炸裂",
+      "quote": "轰的一声，魔族连声都没来得及出，顿时被炸得四分五裂",
+      "context": "用金色火焰瞬间毁灭魔族肉体"
+    },
+    {
+      "source": "小爱",
+      "target": "魔族男",
+      "relation": "击杀",
+      "chapter": 2,
+      "location": "厂房",
+      "state": "被炸得四分五裂",
+      "quote": "轰的一声，魔族连声都没来得及出，顿时被炸得四分五裂",
+      "context": "小爱用金色火焰击杀魔族男，并将其灵魂封印"
+    },
+    {
+      "source": "小爱",
+      "target": "魔族灵魂",
+      "relation": "封印",
+      "chapter": 2,
+      "location": "手掌",
+      "state": "蓝色萤火状态",
+      "quote": "一小团兰色的莹火被收回在手中，封印了起来",
+      "context": "捕获魔族灵魂本源"
+    },
+    {
+      "source": "小爱",
+      "target": "魔族灵魂",
+      "relation": "封印",
+      "chapter": 2,
+      "location": "厂房",
+      "state": "被收回并封印",
+      "quote": "小爱手指又一点，莹火被收回在手中，封印了起来",
+      "context": "小爱将魔族男的灵魂封印"
+    },
+    {
+      "source": "小爱",
+      "target": "白衣巫女",
+      "relation": "突袭",
+      "chapter": 2,
+      "location": "镇妖塔平台",
+      "state": "腰肢被抚摸",
+      "quote": "一双戴着黑色长手套的手突然袭向她的腰侧",
+      "context": "从背后调戏担任祭祀的姐姐"
+    },
+    {
+      "source": "小爱",
+      "target": "C市北部山脉",
+      "relation": "前往",
+      "chapter": 2,
+      "location": "厂房",
+      "state": "迅速离开",
+      "quote": "小爱如离弦之箭，向城市的北方射去",
+      "context": "小爱击杀魔族男后迅速前往C市北部山脉"
+    },
+    {
+      "source": "小爱",
+      "target": "白衣女孩",
+      "relation": "吓唬",
+      "chapter": 2,
+      "location": "镇妖塔外",
+      "state": "突然袭击",
+      "quote": "一双戴着黑色长手套的手突然袭向她的腰侧",
+      "context": "小爱突然袭击白衣女孩，吓唬她"
+    },
+    {
+      "source": "小爱",
+      "target": "镇妖塔",
+      "relation": "进入",
+      "chapter": 2,
+      "location": "镇妖塔外",
+      "state": "迅速进入",
+      "quote": "拿起法杖就往前冲。一只脚刚踏入塔的边界",
+      "context": "小爱迅速进入镇妖塔，准备处理逃出的魔族"
+    },
+    {
+      "source": "小爱",
+      "target": "手术台",
+      "relation": "被固定",
+      "chapter": 3,
+      "location": "地下手术室",
+      "state": "无法挣扎",
+      "quote": "小爱躺在手术台上，稍微动了一下，发现手脚都被牢牢的固定住了，一丝也挣扎不开。",
+      "context": "小爱在手术台上醒来，发现自己被固定住，无法动弹。"
+    },
+    {
+      "source": "小爱",
+      "target": "腹腔",
+      "relation": "被打开",
+      "chapter": 3,
+      "location": "地下手术室",
+      "state": "肠子外露",
+      "quote": "自己的腹腔被整个打开，满是血污的里面露出白色盘结的肠子，正微微的颤动着。",
+      "context": "小爱发现自己的腹腔被打开，肠子外露，痛苦不堪。"
+    },
+    {
+      "source": "小爱",
+      "target": "身体",
+      "relation": "抽搐",
+      "chapter": 3,
+      "location": "地下手术室",
+      "state": "剧烈痛楚",
+      "quote": "一瞬间，巨大的痛楚传来，小爱全身抽搐，身体猛的向上弓起，眼前的一切都开始摇晃、坍塌，突然间一声凄厉的惨叫发了出来：“啊……”",
+      "context": "黑色细胞置换液流入小爱腹腔，导致她全身抽搐，痛苦不堪。"
+    },
+    {
+      "source": "小爱",
+      "target": "身体",
+      "relation": "被改造",
+      "chapter": 8,
+      "location": "魔界山谷",
+      "state": "细胞级改造",
+      "context": "夏克为小爱进行细胞级改造，使其身体能够顺畅接受魔气"
+    },
+    {
+      "source": "小爱",
+      "target": "噩梦",
+      "relation": "惊醒",
+      "chapter": 3,
+      "location": "卧室",
+      "state": "冷汗",
+      "quote": "猛然翻身坐起，小爱也从噩梦中惊醒过来。喘了几口气，抬起手来一擦，才发现额头已经满是冷汗。",
+      "context": "小爱从噩梦中惊醒，发现自己满头冷汗。"
+    },
+    {
+      "source": "小爱",
+      "target": "奇怪的事情",
+      "relation": "否认",
+      "chapter": 3,
+      "location": "卧室",
+      "state": "否认",
+      "quote": "“没、没有啊……”正忙着否认，头上已经被锅铲敲了一下。",
+      "context": "小爱否认昨晚做了奇怪的事情，但被雅玲用锅铲敲头。"
+    },
+    {
+      "source": "小爱",
+      "target": "雅玲",
+      "relation": "打断",
+      "chapter": 3,
+      "location": "卧室",
+      "state": "打断",
+      "quote": "“好了好了，姐……以后听你的就是了。你也别忘了，女人太罗嗦容易老的哦。”",
+      "context": "小爱打断雅玲的长篇大论，并表示以后会听她的话。"
+    },
+    {
+      "source": "小爱",
+      "target": "石峰区五一文路第二小学校区",
+      "relation": "增援",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区",
+      "state": "紧急赶赴",
+      "quote": "小爱收到信息后立刻赶赴事发地点增援",
+      "context": "小爱接到任务后迅速赶往现场"
+    },
+    {
+      "source": "小爱",
+      "target": "石峰区五一文路第二小学校区",
+      "relation": "增援",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区",
+      "state": "正在前往",
+      "quote": "小爱收到信息后立刻赶赴事发地点增援",
+      "context": "小爱接到增援请求后赶往事发地点"
+    },
+    {
+      "source": "小爱",
+      "target": "魔族",
+      "relation": "攻击",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区教学楼",
+      "state": "魔族胸口破开大洞",
+      "quote": "轰的一声巨响，只听一声凄厉的吼叫，魔族被打得横飞出去",
+      "context": "小爱使用李家仙气攻击魔族，使其重伤"
+    },
+    {
+      "source": "小爱",
+      "target": "魔族",
+      "relation": "攻击",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区教学楼",
+      "state": "正在战斗",
+      "quote": "轰的一声巨响，只听一声凄厉的吼叫，魔族被打得横飞出去",
+      "context": "小爱在教学楼内攻击魔族，使其重伤"
+    },
+    {
+      "source": "小爱",
+      "target": "未知",
+      "relation": "差点死亡",
+      "chapter": 6,
+      "context": "大长老提到小爱昨天差点挂了"
+    },
+    {
+      "source": "小爱",
+      "target": "激进",
+      "relation": "修炼方法",
+      "chapter": 6,
+      "context": "大长老认为小爱的修炼方法过于激进，导致心理问题"
+    },
+    {
+      "source": "小爱",
+      "target": "大长老",
+      "relation": "请求休息",
+      "chapter": 7,
+      "location": "幸福小区中心别墅",
+      "state": "对话中",
+      "quote": "大长老，我想休息一阵子，先向你请几天假。",
+      "context": "小爱在得知父亲身份后感到疲惫，请求休息"
+    },
+    {
+      "source": "小爱",
+      "target": "阿米巴",
+      "relation": "命令",
+      "chapter": 7,
+      "location": "小爱的公寓",
+      "state": "发怒中",
+      "quote": "阿米巴快给我滚出来！本小姐今天非常不爽，来给我当当沙包！",
+      "context": "小爱情绪失控，命令阿米巴充当沙包"
+    },
+    {
+      "source": "小爱",
+      "target": "阿米巴",
+      "relation": "主动引诱",
+      "chapter": 13,
+      "location": "花园小亭",
+      "state": "言语挑逗",
+      "quote": "今天一天，我就做你的奴隶好了——可以对人家做任何事情哦……",
+      "context": "因无聊主动提出成为性奴隶"
+    },
+    {
+      "source": "小爱",
+      "target": "夏克",
+      "relation": "拒绝",
+      "chapter": 7,
+      "location": "小爱的公寓",
+      "state": "对话中",
+      "quote": "你神经病啊！我为什么要帮你去杀你们皇帝？就凭你救过我一次？",
+      "context": "小爱震惊并拒绝夏克的谋反提议"
+    },
+    {
+      "source": "小爱",
+      "target": "魔气使用",
+      "relation": "学习",
+      "chapter": 8,
+      "location": "魔界山谷",
+      "context": "小爱同意学习魔气使用，以增强自身实力"
+    },
+    {
+      "source": "小爱",
+      "target": "魔界",
+      "relation": "探索",
+      "chapter": 8,
+      "location": "魔界荒原",
+      "context": "小爱初次来到魔界，对荒凉的景象感到失望"
+    },
+    {
+      "source": "小爱",
+      "target": "淫兽",
+      "relation": "主动求虐",
+      "chapter": 9,
+      "location": "魔界洞穴",
+      "state": "被触手缠绕",
+      "quote": "啊……，快一点过来，狠狠的奸淫我吧……",
+      "context": "小爱主动跳入洞穴，准备享受被淫兽残虐的快感"
+    },
+    {
+      "source": "小爱",
+      "target": "触手",
+      "relation": "被插入",
+      "chapter": 9,
+      "location": "魔界洞穴",
+      "state": "被触手寻找插入点",
+      "quote": "形状各异的触手在她身上勒紧，滑动，寻找着可供插入的洞穴",
+      "context": "淫兽们的触手在小爱身上滑动，寻找插入点"
+    },
+    {
+      "source": "小爱",
+      "target": "被残虐",
+      "relation": "享受",
+      "chapter": 9,
+      "location": "魔界洞穴",
+      "state": "被触手缠绕",
+      "quote": "小爱兴奋得微微颤抖，呼吸也也开始起伏不平，双手开始抚摩着自己的身体，准备享受一场畅美的盛宴",
+      "context": "小爱准备享受被淫兽残虐的快感"
+    },
+    {
+      "source": "小爱",
+      "target": "封印",
+      "relation": "打开",
+      "chapter": 9,
+      "location": "魔界山顶",
+      "state": "封印被炸成粉末",
+      "quote": "哼，这点东西难不住我。随着话声，小爱运转真气，只见手臂上光芒一闪，轰的一声大响，黑色的大石被炸成了粉末",
+      "context": "小爱运转真气，轻松破坏了封印淫兽的黑色大石"
+    },
+    {
+      "source": "小爱",
+      "target": "破旧小杂货店",
+      "relation": "离开",
+      "chapter": 10,
+      "location": "破旧小杂货店",
+      "context": "小爱感到无聊，决定先去睡觉，等待行动时被召唤"
+    },
+    {
+      "source": "小爱",
+      "target": "铁链",
+      "relation": "被吊起",
+      "chapter": 11,
+      "location": "刑罚室",
+      "state": "双脚勉强接触地面",
+      "context": "牛头将小爱吊起，准备施虐"
+    },
+    {
+      "source": "小爱",
+      "target": "铁链",
+      "relation": "被铐住",
+      "chapter": 14,
+      "location": "魔都皇宫",
+      "state": "四肢悬吊",
+      "context": "作为施虐play的前置束缚"
+    },
+    {
+      "source": "小爱",
+      "target": "牛头",
+      "relation": "主动求虐",
+      "chapter": 11,
+      "location": "刑罚室",
+      "state": "身体满是高肿血痕",
+      "quote": "既然都知道了，怎么不继续呀？我等着你们更粗暴、更残忍一点呢。",
+      "context": "小爱主动要求牛头更粗暴地虐待她"
+    },
+    {
+      "source": "小爱",
+      "target": "乳房",
+      "relation": "被揉捏",
+      "chapter": 11,
+      "location": "刑罚室",
+      "state": "乳房被挤爆",
+      "quote": "恩……恩……好刺激……捏爆……把我的乳房揉烂吧……",
+      "context": "牛头用力揉捏小爱的乳房，银针撕裂乳房组织"
+    },
+    {
+      "source": "小爱",
+      "target": "皇宫大门",
+      "relation": "冲在最前面",
+      "chapter": 12,
+      "location": "皇宫大门",
+      "state": "真气充溢着身躯",
+      "context": "小爱一马当先冲在最前面，真气充溢着身躯，不断的倾泄出来，在体外形成一支支利剑，所到之处，卫兵还没等靠近，身体就被真气绞得粉碎。"
+    },
+    {
+      "source": "小爱",
+      "target": "大门",
+      "relation": "冲过",
+      "chapter": 12,
+      "location": "皇宫大门",
+      "state": "真气绞碎卫兵",
+      "context": "一路横冲直撞，转眼间如旋风般冲过了大门。"
+    },
+    {
+      "source": "小爱",
+      "target": "广场",
+      "relation": "飞入",
+      "chapter": 12,
+      "location": "皇宫大门内的广场",
+      "state": "真气流转",
+      "context": "飞入大门内的广场，小爱顿时吓了一跳，只见大批的卫兵象蚂蚁一样从各个宫殿内涌了出来，转眼就塞满了若大的广场，排成一列列密集的阵型，如一道道海浪般向他们扑了过来，箭雨纷纷飞起，射向空中的小爱。"
+    },
+    {
+      "source": "小爱",
+      "target": "卫兵阵列",
+      "relation": "冲去",
+      "chapter": 12,
+      "location": "皇宫大门内的广场",
+      "state": "真气绞碎卫兵",
+      "context": "一低头向下冲去，顿时如一个巨大的割草机碾过，一路上碎肢残骸纷纷飞起，又如下雨般落下，瞬间在卫兵的阵列中开出一条宽阔的大道。"
+    },
+    {
+      "source": "小爱",
+      "target": "大小宫殿和广场",
+      "relation": "穿越",
+      "chapter": 12,
+      "location": "皇宫",
+      "state": "迅速甩开守卫高手",
+      "context": "小爱和夏克不再恋战，对射向自己的箭雨不予理睬，迅速甩开跟在后面的守卫高手，一路穿越过模样各异的大小宫殿和广场，降落到宏伟的正殿面前。"
+    },
+    {
+      "source": "小爱",
+      "target": "大殿",
+      "relation": "冲进",
+      "chapter": 12,
+      "location": "皇宫正殿",
+      "state": "大门碎成几截",
+      "context": "随着一声轰然巨响，大门哗啦啦碎成几截倒了下来，两人冲进大殿，只见十余名侍卫围绕在台阶两旁，一个个显然修为不弱；顺着台阶往上看去，宝座之上，正坐着一个身材高大的黑袍老人。"
+    },
+    {
+      "source": "小爱",
+      "target": "器官破坏",
+      "relation": "高潮于",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "多重贯穿",
+      "context": "因鼻腔/子宫/直肠同时被虐达到巅峰"
+    },
+    {
+      "source": "小爱",
+      "target": "粪便",
+      "relation": "被灌入",
+      "chapter": 14,
+      "location": "魔都皇宫",
+      "state": "腹部膨胀",
+      "quote": "快感的刺激让脸色变得潮红，眼睛微微的闭着，轻轻的呻吟了出来",
+      "context": "通过肛门插管接受污秽灌肠"
+    },
+    {
+      "source": "小爱",
+      "target": "飞龙灾害",
+      "relation": "处理政务",
+      "chapter": 14,
+      "location": "魔都皇宫",
+      "state": "性交中决策",
+      "quote": "啊……飞龙我明天去对付",
+      "context": "在性虐高潮状态下做出军事部署"
+    },
+    {
+      "source": "小爱",
+      "target": "魔界责任",
+      "relation": "逃避",
+      "chapter": 14,
+      "location": "陵园",
+      "quote": "我并没有说不回来，不过不是现在",
+      "context": "在夏克事件后暂时离开魔界"
+    },
+    {
+      "source": "小爱",
+      "target": "淫兽群",
+      "relation": "被包围",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被伏击",
+      "quote": "呵呵，难得你们还有胆量伏击我，正好，上次还没玩过瘾，来吧~快一点过来，狠狠的奸淫我吧……",
+      "context": "小爱在封印淫兽地下洞穴被淫兽群伏击，主动求虐"
+    },
+    {
+      "source": "小爱",
+      "target": "淫兽群",
+      "relation": "被伏击",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被包围",
+      "quote": "呵呵，难得你们还有胆量伏击我，正好，上次还没玩过瘾，来吧~快一点过来，狠狠的奸淫我吧……",
+      "context": "小爱在前往南方途中被淫兽群伏击，主动求虐"
+    },
+    {
+      "source": "小爱",
+      "target": "子宫被撑裂",
+      "relation": "高潮于",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "高潮中",
+      "quote": "啊啊啊啊！！！！！太爽了！！！！让我死了吧！！要死了！！！！",
+      "context": "小爱在子宫被撑裂时达到高潮，主动求死"
+    },
+    {
+      "source": "小爱",
+      "target": "金牙胖子",
+      "relation": "被灌酒",
+      "chapter": 16,
+      "location": "天上人间夜总会包厢",
+      "state": "被迫饮酒",
+      "quote": "不要——，你好坏，这样灌人家",
+      "context": "为调查案件伪装成陪酒女被客人强行灌酒"
+    },
+    {
+      "source": "小爱",
+      "target": "魔气持有者",
+      "relation": "被跟踪",
+      "chapter": 16,
+      "location": "夜总会楼梯",
+      "context": "感知到带有魔气的目光盯梢"
+    },
+    {
+      "source": "小爱",
+      "target": "壮硕大汉",
+      "relation": "被绑架",
+      "chapter": 16,
+      "location": "偏僻小巷",
+      "state": "双手被反绑/口塞布团",
+      "quote": "啊！你要干什么？！救...",
+      "context": "故意引诱跟踪者后遭暴力绑架"
+    },
+    {
+      "source": "小爱",
+      "target": "淫兽王",
+      "relation": "主动求虐",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "高潮中",
+      "quote": "啊哈哈哈！！！太爽了！！！啊啊啊啊！！爽死了！！不要停，尽情地戳爆我吧！！！",
+      "context": "小爱在淫兽王的残虐下主动求虐，享受高潮"
+    },
+    {
+      "source": "小爱",
+      "target": "天上人间夜总会",
+      "relation": "潜入侦查",
+      "chapter": 16,
+      "location": "VIP包厢",
+      "state": "被灌酒调戏",
+      "quote": "不要～这样灌人家",
+      "context": "为调查少女失踪案伪装成陪酒女"
+    },
+    {
+      "source": "小爱",
+      "target": "魔气",
+      "relation": "感知到",
+      "chapter": 16,
+      "location": "夜总会楼梯",
+      "context": "在陪客人上楼时察觉到异常能量"
+    },
+    {
+      "source": "触手魔族",
+      "target": "小爱",
+      "relation": "准备强暴",
+      "chapter": 1,
+      "location": "废弃工厂",
+      "state": "触手准备插入",
+      "quote": "嘿嘿~~，原来是这样的贱货，等着，一会我要让你哭都来不及！",
+      "context": "触手魔族撕碎小爱的内裤后，准备用触手强暴她"
+    },
+    {
+      "source": "白衣巫女",
+      "target": "逃逸魔族",
+      "relation": "感知",
+      "chapter": 2,
+      "location": "镇妖塔外围",
+      "state": "冲击封印中",
+      "quote": "即使闭着眼睛也能看见那只魔族在封印阵里乱冲乱突",
+      "context": "新手祭祀对魔族突破的担忧"
+    },
+    {
+      "source": "逃逸魔族",
+      "target": "外围封印",
+      "relation": "冲击",
+      "chapter": 2,
+      "location": "镇妖塔周边",
+      "state": "六层封印剩余",
+      "context": "低级魔族突破塔内封印后的挣扎"
+    },
+    {
+      "source": "李氏家族",
+      "target": "镇妖塔",
+      "relation": "运营",
+      "chapter": 2,
+      "context": "专门用于中和魔族灵魂本源的封印设施"
+    },
+    {
+      "source": "李氏家族",
+      "target": "镇妖塔",
+      "relation": "建立",
+      "chapter": 2,
+      "location": "C市北部山脉",
+      "state": "封印魔族",
+      "quote": "李家干脆建立了这个封印阵，把所有抓到的魔族都关在这里",
+      "context": "李氏家族建立镇妖塔用于封印和中和魔族灵魂"
+    },
+    {
+      "source": "镇妖塔",
+      "target": "魔族",
+      "relation": "被威胁",
+      "chapter": 6,
+      "context": "李家长老担心魔族声东击西，目标是镇妖塔"
+    },
+    {
+      "source": "李家第三类修炼",
+      "target": "魔族灵魂",
+      "relation": "克制",
+      "chapter": 2,
+      "context": "唯一能彻底消灭魔族本源的能量中和方式"
+    },
+    {
+      "source": "白衣女孩",
+      "target": "魔族灵魂",
+      "relation": "中和",
+      "chapter": 2,
+      "location": "镇妖塔",
+      "state": "正在进行",
+      "quote": "女孩口中仍然念念有词，看起来比较镇定",
+      "context": "白衣女孩在镇妖塔外进行能量中和，试图消灭魔族灵魂"
+    },
+    {
+      "source": "白大褂男人",
+      "target": "小爱",
+      "relation": "警告",
+      "chapter": 3,
+      "location": "地下手术室",
+      "state": "手术中",
+      "quote": "这么早就醒了？手术还很长，接下来的时间里你有得痛了。自己把握，好好忍住吧。",
+      "context": "白大褂男人警告小爱手术还很长，痛苦将持续。"
+    },
+    {
+      "source": "细胞置换液",
+      "target": "小爱",
+      "relation": "流入",
+      "chapter": 3,
+      "location": "地下手术室",
+      "state": "黑色液体",
+      "quote": "眼看着黑色的液体逐渐逼近自己的身躯，小爱却一点办法也没有，只能呆呆的看着黑色液体开始一点一滴的没入自己的腹腔。",
+      "context": "黑色细胞置换液流入小爱的腹腔，带来巨大痛楚。"
+    },
+    {
+      "source": "雅玲",
+      "target": "小爱",
+      "relation": "关心",
+      "chapter": 3,
+      "location": "卧室",
+      "state": "关切",
+      "quote": "“怎么啦，是不是做恶梦了？”优雅好听的声音从厨房传了过来；紧跟着，身着家居打扮的姐姐雅玲拿着一把锅铲走进卧室，关切的看着小爱。",
+      "context": "雅玲关心小爱是否做了噩梦。"
+    },
+    {
+      "source": "雅玲",
+      "target": "小爱",
+      "relation": "责备",
+      "chapter": 3,
+      "location": "卧室",
+      "state": "嗔怪",
+      "quote": "“你啊——最近出勤太多了，要注意一下身体才是。”微微的嗔怪了一下，雅玲就放下了心，但随即又想起了某事，“对了，昨天晚上你在客厅里干了些什么？是不是又搞那些奇怪的事情了？”",
+      "context": "雅玲责备小爱最近出勤太多，并询问她昨晚是否做了奇怪的事情。"
+    },
+    {
+      "source": "雅玲",
+      "target": "乱七八糟的东西",
+      "relation": "清理",
+      "chapter": 3,
+      "location": "客厅",
+      "state": "清理",
+      "quote": "“还说没有！昨天你疯完以后忘记收拾了，那些乱七八糟的东西都是我帮你清理干净的！”雅玲双手插腰，恨恨的说道：“你啊，老是喜欢搞这些不干净的东西，虽然我也知道你不会有事，但是……”",
+      "context": "雅玲责备小爱昨晚忘记收拾，并帮她清理了乱七八糟的东西。"
+    },
+    {
+      "source": "魔族",
+      "target": "工作人员",
+      "relation": "击伤",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区",
+      "state": "正在吸食尸体",
+      "quote": "喉咙间咕咕有声，显然正在吸食",
+      "context": "魔族在教室内吸食警察尸体"
+    },
+    {
+      "source": "魔族",
+      "target": "工作人员",
+      "relation": "击伤",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区",
+      "state": "正在吸食尸体",
+      "quote": "喉咙间咕咕有声，显然正在吸食",
+      "context": "魔族在教学楼内击伤并吸食工作人员和警察的尸体"
+    },
+    {
+      "source": "魔族",
+      "target": "警察",
+      "relation": "击毙",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区",
+      "state": "尸体残骸四散",
+      "quote": "教室里横七竖八四散着警察尸体的残骸",
+      "context": "魔族在教室内击毙多名警察"
+    },
+    {
+      "source": "魔族",
+      "target": "警察",
+      "relation": "击毙",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区",
+      "state": "正在吸食尸体",
+      "quote": "教室里横七竖八四散着警察尸体的残骸",
+      "context": "魔族在教学楼内击毙并吸食警察的尸体"
+    },
+    {
+      "source": "魔族",
+      "target": "小爱",
+      "relation": "挑衅",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区教学楼",
+      "state": "魔族试图引诱小爱",
+      "quote": "小姑娘，有没有兴趣和我来干一炮？",
+      "context": "魔族在重伤后试图引诱小爱"
+    },
+    {
+      "source": "魔族",
+      "target": "小爱",
+      "relation": "挑衅",
+      "chapter": 4,
+      "location": "石峰区五一文路第二小学校区教学楼",
+      "state": "正在疗伤",
+      "quote": "小姑娘，有没有兴趣和我来干一炮？",
+      "context": "魔族在重伤状态下挑衅小爱"
+    },
+    {
+      "source": "魔族",
+      "target": "安达利尔的面具",
+      "relation": "试图夺取",
+      "chapter": 5,
+      "location": "奔龙山城堡",
+      "state": "大规模集结",
+      "context": "为解除圣物封印发动突袭"
+    },
+    {
+      "source": "修文",
+      "target": "魔族袭击情报",
+      "relation": "质疑",
+      "chapter": 5,
+      "location": "奔龙山腰草丛",
+      "context": "对郝师叔传达的魔族袭击计划表示怀疑"
+    },
+    {
+      "source": "郝师叔",
+      "target": "安达利尔的面具",
+      "relation": "解释",
+      "chapter": 5,
+      "location": "奔龙山腰草丛",
+      "quote": "这个城堡其实是个巨大的封印阵，里面封印的是魔族的至宝",
+      "context": "向年轻弟子揭示城堡内封印的魔族圣物"
+    },
+    {
+      "source": "郝师叔",
+      "target": "李家年轻弟子",
+      "relation": "指挥",
+      "chapter": 5,
+      "location": "埋伏点",
+      "context": "准备带领后辈参与总攻"
+    },
+    {
+      "source": "安达利尔的面具",
+      "target": "奔龙山城堡",
+      "relation": "被封印于",
+      "chapter": 5,
+      "context": "五十年来由李家先祖设下的强力封印"
+    },
+    {
+      "source": "空间漩涡",
+      "target": "魔界",
+      "relation": "连接",
+      "chapter": 5,
+      "location": "城堡上空",
+      "quote": "魔界通向人间界的大门被打开了",
+      "context": "魔族大规模降临的前兆"
+    },
+    {
+      "source": "李家长老",
+      "target": "魔族军团",
+      "relation": "发动攻击",
+      "chapter": 5,
+      "location": "对面山顶",
+      "state": "流星法术轰炸",
+      "context": "对密集魔族进行范围杀伤"
+    },
+    {
+      "source": "魔族士兵",
+      "target": "仙术流星",
+      "relation": "被屠杀",
+      "chapter": 5,
+      "location": "城堡外围",
+      "quote": "山顶尸体横飞，爆炸中起码炸死了过半的魔族",
+      "context": "遭遇修真家族的先发制人打击"
+    },
+    {
+      "source": "艾丝帝西娅",
+      "target": "李家高手",
+      "relation": "被追杀",
+      "chapter": 6,
+      "location": "奔龙山山顶",
+      "state": "逃亡中",
+      "context": "艾丝帝西娅在战斗中受伤，被迫撤退"
+    },
+    {
+      "source": "艾丝帝西娅",
+      "target": "皇帝",
+      "relation": "被逮捕",
+      "chapter": 10,
+      "location": "魔都",
+      "context": "艾丝帝西娅被皇帝以临阵脱逃的罪名逮捕，军团被委派了新的指挥官"
+    },
+    {
+      "source": "李家高手",
+      "target": "魔族大军",
+      "relation": "屠杀",
+      "chapter": 6,
+      "location": "奔龙山山顶",
+      "state": "白热化",
+      "context": "李家高手如虎入羊群般屠杀魔族大军"
+    },
+    {
+      "source": "魔族大军",
+      "target": "李家长老",
+      "relation": "被埋伏",
+      "chapter": 6,
+      "location": "奔龙山",
+      "context": "魔族大军被李家长老事先布下的禁制埋伏"
+    },
+    {
+      "source": "魔界皇帝",
+      "target": "魔界之门",
+      "relation": "无法打开",
+      "chapter": 6,
+      "context": "魔界皇帝每年只能打开一次魔界之门"
+    },
+    {
+      "source": "阿米巴",
+      "target": "小爱",
+      "relation": "掌掴",
+      "chapter": 13,
+      "location": "花园小亭",
+      "state": "暴力觉醒",
+      "quote": "小贱货，今天要好好折磨你，让你尝尝我的厉害！",
+      "context": "被魅惑后释放暴力倾向"
+    },
+    {
+      "source": "阿米巴",
+      "target": "小爱",
+      "relation": "用触手束缚",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "悬空拘束",
+      "context": "用铁链将小爱四肢吊起"
+    },
+    {
+      "source": "阿米巴",
+      "target": "小爱",
+      "relation": "用狼牙棒插入",
+      "chapter": 14,
+      "location": "魔都皇宫",
+      "state": "猛烈抽插",
+      "quote": "啊……飞龙我明天去对付……哦……再用力一点",
+      "context": "在政务汇报期间进行公开性虐"
+    },
+    {
+      "source": "阿米巴",
+      "target": "小爱的面部",
+      "relation": "射精",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "黏液喷射",
+      "context": "绿色黏液从眼眶喷泉状涌出"
+    },
+    {
+      "source": "夏克",
+      "target": "阿米巴",
+      "relation": "威胁",
+      "chapter": 7,
+      "location": "小爱的公寓",
+      "state": "对话中",
+      "quote": "他全家都是我的奴仆。你可以让他生不如死；我却能让他全家都生不如死。",
+      "context": "夏克威胁阿米巴，使其不敢违抗命令"
+    },
+    {
+      "source": "夏克",
+      "target": "小爱",
+      "relation": "提议合作",
+      "chapter": 7,
+      "location": "小爱的公寓",
+      "state": "严肃对话",
+      "quote": "我要谋反，所以来找你合作，一起去杀掉魔界皇帝。",
+      "context": "夏克提议与小爱合作，共同谋反"
+    },
+    {
+      "source": "夏克",
+      "target": "小爱",
+      "relation": "带领",
+      "chapter": 10,
+      "location": "魔都大街",
+      "context": "夏克带着小爱在魔都大街上行走，介绍魔族王国的风貌"
+    },
+    {
+      "source": "夏克",
+      "target": "小爱",
+      "relation": "拉起",
+      "chapter": 12,
+      "location": "皇宫大门内的广场",
+      "state": "不再恋战",
+      "context": "夏克两只手蓝光不停的冒起，一道道闪电射了出去；眼看小爱在前面的半空中飞舞盘旋，所到之处卫兵望风披靡，挡者辟易，连忙跃起跳到小爱身边，大声喊道：“不要在这里浪费时间了，艾丝帝西娅的军团撑不了太久的，和我一起去找死老头子！”一把拉起小爱，向皇宫深处跃了过去。"
+    },
+    {
+      "source": "夏克",
+      "target": "魔气使用",
+      "relation": "教授",
+      "chapter": 8,
+      "location": "魔界山谷",
+      "context": "夏克提议与小爱交换李家仙气和魔气使用心法，以增强实力"
+    },
+    {
+      "source": "夏克",
+      "target": "谋反",
+      "relation": "计划",
+      "chapter": 8,
+      "location": "魔界",
+      "context": "夏克计划谋反，试图推翻魔界皇帝"
+    },
+    {
+      "source": "夏克",
+      "target": "普拉米斯",
+      "relation": "拜访",
+      "chapter": 10,
+      "location": "破旧小杂货店",
+      "context": "夏克带着小爱来到一家破旧的小杂货店，拜访老朋友普拉米斯"
+    },
+    {
+      "source": "夏克",
+      "target": "普拉米斯",
+      "relation": "询问",
+      "chapter": 10,
+      "location": "破旧小杂货店",
+      "context": "夏克询问普拉米斯关于艾丝帝西娅的消息，计划营救她"
+    },
+    {
+      "source": "夏克",
+      "target": "艾丝帝西娅",
+      "relation": "计划营救",
+      "chapter": 10,
+      "location": "破旧小杂货店",
+      "context": "夏克和普拉米斯讨论营救艾丝帝西娅的计划，准备迅速行动"
+    },
+    {
+      "source": "夏克",
+      "target": "魔都监狱",
+      "relation": "潜入",
+      "chapter": 10,
+      "location": "魔都监狱",
+      "context": "深夜，夏克和另一人潜入魔都监狱，准备营救艾丝帝西娅"
+    },
+    {
+      "source": "淫兽",
+      "target": "小爱",
+      "relation": "缠绕",
+      "chapter": 9,
+      "location": "魔界洞穴",
+      "state": "寻找插入点",
+      "quote": "成百上千条触手舞动着，仿佛一张大网，一下就把小爱全身缠绕住了",
+      "context": "淫兽们被小爱的言语挑逗，猛扑过来缠绕住她"
+    },
+    {
+      "source": "普拉米斯",
+      "target": "夏克",
+      "relation": "告知",
+      "chapter": 10,
+      "location": "破旧小杂货店",
+      "context": "普拉米斯向夏克汇报了魔界王国的情况，包括军队的现状和皇帝的动向"
+    },
+    {
+      "source": "普拉米斯",
+      "target": "小爱",
+      "relation": "汇报",
+      "chapter": 14,
+      "location": "魔都皇宫",
+      "state": "无视性虐场景",
+      "context": "在女王被公开侵犯时继续行政汇报"
+    },
+    {
+      "source": "牛头",
+      "target": "小爱",
+      "relation": "抽打",
+      "chapter": 11,
+      "location": "刑罚室",
+      "state": "身体左摇右晃，衣屑纷飞",
+      "quote": "恩……啊……再用力一点……狠狠的……",
+      "context": "牛头用带倒刺的皮鞭抽打小爱，小爱表现出快感"
+    },
+    {
+      "source": "牛头",
+      "target": "银针",
+      "relation": "插入",
+      "chapter": 11,
+      "location": "刑罚室",
+      "state": "乳房布满银针",
+      "context": "牛头将带倒刺的银针插入小爱的乳房"
+    },
+    {
+      "source": "阿米巴的触手",
+      "target": "小爱的内衣",
+      "relation": "撕裂",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "完全破坏",
+      "context": "触手瞬间撕碎蕾丝内衣"
+    },
+    {
+      "source": "阿米巴的触手",
+      "target": "小爱的阴道/肛门",
+      "relation": "贯穿",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "多根同时插入",
+      "quote": "恩……好多……哦……塞得好满……",
+      "context": "触手暴力侵入生殖腔与直肠"
+    },
+    {
+      "source": "阿米巴的触手",
+      "target": "小爱的子宫",
+      "relation": "插入",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "深度搅动",
+      "quote": "啊……啊……继续……再深一点……",
+      "context": "触手在子宫内制造剧烈形变"
+    },
+    {
+      "source": "阿米巴的触手",
+      "target": "小爱的鼻泪管",
+      "relation": "钻入",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "颅内侵入",
+      "quote": "哦……鼻子……要爆了……",
+      "context": "触手通过鼻腔侵入颅腔"
+    },
+    {
+      "source": "阿米巴的触手",
+      "target": "小爱的眼球",
+      "relation": "从眼眶穿出",
+      "chapter": 13,
+      "location": "花园地下室",
+      "state": "颅内高潮",
+      "quote": "啊……太刺激了……眼睛好涨……插烂我吧……",
+      "context": "触手贯穿颅腔后从眼窝抽出"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "用触手束缚",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被吊起",
+      "quote": "呵呵，有新花样了？想把我吃掉吗？",
+      "context": "淫兽王用触手将小爱吊起并束缚，准备进行残虐"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "用触手插入",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被强行撑开",
+      "quote": "啊啊啊！！！！太刺激了！！",
+      "context": "淫兽王用巨大狼牙棒形状的触手强行插入小爱的蜜穴，撑裂子宫"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "注射毒素",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被毒素充斥",
+      "quote": "呜呜呜呜！！！！",
+      "context": "淫兽王通过触手将大量精神毒素和催情毒素注入小爱体内，使其精神飘忽"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "用触手插入",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被贯穿",
+      "quote": "扑哧！！！",
+      "context": "淫兽王将触手插入小爱的嘴中，穿过喉咙和肠子，直通到胃里，喷射毒素"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "用触手插入",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被贯穿",
+      "quote": "呜呜呜呜！！！！",
+      "context": "淫兽王将输液触手插入小爱的屁眼，穿过直肠喷射毒素"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "用触手束缚",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被吊起",
+      "quote": "呵呵，有新花样了？想把我吃掉吗？",
+      "context": "淫兽王用触手将小爱吊起并束缚，准备进行残虐"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "用触手插入",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被撑裂",
+      "quote": "啊啊啊！！！！太刺激了！！",
+      "context": "淫兽王用巨大狼牙棒触手插入小爱蜜穴，撑裂她的子宫"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "注射毒素",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被毒素侵蚀",
+      "quote": "呜呜呜呜！！！！",
+      "context": "淫兽王通过触手向小爱体内注射大量精神毒素和催情毒素"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱",
+      "relation": "扯出子宫",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被破坏",
+      "quote": "啊啊啊啊！！！！！太爽了！！！！让我死了吧！！要死了！！！！",
+      "context": "淫兽王将小爱的子宫扯出体外，小爱在极度痛苦中享受高潮"
+    },
+    {
+      "source": "淫兽王",
+      "target": "小爱的子宫",
+      "relation": "扯出",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被扯出",
+      "quote": "啊啊啊啊！！！！！太爽了！！！！让我死了吧！！要死了！！！！",
+      "context": "淫兽王将小爱的子宫从体内扯出，小爱在极度痛苦中达到高潮"
+    },
+    {
+      "source": "淫兽王",
+      "target": "子宫",
+      "relation": "重新塞回",
+      "chapter": 15,
+      "location": "封印淫兽地下洞穴",
+      "state": "被修复",
+      "context": "淫兽王将小爱的子宫重新塞回体内，准备继续残虐"
+    },
+    {
+      "source": "林颖馨",
+      "target": "未知势力",
+      "relation": "被绑架",
+      "chapter": 16,
+      "location": "S市旅馆",
+      "context": "与同班同学旅游时在住宿旅馆内神秘失踪"
+    },
+    {
+      "source": "林颖馨",
+      "target": "S市旅馆",
+      "relation": "失踪于",
+      "chapter": 16,
+      "context": "与同学旅游期间在住宿旅馆内神秘失踪"
+    },
+    {
+      "source": "金牙胖子",
+      "target": "小爱",
+      "relation": "灌酒强吻",
+      "chapter": 16,
+      "location": "夜总会包厢",
+      "state": "醉酒状态",
+      "quote": "小美人，再喝一杯",
+      "context": "借酒劲对伪装陪酒女的小爱实施性骚扰"
+    },
+    {
+      "source": "天上人间夜总会",
+      "target": "市长侄子",
+      "relation": "受庇护于",
+      "chapter": 16,
+      "context": "作为案件调查关键场所被权力阶层控制"
+    },
+    {
+      "source": "H1型血少女",
+      "target": "未知势力",
+      "relation": "被针对性猎捕",
+      "chapter": 16,
+      "context": "十一名受害者均具有稀有血型特征"
+    },
+    {
+      "source": "神秘大汉",
+      "target": "小爱",
+      "relation": "绑架",
+      "chapter": 16,
+      "location": "暗巷",
+      "state": "被布袋蒙头",
+      "context": "尾随小爱后突然实施暴力绑架"
+    },
+    {
+      "source": "S市警方",
+      "target": "连环失踪案",
+      "relation": "掩盖",
+      "chapter": 16,
+      "context": "前10起案件被刻意隐瞒直到林颖馨案爆发"
+    },
+    {
+      "source": "李家",
+      "target": "少女失踪案",
+      "relation": "接受委托调查",
+      "chapter": 16,
+      "context": "因案件涉及超自然因素被警方秘密求助"
+    },
+    {
+      "source": "失踪少女们",
+      "target": "H1型稀有血型",
+      "relation": "共同特征",
+      "chapter": 16,
+      "context": "11名受害者均具有罕见血型"
+    }
+  ]
+}
