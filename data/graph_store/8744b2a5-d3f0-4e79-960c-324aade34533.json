@@ -1,0 +1,3158 @@
+{
+  "nodes": [
+    {
+      "id": "陆无双",
+      "label": "陆无双",
+      "type": "Person",
+      "description": "机智的少女",
+      "status": "Alive"
+    },
+    {
+      "id": "莲蓬",
+      "label": "莲蓬",
+      "type": "Item"
+    },
+    {
+      "id": "怪客",
+      "label": "怪客",
+      "type": "Person",
+      "description": "须发蓬乱、颈挂婴儿围涎的怪异老者"
+    },
+    {
+      "id": "程英与陆无双",
+      "label": "程英与陆无双",
+      "type": "Person"
+    },
+    {
+      "id": "怪客手掌",
+      "label": "怪客手掌",
+      "type": "Person"
+    },
+    {
+      "id": "何沅君",
+      "label": "何沅君",
+      "type": "Person"
+    },
+    {
+      "id": "程英",
+      "label": "程英",
+      "type": "Person",
+      "description": "被姨父临终托付的少女",
+      "status": "Alive"
+    },
+    {
+      "id": "道姑",
+      "label": "道姑",
+      "type": "Person",
+      "description": "杏黄道袍的忧郁女子"
+    },
+    {
+      "id": "采莲少女歌声",
+      "label": "采莲少女歌声",
+      "type": "Event"
+    },
+    {
+      "id": "武三娘",
+      "label": "武三娘",
+      "type": "Person",
+      "status": "中毒",
+      "description": "左颊漆黑疑似中毒的妇人"
+    },
+    {
+      "id": "李莫愁",
+      "label": "李莫愁",
+      "type": "Person",
+      "status": "Alive",
+      "description": "江湖女魔头，心狠手辣"
+    },
+    {
+      "id": "陆立鼎",
+      "label": "陆立鼎",
+      "type": "Person",
+      "status": "濒死",
+      "description": "头骨碎裂仍牵挂侄女的侠士"
+    },
+    {
+      "id": "红花绿叶锦帕",
+      "label": "红花绿叶锦帕",
+      "type": "Item",
+      "description": "李莫愁赠陆展元的定情信物"
+    },
+    {
+      "id": "武三通",
+      "label": "武三通",
+      "type": "Person",
+      "status": "Alive",
+      "description": "衣衫破烂的疯癫高手"
+    },
+    {
+      "id": "窑洞",
+      "label": "窑洞",
+      "type": "Location",
+      "status": "被威胁"
+    },
+    {
+      "id": "郭靖",
+      "label": "郭靖",
+      "type": "Person",
+      "status": "Alive",
+      "description": "杨过的义父，武功高强"
+    },
+    {
+      "id": "杨康",
+      "label": "杨康",
+      "type": "Person",
+      "status": "已死"
+    },
+    {
+      "id": "杨过",
+      "label": "杨过",
+      "type": "Person",
+      "status": "Alive",
+      "description": "神雕侠，武功高强，行侠仗义"
+    },
+    {
+      "id": "黄蓉",
+      "label": "黄蓉",
+      "type": "Person",
+      "status": "Alive",
+      "description": "足智多谋的丐帮帮主"
+    },
+    {
+      "id": "郭靖的提议",
+      "label": "郭靖的提议",
+      "type": "Event"
+    },
+    {
+      "id": "蟋蟀",
+      "label": "蟋蟀",
+      "type": "Item"
+    },
+    {
+      "id": "郭芙的无敌大将军",
+      "label": "郭芙的无敌大将军",
+      "type": "Item"
+    },
+    {
+      "id": "小黑蟋蟀",
+      "label": "小黑蟋蟀",
+      "type": "Item"
+    },
+    {
+      "id": "无敌大将军",
+      "label": "无敌大将军",
+      "type": "Item"
+    },
+    {
+      "id": "重阳宫",
+      "label": "重阳宫",
+      "type": "Location"
+    },
+    {
+      "id": "敌人",
+      "label": "敌人",
+      "type": "Person"
+    },
+    {
+      "id": "马钰",
+      "label": "马钰",
+      "type": "Person",
+      "status": "Alive",
+      "description": "全真教道长"
+    },
+    {
+      "id": "北斗阵",
+      "label": "北斗阵",
+      "type": "Concept"
+    },
+    {
+      "id": "贵公子",
+      "label": "贵公子",
+      "type": "Person",
+      "status": "Alive",
+      "description": "傲慢的敌人首领"
+    },
+    {
+      "id": "摺扇",
+      "label": "摺扇",
+      "type": "Item"
+    },
+    {
+      "id": "孙婆婆",
+      "label": "孙婆婆",
+      "type": "Person",
+      "status": "Alive",
+      "description": "慈祥的老妇人"
+    },
+    {
+      "id": "小龙女",
+      "label": "小龙女",
+      "type": "Person",
+      "status": "中毒",
+      "description": "内力深厚但中毒的古墓派传人"
+    },
+    {
+      "id": "蜜浆",
+      "label": "蜜浆",
+      "type": "Item"
+    },
+    {
+      "id": "鹿清笃",
+      "label": "鹿清笃",
+      "type": "Person",
+      "status": "负伤倒地"
+    },
+    {
+      "id": "尹志平",
+      "label": "尹志平",
+      "type": "Person"
+    },
+    {
+      "id": "轻功",
+      "label": "轻功",
+      "type": "Concept"
+    },
+    {
+      "id": "掌法",
+      "label": "掌法",
+      "type": "Concept"
+    },
+    {
+      "id": "断龙石机关",
+      "label": "断龙石机关",
+      "type": "Item"
+    },
+    {
+      "id": "断龙石",
+      "label": "断龙石",
+      "type": "Item"
+    },
+    {
+      "id": "古墓",
+      "label": "古墓",
+      "type": "Location",
+      "status": "永久封闭"
+    },
+    {
+      "id": "林朝英",
+      "label": "林朝英",
+      "type": "Person",
+      "status": "Dead"
+    },
+    {
+      "id": "古墓派誓言",
+      "label": "古墓派誓言",
+      "type": "Concept"
+    },
+    {
+      "id": "银子",
+      "label": "银子",
+      "type": "Item"
+    },
+    {
+      "id": "长剑",
+      "label": "长剑",
+      "type": "Item"
+    },
+    {
+      "id": "姬皮二道",
+      "label": "姬皮二道",
+      "type": "Person"
+    },
+    {
+      "id": "姬清虚",
+      "label": "姬清虚",
+      "type": "Person",
+      "status": "Alive",
+      "description": "全真教道士"
+    },
+    {
+      "id": "店伴",
+      "label": "店伴",
+      "type": "Person",
+      "status": "Alive",
+      "description": "口齿伶俐的店小二"
+    },
+    {
+      "id": "牧童",
+      "label": "牧童",
+      "type": "Person"
+    },
+    {
+      "id": "牯牛",
+      "label": "牯牛",
+      "type": "Item"
+    },
+    {
+      "id": "新郎",
+      "label": "新郎",
+      "type": "Person"
+    },
+    {
+      "id": "新娘",
+      "label": "新娘",
+      "type": "Person"
+    },
+    {
+      "id": "新娘裙下",
+      "label": "新娘裙下",
+      "type": "Location"
+    },
+    {
+      "id": "花轿",
+      "label": "花轿",
+      "type": "Location"
+    },
+    {
+      "id": "完颜萍",
+      "label": "完颜萍",
+      "type": "Person",
+      "status": "虚弱",
+      "description": "骑汗血宝马奔来的黑衣少女"
+    },
+    {
+      "id": "柳叶刀",
+      "label": "柳叶刀",
+      "type": "Item"
+    },
+    {
+      "id": "耶律齐",
+      "label": "耶律齐",
+      "type": "Person",
+      "description": "立志承继岳母的大业"
+    },
+    {
+      "id": "洪七公",
+      "label": "洪七公",
+      "type": "Person"
+    },
+    {
+      "id": "大丑",
+      "label": "大丑",
+      "type": "Person"
+    },
+    {
+      "id": "欧阳锋",
+      "label": "欧阳锋",
+      "type": "Person",
+      "status": "Dead"
+    },
+    {
+      "id": "藏边五丑",
+      "label": "藏边五丑",
+      "type": "Person"
+    },
+    {
+      "id": "洪七公与欧阳锋",
+      "label": "洪七公与欧阳锋",
+      "type": "Person"
+    },
+    {
+      "id": "郭芙",
+      "label": "郭芙",
+      "type": "Person",
+      "status": "Alive",
+      "description": "热衷权势的郭家长女"
+    },
+    {
+      "id": "武修文",
+      "label": "武修文",
+      "type": "Person"
+    },
+    {
+      "id": "武氏兄弟",
+      "label": "武氏兄弟",
+      "type": "Person"
+    },
+    {
+      "id": "武敦儒",
+      "label": "武敦儒",
+      "type": "Person"
+    },
+    {
+      "id": "霍都",
+      "label": "霍都",
+      "type": "Person",
+      "status": "Alive",
+      "description": "使用狂风迅雷功的蒙古王子"
+    },
+    {
+      "id": "狂风迅雷功",
+      "label": "狂风迅雷功",
+      "type": "Item"
+    },
+    {
+      "id": "朱子柳",
+      "label": "朱子柳",
+      "type": "Person",
+      "status": "Alive",
+      "description": "被困火浣室的书生"
+    },
+    {
+      "id": "一阳指法",
+      "label": "一阳指法",
+      "type": "Item"
+    },
+    {
+      "id": "金轮法王",
+      "label": "金轮法王",
+      "type": "Person",
+      "status": "Alive",
+      "description": "武功高强的反派"
+    },
+    {
+      "id": "青衫少女",
+      "label": "青衫少女",
+      "type": "Person",
+      "description": "精通阵法的丑陋女子"
+    },
+    {
+      "id": "石阵",
+      "label": "石阵",
+      "type": "Location"
+    },
+    {
+      "id": "冯默风",
+      "label": "冯默风",
+      "type": "Person",
+      "status": "Dead",
+      "description": "桃花岛弟子，铁匠"
+    },
+    {
+      "id": "拂尘",
+      "label": "拂尘",
+      "type": "Item",
+      "status": "被毁坏"
+    },
+    {
+      "id": "情花刺",
+      "label": "情花刺",
+      "type": "Item",
+      "status": "有毒",
+      "description": "带有剧毒的情花刺"
+    },
+    {
+      "id": "剧痛",
+      "label": "剧痛",
+      "type": "Concept",
+      "status": "持续"
+    },
+    {
+      "id": "情花",
+      "label": "情花",
+      "type": "Item",
+      "status": "毒性强烈",
+      "description": "致命的花毒"
+    },
+    {
+      "id": "情花果实",
+      "label": "情花果实",
+      "type": "Item",
+      "status": "难吃"
+    },
+    {
+      "id": "绿衫少女",
+      "label": "绿衫少女",
+      "type": "Person",
+      "status": "Alive"
+    },
+    {
+      "id": "打狗棒法",
+      "label": "打狗棒法",
+      "type": "Concept"
+    },
+    {
+      "id": "樊一翁",
+      "label": "樊一翁",
+      "type": "Person",
+      "status": "绝望",
+      "description": "公孙谷主的徒弟"
+    },
+    {
+      "id": "泼水杖法",
+      "label": "泼水杖法",
+      "type": "Concept"
+    },
+    {
+      "id": "公孙谷主",
+      "label": "公孙谷主",
+      "type": "Person",
+      "description": "绝情谷谷主"
+    },
+    {
+      "id": "石柱",
+      "label": "石柱",
+      "type": "Location"
+    },
+    {
+      "id": "绿衫弟子",
+      "label": "绿衫弟子",
+      "type": "Organization"
+    },
+    {
+      "id": "渔网阵",
+      "label": "渔网阵",
+      "type": "Concept"
+    },
+    {
+      "id": "公孙绿萼",
+      "label": "公孙绿萼",
+      "type": "Person",
+      "status": "Alive",
+      "description": "被杨过保护的女子"
+    },
+    {
+      "id": "鳄鱼",
+      "label": "鳄鱼",
+      "type": "Item",
+      "status": "Alive"
+    },
+    {
+      "id": "公孙止",
+      "label": "公孙止",
+      "type": "Person",
+      "status": "Alive",
+      "description": "狠毒且狡猾的绝情谷主"
+    },
+    {
+      "id": "阴阳双刃",
+      "label": "阴阳双刃",
+      "type": "Item"
+    },
+    {
+      "id": "凶器",
+      "label": "凶器",
+      "type": "Concept"
+    },
+    {
+      "id": "玉女素心剑法",
+      "label": "玉女素心剑法",
+      "type": "Concept"
+    },
+    {
+      "id": "法王",
+      "label": "法王",
+      "type": "Person",
+      "status": "Alive"
+    },
+    {
+      "id": "金轮",
+      "label": "金轮",
+      "type": "Item",
+      "status": "缺口"
+    },
+    {
+      "id": "哭丧棒",
+      "label": "哭丧棒",
+      "type": "Item",
+      "status": "毒砂喷出"
+    },
+    {
+      "id": "蒙古军",
+      "label": "蒙古军",
+      "type": "Organization",
+      "status": "Alive"
+    },
+    {
+      "id": "丑雕",
+      "label": "丑雕",
+      "type": "Item",
+      "description": "形貌丑陋但威武的巨雕"
+    },
+    {
+      "id": "毒蟒",
+      "label": "毒蟒",
+      "type": "Item",
+      "description": "碗口粗细的三角头巨蟒"
+    },
+    {
+      "id": "独孤求败的坟墓",
+      "label": "独孤求败的坟墓",
+      "type": "Location",
+      "description": "剑魔独孤求败的埋骨之所"
+    },
+    {
+      "id": "独孤求败的遗言",
+      "label": "独孤求败的遗言",
+      "type": "Concept",
+      "description": "剑魔独孤求败的寂寞遗言"
+    },
+    {
+      "id": "天竺僧",
+      "label": "天竺僧",
+      "type": "Person",
+      "description": "以身试毒的高僧",
+      "status": "昏迷"
+    },
+    {
+      "id": "郭襄",
+      "label": "郭襄",
+      "type": "Person",
+      "description": "机智勇敢的少女",
+      "status": "Alive"
+    },
+    {
+      "id": "周伯通",
+      "label": "周伯通",
+      "type": "Person",
+      "description": "武功高强的老顽童",
+      "status": "受伤"
+    },
+    {
+      "id": "王旗",
+      "label": "王旗",
+      "type": "Item"
+    },
+    {
+      "id": "赵志敬",
+      "label": "赵志敬",
+      "type": "Person",
+      "description": "心怀诡计的道士",
+      "status": "负伤"
+    },
+    {
+      "id": "毒物",
+      "label": "毒物",
+      "type": "Item"
+    },
+    {
+      "id": "全真道人",
+      "label": "全真道人",
+      "type": "Person",
+      "status": "负伤"
+    },
+    {
+      "id": "左右互搏之术",
+      "label": "左右互搏之术",
+      "type": "Concept"
+    },
+    {
+      "id": "郭芙的手臂",
+      "label": "郭芙的手臂",
+      "type": "Concept"
+    },
+    {
+      "id": "郭芙逃离",
+      "label": "郭芙逃离",
+      "type": "Event"
+    },
+    {
+      "id": "孙不二",
+      "label": "孙不二",
+      "type": "Person",
+      "status": "被挟持"
+    },
+    {
+      "id": "火浣室",
+      "label": "火浣室",
+      "type": "Location",
+      "status": "炽热"
+    },
+    {
+      "id": "石壁",
+      "label": "石壁",
+      "type": "Item",
+      "status": "被破坏"
+    },
+    {
+      "id": "绿萼",
+      "label": "绿萼",
+      "type": "Person",
+      "status": "Alive",
+      "description": "对父亲失望的女儿"
+    },
+    {
+      "id": "死亡",
+      "label": "死亡",
+      "type": "Concept"
+    },
+    {
+      "id": "冰魄银针",
+      "label": "冰魄银针",
+      "type": "Item",
+      "status": "毒质侵入脏腑"
+    },
+    {
+      "id": "绝情丹",
+      "label": "绝情丹",
+      "type": "Item",
+      "status": "被夺"
+    },
+    {
+      "id": "裘千尺",
+      "label": "裘千尺",
+      "type": "Person",
+      "status": "Alive",
+      "description": "被囚禁多年的复仇者"
+    },
+    {
+      "id": "蒙古兵",
+      "label": "蒙古兵",
+      "type": "Person",
+      "description": "残暴的侵略者"
+    },
+    {
+      "id": "汉人",
+      "label": "汉人",
+      "type": "Person",
+      "status": "Dead"
+    },
+    {
+      "id": "小孩",
+      "label": "小孩",
+      "type": "Person",
+      "status": "死亡"
+    },
+    {
+      "id": "襄阳军民",
+      "label": "襄阳军民",
+      "type": "Organization"
+    },
+    {
+      "id": "蒙古大军",
+      "label": "蒙古大军",
+      "type": "Organization"
+    },
+    {
+      "id": "郭大侠夫妇",
+      "label": "郭大侠夫妇",
+      "type": "Person"
+    },
+    {
+      "id": "襄阳守军",
+      "label": "襄阳守军",
+      "type": "Organization"
+    },
+    {
+      "id": "湖北商贩",
+      "label": "湖北商贩",
+      "type": "Person",
+      "status": "Alive",
+      "description": "脸上有箭疤的守城参与者"
+    },
+    {
+      "id": "蒙古箭矢",
+      "label": "蒙古箭矢",
+      "type": "Item"
+    },
+    {
+      "id": "西山一窟鬼",
+      "label": "西山一窟鬼",
+      "type": "Organization",
+      "status": "被围攻"
+    },
+    {
+      "id": "万兽山庄的野兽",
+      "label": "万兽山庄的野兽",
+      "type": "Item"
+    },
+    {
+      "id": "史伯威",
+      "label": "史伯威",
+      "type": "Person"
+    },
+    {
+      "id": "神雕",
+      "label": "神雕",
+      "type": "Item"
+    },
+    {
+      "id": "群兽",
+      "label": "群兽",
+      "type": "Item"
+    },
+    {
+      "id": "史叔刚",
+      "label": "史叔刚",
+      "type": "Person",
+      "description": "史氏兄弟中的老三，内力雄浑"
+    },
+    {
+      "id": "猛虎",
+      "label": "猛虎",
+      "type": "Item"
+    },
+    {
+      "id": "铜杵",
+      "label": "铜杵",
+      "type": "Item"
+    },
+    {
+      "id": "史氏兄弟",
+      "label": "史氏兄弟",
+      "type": "Person"
+    },
+    {
+      "id": "灵狐",
+      "label": "灵狐",
+      "type": "Item"
+    },
+    {
+      "id": "狐腿",
+      "label": "狐腿",
+      "type": "Item"
+    },
+    {
+      "id": "狐血",
+      "label": "狐血",
+      "type": "Item"
+    },
+    {
+      "id": "万兽山庄",
+      "label": "万兽山庄",
+      "type": "Location"
+    },
+    {
+      "id": "群豪",
+      "label": "群豪",
+      "type": "Organization"
+    },
+    {
+      "id": "丐帮帮主之位",
+      "label": "丐帮帮主之位",
+      "type": "Concept"
+    },
+    {
+      "id": "鲁有脚",
+      "label": "鲁有脚",
+      "type": "Person",
+      "status": "Dead"
+    },
+    {
+      "id": "丐帮弟子",
+      "label": "丐帮弟子",
+      "type": "Organization"
+    },
+    {
+      "id": "梁长老",
+      "label": "梁长老",
+      "type": "Person",
+      "description": "丐帮现存唯一元老"
+    },
+    {
+      "id": "先公后私",
+      "label": "先公后私",
+      "type": "Concept"
+    },
+    {
+      "id": "郭破虏",
+      "label": "郭破虏",
+      "type": "Person"
+    },
+    {
+      "id": "帮主之位",
+      "label": "帮主之位",
+      "type": "Concept"
+    },
+    {
+      "id": "达尔巴",
+      "label": "达尔巴",
+      "type": "Person",
+      "description": "金轮法王的二弟子，身手矫捷"
+    },
+    {
+      "id": "何师我",
+      "label": "何师我",
+      "type": "Person",
+      "description": "丐帮未来的帮主，使用短兵刃"
+    },
+    {
+      "id": "青灵子",
+      "label": "青灵子",
+      "type": "Person",
+      "description": "会说藏语，八大高手之一"
+    },
+    {
+      "id": "打狗棒",
+      "label": "打狗棒",
+      "type": "Item",
+      "description": "丐帮帮主的象征"
+    },
+    {
+      "id": "短兵刃",
+      "label": "短兵刃",
+      "type": "Item",
+      "description": "招数极奥妙"
+    },
+    {
+      "id": "黄药师",
+      "label": "黄药师",
+      "type": "Person"
+    },
+    {
+      "id": "妄人",
+      "label": "妄人",
+      "type": "Person"
+    }
+  ],
+  "edges": [
+    {
+      "source": "陆无双",
+      "target": "莲蓬",
+      "relation": "投掷",
+      "chapter": 1,
+      "location": "嘉兴南湖岸边",
+      "state": "精准命中",
+      "quote": "从小舟中拿起一个莲蓬，往那人头上掷去",
+      "context": "对怪客的怪异装扮感到好奇而恶作剧"
+    },
+    {
+      "source": "陆无双",
+      "target": "怪客手掌",
+      "relation": "咬噬",
+      "chapter": 1,
+      "location": "被挟持途中",
+      "state": "反抗失败",
+      "quote": "张口往他手掌缘上猛力咬去...牙齿撞得隐隐生痛",
+      "context": "因恐惧试图挣脱怪客控制"
+    },
+    {
+      "source": "陆无双",
+      "target": "新娘",
+      "relation": "假扮",
+      "chapter": 9,
+      "location": "乡间小路",
+      "context": "陆无双为了躲避师父李莫愁的追捕，假扮新娘与杨过玩拜天地成亲的游戏"
+    },
+    {
+      "source": "陆无双",
+      "target": "新娘裙下",
+      "relation": "躲藏",
+      "chapter": 9,
+      "location": "花轿内",
+      "context": "陆无双为了躲避师父李莫愁的搜查，躲在新娘裙下"
+    },
+    {
+      "source": "怪客",
+      "target": "程英与陆无双",
+      "relation": "挟持",
+      "chapter": 1,
+      "location": "湖边至坟场",
+      "state": "暴力挟持",
+      "quote": "长臂伸处，一手一个，将两个女孩儿挟在腋下，飞步而行",
+      "context": "因不耐烦女孩行走速度而强行带走"
+    },
+    {
+      "source": "怪客",
+      "target": "何沅君",
+      "relation": "质问",
+      "chapter": 1,
+      "location": "坟场",
+      "state": "情绪失控",
+      "quote": "突然间目现凶光，恶狠狠的道：'何沅君呢？何沅君到那里去了？'",
+      "context": "回忆引发精神异常"
+    },
+    {
+      "source": "程英",
+      "target": "怪客",
+      "relation": "安抚",
+      "chapter": 1,
+      "location": "坟场",
+      "state": "恐惧中保持善意",
+      "quote": "要是没人陪你玩，明天你再到湖边来，我剥莲子给你吃",
+      "context": "试图平息怪客的暴怒情绪"
+    },
+    {
+      "source": "道姑",
+      "target": "采莲少女歌声",
+      "relation": "聆听",
+      "chapter": 1,
+      "location": "南湖柳树下",
+      "state": "感伤",
+      "quote": "一阵风吹来，隐隐送来两句：'风月无情人暗换，旧游如梦空肠断......'",
+      "context": "触景生情引发相思愁绪"
+    },
+    {
+      "source": "武三娘",
+      "target": "李莫愁",
+      "relation": "被下毒",
+      "chapter": 2,
+      "location": "窑洞外",
+      "state": "轻抚脸颊时暗中下毒",
+      "quote": "这只柔腻温香的手掌轻抚而过，竟已下了毒手",
+      "context": "李莫愁临去时在武三娘脸上轻抚下毒"
+    },
+    {
+      "source": "李莫愁",
+      "target": "陆无双",
+      "relation": "威胁",
+      "chapter": 2,
+      "location": "窑洞外",
+      "state": "笑语中暗藏杀机",
+      "quote": "两个女娃娃在这里，是不是？不论死活，都给抛出来罢",
+      "context": "李莫愁为追杀陆展元后人逼迫众人交出孩子"
+    },
+    {
+      "source": "李莫愁",
+      "target": "小龙女",
+      "relation": "威胁",
+      "chapter": 7,
+      "location": "灵室石棺前",
+      "state": "持剑逼问",
+      "quote": "我只要杀一个人。你再说一遍，你死还是她死？",
+      "context": "得知生路断绝后的疯狂"
+    },
+    {
+      "source": "李莫愁",
+      "target": "花轿",
+      "relation": "搜查",
+      "chapter": 9,
+      "location": "乡间小路",
+      "context": "李莫愁搜查花轿，试图找到陆无双"
+    },
+    {
+      "source": "李莫愁",
+      "target": "冯默风",
+      "relation": "攻击",
+      "chapter": 16,
+      "location": "铁匠铺",
+      "state": "战斗中",
+      "quote": "李莫愁拂尘一起，向他头顶直击",
+      "context": "李莫愁对冯默风发起攻击"
+    },
+    {
+      "source": "李莫愁",
+      "target": "冯默风",
+      "relation": "夺兵刃",
+      "chapter": 16,
+      "location": "铁匠铺",
+      "state": "战斗中",
+      "quote": "拂尘已乘势弯将过来，卷住了锤头",
+      "context": "李莫愁试图夺走冯默风的铁锤"
+    },
+    {
+      "source": "李莫愁",
+      "target": "公孙止",
+      "relation": "追赶",
+      "chapter": 29,
+      "location": "山岭附近",
+      "state": "急追",
+      "context": "李莫愁跟随黄蓉一起追赶公孙止"
+    },
+    {
+      "source": "陆立鼎",
+      "target": "程英",
+      "relation": "托付",
+      "chapter": 2,
+      "location": "破窑内",
+      "state": "强忍最后一口气",
+      "quote": "阿英，你把我……我……胸口……胸口一块手帕拿出来",
+      "context": "陆立鼎临终前将保命锦帕交给程英而非亲生女儿"
+    },
+    {
+      "source": "红花绿叶锦帕",
+      "target": "李莫愁",
+      "relation": "克制",
+      "chapter": 2,
+      "location": "陆立鼎胸前",
+      "state": "被撕成两半",
+      "quote": "若是武三通前寻报仇，能避则避...但李莫愁...危急之际将这锦帕缠在颈中",
+      "context": "陆展元遗留锦帕作为克制李莫愁的保命符"
+    },
+    {
+      "source": "武三通",
+      "target": "窑洞",
+      "relation": "守护",
+      "chapter": 2,
+      "location": "窑洞外",
+      "state": "折断栗树为武器",
+      "quote": "当即双掌齐向栗树推去，吆喝声中，将树干从中击断",
+      "context": "武三通为保护窑洞内众人折断树木对抗李莫愁"
+    },
+    {
+      "source": "郭靖",
+      "target": "杨康",
+      "relation": "提及",
+      "chapter": 3,
+      "context": "郭靖与黄蓉讨论杨康的过往，提及杨康认贼作父，最终惨死于嘉兴王铁枪庙中"
+    },
+    {
+      "source": "郭靖",
+      "target": "杨过",
+      "relation": "提议",
+      "chapter": 3,
+      "context": "郭靖提议将杨过视为亲人，并考虑将郭芙许配给杨过，以履行郭杨两家的世代交好"
+    },
+    {
+      "source": "郭靖",
+      "target": "杨过",
+      "relation": "提议",
+      "chapter": 14,
+      "location": "陆家庄筵席",
+      "state": "笑嘻嘻",
+      "quote": "在下意欲将小女许配给贤徒。",
+      "context": "郭靖提议将女儿郭芙许配给杨过"
+    },
+    {
+      "source": "郭靖",
+      "target": "杨过",
+      "relation": "担忧",
+      "chapter": 27,
+      "location": "卧室",
+      "state": "真诚",
+      "context": "郭靖对杨过的安危感到担忧，甚至愿意斩断自己的手臂来弥补"
+    },
+    {
+      "source": "郭靖",
+      "target": "重阳宫",
+      "relation": "闯入",
+      "chapter": 4,
+      "location": "重阳宫",
+      "state": "火势炽烈",
+      "context": "郭靖为救全真教，闯入正在激战的重阳宫"
+    },
+    {
+      "source": "郭靖",
+      "target": "敌人",
+      "relation": "击败",
+      "chapter": 4,
+      "location": "重阳宫大殿",
+      "state": "激战中",
+      "context": "郭靖在重阳宫大殿上连续击败多名敌人"
+    },
+    {
+      "source": "郭靖",
+      "target": "摺扇",
+      "relation": "抓住",
+      "chapter": 4,
+      "location": "重阳宫大殿",
+      "state": "对峙中",
+      "context": "郭靖抓住贵公子的摺扇，试图将其拉近"
+    },
+    {
+      "source": "郭靖",
+      "target": "蒙古军",
+      "relation": "被围攻",
+      "chapter": 22,
+      "location": "蒙古军阵中",
+      "state": "铜墙铁壁",
+      "quote": "蒙古军却已在四周布得犹如铜墙铁壁一般",
+      "context": "郭靖和杨过被蒙古军团团围住，形势危急"
+    },
+    {
+      "source": "郭靖",
+      "target": "郭芙",
+      "relation": "责罚",
+      "chapter": 27,
+      "location": "卧室",
+      "state": "严厉",
+      "context": "郭芙因斩断杨过手臂而躲避责罚，郭靖决定重罚她"
+    },
+    {
+      "source": "郭靖",
+      "target": "郭芙的手臂",
+      "relation": "斩断",
+      "chapter": 27,
+      "location": "卧室",
+      "state": "即将执行",
+      "context": "郭靖决定斩断郭芙一臂以弥补杨过的损失"
+    },
+    {
+      "source": "郭靖",
+      "target": "欧阳锋",
+      "relation": "仇恨",
+      "chapter": 40,
+      "location": "华山",
+      "context": "郭靖因欧阳锋杀害恩师朱聪、韩宝驹等五侠而仇恨不已"
+    },
+    {
+      "source": "杨过",
+      "target": "蟋蟀",
+      "relation": "捕捉",
+      "chapter": 3,
+      "location": "桃花岛",
+      "context": "杨过与郭芙、武氏兄弟在桃花岛上捕捉蟋蟀为戏"
+    },
+    {
+      "source": "杨过",
+      "target": "郭芙的无敌大将军",
+      "relation": "斗蟋蟀",
+      "chapter": 3,
+      "location": "桃花岛",
+      "state": "失败",
+      "context": "杨过的蟋蟀在与郭芙的无敌大将军斗蟋蟀时连续失败，甚至有一只被咬成两截"
+    },
+    {
+      "source": "杨过",
+      "target": "小黑蟋蟀",
+      "relation": "捕捉",
+      "chapter": 3,
+      "location": "桃花岛",
+      "context": "杨过在草丛中捕捉到一只小黑蟋蟀，并决定用它与郭芙的无敌大将军斗蟋蟀"
+    },
+    {
+      "source": "杨过",
+      "target": "孙婆婆",
+      "relation": "被救治",
+      "chapter": 5,
+      "location": "活死人墓",
+      "state": "昏迷后苏醒",
+      "quote": "好孩子，你师父是谁？",
+      "context": "杨过被玉蜂螯刺后昏迷，孙婆婆救治并喂他玉蜂浆"
+    },
+    {
+      "source": "杨过",
+      "target": "孙婆婆",
+      "relation": "被安慰",
+      "chapter": 5,
+      "location": "活死人墓",
+      "state": "哭泣中",
+      "quote": "乖孩子，别哭，别哭，过一会身上就不痛啦。",
+      "context": "杨过因受伤和恐惧哭泣，孙婆婆安慰他"
+    },
+    {
+      "source": "杨过",
+      "target": "孙婆婆",
+      "relation": "被怜惜",
+      "chapter": 5,
+      "location": "活死人墓",
+      "state": "无助",
+      "quote": "我这苦命的孩子。",
+      "context": "孙婆婆听完杨过的遭遇后，怜惜地搂住他"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "被询问",
+      "chapter": 5,
+      "location": "活死人墓",
+      "state": "清醒",
+      "quote": "你闯进林子来干甚麽？",
+      "context": "小龙女询问杨过为何闯入墓地"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "被送走",
+      "chapter": 5,
+      "location": "活死人墓",
+      "state": "抗拒",
+      "quote": "我不回去，我死也不回去。",
+      "context": "小龙女要求孙婆婆送杨过离开，杨过强烈抗拒"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "追随",
+      "chapter": 7,
+      "location": "古墓断龙石前",
+      "state": "决绝",
+      "quote": "姑姑，你再也赶我不出去啦",
+      "context": "在断龙石落下前最后一刻冲入墓中"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "自愿替死",
+      "chapter": 7,
+      "location": "灵室",
+      "state": "含笑赴死",
+      "quote": "正是！",
+      "context": "面对李莫愁死亡威胁时的选择"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "等待",
+      "chapter": 8,
+      "location": "豺狼谷",
+      "context": "杨过在豺狼谷等待小龙女的出现，准备戏弄她"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "被吸引",
+      "chapter": 14,
+      "location": "陆家庄筵席",
+      "state": "轻嗔薄怒",
+      "quote": "这轻嗔薄怒的模样，真教他为之粉身碎骨也是甘心情愿。",
+      "context": "小龙女因杨过不坐在身边而生气，杨过被她的神情吸引"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "思念",
+      "chapter": 17,
+      "location": "绝情谷",
+      "state": "手指被刺痛后",
+      "quote": "倘若身旁陪我同行的是我姑姑，我真愿永远住在这儿，再不出谷去了。",
+      "context": "杨过在绝情谷中因思念小龙女而被情花刺刺痛"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "刻意回避目光",
+      "chapter": 20,
+      "state": "动情则毒发",
+      "quote": "“你要我死，那就跟我说话好了！”",
+      "context": "避免双剑合璧时情动毒发"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "支撑",
+      "chapter": 28,
+      "location": "重阳宫",
+      "state": "小龙女重伤",
+      "quote": "姑姑，咱们去罢！",
+      "context": "杨过支撑重伤的小龙女，准备离开重阳宫"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "表白",
+      "chapter": 28,
+      "location": "重阳宫",
+      "state": "小龙女重伤",
+      "quote": "从今而後，你不是我师父，不是我姑姑，是我妻子！",
+      "context": "杨过在重阳宫向重伤的小龙女表白，决定与她结为夫妻"
+    },
+    {
+      "source": "杨过",
+      "target": "小龙女",
+      "relation": "担忧",
+      "chapter": 32,
+      "location": "石上",
+      "state": "内力裹住毒质",
+      "quote": "杨大哥，你现下有了杨大嫂，叫我表妹可得改改口了。",
+      "context": "杨过与小龙女、程英、陆无双四人交谈，提及小龙女中毒之事"
+    },
+    {
+      "source": "杨过",
+      "target": "蜜浆",
+      "relation": "放下",
+      "chapter": 6,
+      "location": "全真教宫前",
+      "context": "杨过将小龙女给的蜜浆放在赵志敬面前"
+    },
+    {
+      "source": "杨过",
+      "target": "鹿清笃",
+      "relation": "躲避",
+      "chapter": 6,
+      "location": "全真教宫前",
+      "context": "杨过利用古墓派轻功躲避鹿清笃的攻击"
+    },
+    {
+      "source": "杨过",
+      "target": "鹿清笃",
+      "relation": "带倒",
+      "chapter": 6,
+      "location": "全真教宫前",
+      "context": "杨过在躲避时顺势带倒鹿清笃，使其跌倒"
+    },
+    {
+      "source": "杨过",
+      "target": "轻功",
+      "relation": "练习",
+      "chapter": 6,
+      "location": "古墓",
+      "context": "杨过在古墓中练习捉麻雀以提升轻功"
+    },
+    {
+      "source": "杨过",
+      "target": "掌法",
+      "relation": "学习",
+      "chapter": 6,
+      "location": "古墓外",
+      "context": "杨过观看小龙女的掌法，试图学习"
+    },
+    {
+      "source": "杨过",
+      "target": "古墓派誓言",
+      "relation": "破解",
+      "chapter": 7,
+      "context": "通过自愿赴死行为解除小龙女禁制"
+    },
+    {
+      "source": "杨过",
+      "target": "银子",
+      "relation": "偷窃",
+      "chapter": 8,
+      "location": "姬皮二道房中",
+      "context": "杨过潜入道士房间，偷走银子作为盘缠"
+    },
+    {
+      "source": "杨过",
+      "target": "长剑",
+      "relation": "破坏",
+      "chapter": 8,
+      "location": "姬皮二道房中",
+      "context": "杨过折断道士的长剑，使其无法使用"
+    },
+    {
+      "source": "杨过",
+      "target": "姬皮二道",
+      "relation": "恶作剧",
+      "chapter": 8,
+      "location": "姬皮二道房中",
+      "context": "杨过在道士的被窝中拉尿，引发道士的混乱"
+    },
+    {
+      "source": "杨过",
+      "target": "牧童",
+      "relation": "伪装",
+      "chapter": 8,
+      "location": "农舍",
+      "context": "杨过伪装成牧童，准备戏弄小龙女"
+    },
+    {
+      "source": "杨过",
+      "target": "牯牛",
+      "relation": "驯服",
+      "chapter": 8,
+      "location": "农舍",
+      "context": "杨过驯服发情的牯牛，骑上牛背前往豺狼谷"
+    },
+    {
+      "source": "杨过",
+      "target": "新郎",
+      "relation": "假扮",
+      "chapter": 9,
+      "location": "乡间小路",
+      "context": "杨过为了躲避李莫愁的追捕，假扮新郎与陆无双玩拜天地成亲的游戏"
+    },
+    {
+      "source": "杨过",
+      "target": "新郎",
+      "relation": "威胁",
+      "chapter": 9,
+      "location": "乡间小路",
+      "state": "新郎被抛向空中",
+      "context": "杨过为了逼迫迎亲队伍配合，将新郎抛向空中进行威胁"
+    },
+    {
+      "source": "杨过",
+      "target": "李莫愁",
+      "relation": "假装害羞",
+      "chapter": 9,
+      "location": "乡间小路",
+      "context": "杨过假装害羞，低头不与李莫愁对视，以避免被发现"
+    },
+    {
+      "source": "杨过",
+      "target": "郭靖",
+      "relation": "拒绝",
+      "chapter": 14,
+      "location": "陆家庄筵席",
+      "state": "郑重",
+      "quote": "婚姻之命，却实是不敢遵从。",
+      "context": "杨过郑重拒绝郭靖的提亲"
+    },
+    {
+      "source": "杨过",
+      "target": "郭靖",
+      "relation": "被救",
+      "chapter": 22,
+      "location": "蒙古军阵中",
+      "state": "昏昏沉沉",
+      "quote": "郭靖本已昏昏沉沉，突然被杆棒一戳，睁开眼来，当即俯身拉住杨过胸口，将他提上马背",
+      "context": "郭靖在昏迷中被杨过戳醒，将杨过提上马背"
+    },
+    {
+      "source": "杨过",
+      "target": "金轮法王",
+      "relation": "格开",
+      "chapter": 15,
+      "location": "石阵内",
+      "state": "喷出鲜血",
+      "quote": "仍是横棒挥出，将他这一拿格开",
+      "context": "拼死保护黄蓉导致伤势加重"
+    },
+    {
+      "source": "杨过",
+      "target": "青衫少女",
+      "relation": "错认",
+      "chapter": 15,
+      "location": "夜色石阵",
+      "state": "紧抱哀求",
+      "quote": "姑姑，过儿受了伤，你别走开了不理我",
+      "context": "将丑女误认为小龙女并流露脆弱"
+    },
+    {
+      "source": "杨过",
+      "target": "情花刺",
+      "relation": "被刺痛",
+      "chapter": 17,
+      "location": "绝情谷",
+      "state": "手指刺损",
+      "quote": "想到你意中人了，是不是？",
+      "context": "杨过因思念小龙女而被情花刺刺痛，剧痛难忍"
+    },
+    {
+      "source": "杨过",
+      "target": "绿衫少女",
+      "relation": "逗笑",
+      "chapter": 17,
+      "location": "绝情谷",
+      "state": "二人关系缓和",
+      "quote": "世上皆知美人一笑的难得，说甚麽一笑倾城，再笑倾国，其实美人另有一样，比笑更是难得。",
+      "context": "杨过通过逗笑绿衫少女，缓和了二人之间的生分隔阂"
+    },
+    {
+      "source": "杨过",
+      "target": "打狗棒法",
+      "relation": "施展",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "以柳枝代棒",
+      "quote": "杨过双手一拱，笑道：“多谢了！这位矮老兄人是不坏的，只可惜他拜错了师父，武艺很差，一根柳条儿已够他受的。”",
+      "context": "杨过用柳枝施展打狗棒法对抗樊一翁的钢杖"
+    },
+    {
+      "source": "杨过",
+      "target": "樊一翁",
+      "relation": "压制",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "柳枝制钢杖",
+      "quote": "杨过朗声说道：“你能立定脚跟不倒，算你是英雄好汉。就只怕你师父差劲，教的出来徒儿上阵要摔交。”",
+      "context": "杨过用柳枝压制樊一翁的钢杖"
+    },
+    {
+      "source": "杨过",
+      "target": "樊一翁",
+      "relation": "劝阻",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "情感共鸣",
+      "quote": "杨过凄然道：“我也不知。只是我心中伤痛过你十倍，我还没自尽，你又何必如此？”",
+      "context": "杨过以自身经历劝阻樊一翁自杀"
+    },
+    {
+      "source": "杨过",
+      "target": "公孙绿萼",
+      "relation": "保护",
+      "chapter": 19,
+      "location": "深渊之旁的岩石",
+      "state": "鳄鱼袭击中",
+      "quote": "别怕，你躲在我身後。",
+      "context": "杨过在鳄鱼袭击中保护公孙绿萼"
+    },
+    {
+      "source": "杨过",
+      "target": "公孙绿萼",
+      "relation": "托举",
+      "chapter": 19,
+      "location": "深渊之旁的岩石",
+      "state": "鳄鱼袭击中",
+      "quote": "杨过伸掌在她背心一托，将她救上。",
+      "context": "杨过在公孙绿萼滑落时托举救她"
+    },
+    {
+      "source": "杨过",
+      "target": "鳄鱼",
+      "relation": "击杀",
+      "chapter": 19,
+      "location": "深渊之旁的岩石",
+      "state": "鳄鱼咬向杨过肩头",
+      "quote": "喀喇一响，鳄鱼两颚从中裂开，登时身死。",
+      "context": "杨过在危急中徒手击杀鳄鱼"
+    },
+    {
+      "source": "杨过",
+      "target": "鳄鱼",
+      "relation": "踢击",
+      "chapter": 19,
+      "location": "深渊之旁的岩石",
+      "state": "鳄鱼咬向杨过足部",
+      "quote": "杨过右足回缩，跟著挥脚踢出，正中鳄鱼下颚。",
+      "context": "杨过在鳄鱼咬向自己足部时反击"
+    },
+    {
+      "source": "杨过",
+      "target": "鳄鱼",
+      "relation": "踢击",
+      "chapter": 19,
+      "location": "深渊之旁的岩石",
+      "state": "鳄鱼爬近",
+      "quote": "杨过左足将一鳄踢下岩去，这一脚踢得重了，抱持绿萼不稳，她身子一侧，向岩下滑落。",
+      "context": "杨过在鳄鱼爬近时踢击"
+    },
+    {
+      "source": "杨过",
+      "target": "金轮",
+      "relation": "被划伤",
+      "chapter": 22,
+      "location": "蒙古军阵中",
+      "state": "鲜血迸流",
+      "quote": "右手下臂又被轮口划伤，伤口虽然不深，但划破了血脉，鲜血迸流",
+      "context": "杨过与法王激战，被金轮划伤手臂"
+    },
+    {
+      "source": "杨过",
+      "target": "哭丧棒",
+      "relation": "使用",
+      "chapter": 22,
+      "location": "蒙古军阵中",
+      "state": "毒烟喷出",
+      "quote": "棒端喷出一股黑烟，身前十馀名蒙古兵将给毒烟一薰，登时摔倒",
+      "context": "杨过无意中触发哭丧棒的机括，喷出毒砂击倒蒙古兵"
+    },
+    {
+      "source": "杨过",
+      "target": "丑雕",
+      "relation": "观察",
+      "chapter": 23,
+      "location": "山谷",
+      "state": "夜间",
+      "quote": "只见那丑雕张开大口，将中条毒蛇吞在腹中。",
+      "context": "杨过被丑雕的神技所吸引，暗中观察其与毒蛇的战斗"
+    },
+    {
+      "source": "杨过",
+      "target": "丑雕",
+      "relation": "救助",
+      "chapter": 23,
+      "location": "山谷",
+      "state": "紧急",
+      "quote": "杨过不愿丑雕为毒蛇所害，当即纵身而出，拔剑往蛇身上斩去。",
+      "context": "杨过试图救助被毒蟒缠绕的丑雕"
+    },
+    {
+      "source": "杨过",
+      "target": "独孤求败的坟墓",
+      "relation": "发现",
+      "chapter": 23,
+      "location": "山洞",
+      "state": "探索中",
+      "quote": "杨过见洞角有一堆乱石高起，极似一个坟墓。",
+      "context": "杨过在山洞中发现独孤求败的坟墓"
+    },
+    {
+      "source": "杨过",
+      "target": "独孤求败的遗言",
+      "relation": "阅读",
+      "chapter": 23,
+      "location": "山洞",
+      "state": "感慨",
+      "quote": "“纵横江湖三十馀载，杀尽仇寇，败尽英雄，天下更无抗手，无可柰何，惟隐居深谷，以雕为友。呜呼，生平求一敌手而不可得，诚寂寥难堪也。”",
+      "context": "杨过阅读独孤求败的遗言，深感其寂寞"
+    },
+    {
+      "source": "杨过",
+      "target": "情花",
+      "relation": "中毒于",
+      "chapter": 24,
+      "location": "绝情谷",
+      "state": "情毒交缠",
+      "quote": "要我绝了对姑姑情意，又何必活在世上？",
+      "context": "因思念小龙女导致情花毒加剧"
+    },
+    {
+      "source": "杨过",
+      "target": "武氏兄弟",
+      "relation": "欺骗",
+      "chapter": 24,
+      "location": "未知",
+      "state": "言语轻薄",
+      "quote": "我是为了他们好，免得他们亲兄弟拚个你死我活",
+      "context": "编造郭芙婚约谎言离间兄弟"
+    },
+    {
+      "source": "杨过",
+      "target": "郭襄",
+      "relation": "意图利用",
+      "chapter": 24,
+      "location": "未知",
+      "state": "计划败露",
+      "quote": "你的性命值钱，我妹妹的性命便不值钱",
+      "context": "被郭芙发现企图用婴儿换解药"
+    },
+    {
+      "source": "杨过",
+      "target": "郭襄",
+      "relation": "追出",
+      "chapter": 35,
+      "context": "杨过见郭襄满怀心事，追出去询问她有何为难之事"
+    },
+    {
+      "source": "杨过",
+      "target": "郭芙逃离",
+      "relation": "目睹",
+      "chapter": 27,
+      "location": "木笔花树上",
+      "state": "犹豫",
+      "context": "杨过目睹郭芙逃离，犹豫是否要出手阻止"
+    },
+    {
+      "source": "杨过",
+      "target": "孙不二",
+      "relation": "擒获",
+      "chapter": 28,
+      "location": "重阳宫",
+      "state": "孙不二被擒",
+      "quote": "孙道长，多有得罪，回头向你陪礼。",
+      "context": "杨过擒获孙不二，作为人质以确保小龙女的安全"
+    },
+    {
+      "source": "杨过",
+      "target": "孙不二",
+      "relation": "挟持",
+      "chapter": 28,
+      "location": "重阳宫后殿",
+      "state": "孙不二被挟持",
+      "quote": "各位请都站在殿外，谁都不可进殿一步。",
+      "context": "杨过挟持孙不二，要求全真教道士不得进入后殿"
+    },
+    {
+      "source": "杨过",
+      "target": "石壁",
+      "relation": "劈开",
+      "chapter": 31,
+      "location": "火浣室",
+      "state": "心急如焚",
+      "quote": "举起玄铁重剑，一剑斩出，喀的一声响，石壁上登时穿了一个大洞",
+      "context": "杨过为救天竺僧和朱子柳，用玄铁重剑劈开石壁"
+    },
+    {
+      "source": "杨过",
+      "target": "西山一窟鬼",
+      "relation": "约斗",
+      "chapter": 34,
+      "location": "倒马坪",
+      "context": "杨过与西山一窟鬼有约在先，前来赴约"
+    },
+    {
+      "source": "杨过",
+      "target": "史伯威",
+      "relation": "喝止",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "语言无礼",
+      "quote": "快喝住这些虎狼狮豹罢，再迟得片刻，假鬼只怕要变真鬼。",
+      "context": "杨过要求史伯威停止野兽攻击西山一窟鬼"
+    },
+    {
+      "source": "杨过",
+      "target": "史伯威",
+      "relation": "击败",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "手腕剧痛",
+      "quote": "杨过右肩微晃，袖子从上而下，噗的一声，击在他双腕之上。",
+      "context": "杨过轻松击败史伯威"
+    },
+    {
+      "source": "杨过",
+      "target": "史叔刚",
+      "relation": "留情",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "死里逃生",
+      "quote": "身前一股排山倒海而至的巨力霎时间消于无形无踪。",
+      "context": "杨过发现史叔刚有病，手下留情"
+    },
+    {
+      "source": "杨过",
+      "target": "猛虎",
+      "relation": "使用",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "活兵刃",
+      "quote": "杨过伸手抓住猛虎头颈，将这畜生当作了一件活兵刃",
+      "context": "杨过用猛虎作为武器对抗史氏兄弟"
+    },
+    {
+      "source": "杨过",
+      "target": "铜杵",
+      "relation": "折断",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "断成两截",
+      "quote": "杨过左手往上急拗。这一拗之力集于铜杵中部，运劲既巧且猛",
+      "context": "杨过折断史季强的铜杵，展示神功"
+    },
+    {
+      "source": "杨过",
+      "target": "史氏兄弟",
+      "relation": "震慑",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "服气",
+      "quote": "神雕侠手下留情，饶了自己的性命",
+      "context": "杨过以实力震慑史氏兄弟，使其服气"
+    },
+    {
+      "source": "杨过",
+      "target": "周伯通",
+      "relation": "请得",
+      "chapter": 35,
+      "context": "杨过请周伯通来和瑛姑团聚，令慈恩安心而死"
+    },
+    {
+      "source": "杨过",
+      "target": "灵狐",
+      "relation": "取得",
+      "chapter": 35,
+      "context": "杨过取得灵狐，一番辛劳，连做三件好事"
+    },
+    {
+      "source": "杨过",
+      "target": "万兽山庄",
+      "relation": "回到",
+      "chapter": 35,
+      "context": "杨过和郭襄、神雕一齐回到万兽山庄"
+    },
+    {
+      "source": "杨过",
+      "target": "欧阳锋",
+      "relation": "思念",
+      "chapter": 40,
+      "location": "华山",
+      "context": "杨过因旧情在欧阳锋墓前跪拜"
+    },
+    {
+      "source": "杨过",
+      "target": "黄药师",
+      "relation": "谦逊",
+      "chapter": 40,
+      "location": "华山",
+      "quote": "想小子年幼，岂敢和各位前辈比肩。",
+      "context": "杨过谦逊表示不敢与前辈比肩"
+    },
+    {
+      "source": "杨过",
+      "target": "妄人",
+      "relation": "震慑",
+      "chapter": 40,
+      "location": "华山",
+      "context": "杨过以长啸震慑前来华山论剑的妄人"
+    },
+    {
+      "source": "黄蓉",
+      "target": "郭靖的提议",
+      "relation": "反对",
+      "chapter": 3,
+      "context": "黄蓉反对将郭芙许配给杨过，担心杨过聪明过度，可能带来不良影响"
+    },
+    {
+      "source": "黄蓉",
+      "target": "小龙女",
+      "relation": "观察",
+      "chapter": 13,
+      "location": "大厅",
+      "state": "好奇",
+      "quote": "黄蓉愈看愈奇，到後来竟是注视他二人多而看霍朱二人少了。",
+      "context": "黄蓉对小龙女的身份和武功感到好奇"
+    },
+    {
+      "source": "黄蓉",
+      "target": "杨过",
+      "relation": "怀疑",
+      "chapter": 14,
+      "location": "陆家庄筵席",
+      "state": "暗怪",
+      "quote": "难道两人行止乖悖，竟做出逆伦之事来？",
+      "context": "黄蓉怀疑杨过与小龙女之间有不正当关系"
+    },
+    {
+      "source": "黄蓉",
+      "target": "杨过",
+      "relation": "协助",
+      "chapter": 32,
+      "location": "大厅",
+      "state": "打狗棒缠斗",
+      "quote": "黄蓉已抢过打狗棒跟着跃高，使个“缠”字诀，往他脚上缠去。",
+      "context": "黄蓉协助杨过阻止公孙止逃离"
+    },
+    {
+      "source": "黄蓉",
+      "target": "杨过",
+      "relation": "提议",
+      "chapter": 40,
+      "location": "华山",
+      "context": "黄蓉提议杨过继承西毒称号，但因其手段和心肠不毒而改称'西狂'"
+    },
+    {
+      "source": "黄蓉",
+      "target": "郭靖",
+      "relation": "阻止",
+      "chapter": 27,
+      "location": "卧室",
+      "state": "紧急",
+      "context": "黄蓉及时出现，用打狗棒法阻止郭靖斩断郭芙手臂"
+    },
+    {
+      "source": "黄蓉",
+      "target": "郭芙",
+      "relation": "救出",
+      "chapter": 27,
+      "location": "卧室",
+      "state": "迅速",
+      "context": "黄蓉将郭芙从窗口摔出，让她逃离郭靖的责罚"
+    },
+    {
+      "source": "黄蓉",
+      "target": "公孙止",
+      "relation": "追赶",
+      "chapter": 29,
+      "location": "山岭附近",
+      "state": "急追",
+      "context": "黄蓉和李莫愁追赶公孙止，试图救回郭芙和完颜萍"
+    },
+    {
+      "source": "黄蓉",
+      "target": "公孙止",
+      "relation": "质问",
+      "chapter": 29,
+      "location": "山岭附近",
+      "state": "愤怒",
+      "quote": "阁下是谁？我和你素不相识，何以擒我女儿？",
+      "context": "黄蓉质问公孙止为何挟制她的女儿"
+    },
+    {
+      "source": "黄蓉",
+      "target": "鲁有脚",
+      "relation": "追悼",
+      "chapter": 36,
+      "location": "校场高台",
+      "quote": "鲁故帮主仁厚仗义...为奸人霍都所害",
+      "context": "在丐帮大会上公开悼念遇害的前帮主"
+    },
+    {
+      "source": "黄蓉",
+      "target": "帮主之位",
+      "relation": "推辞",
+      "chapter": 36,
+      "state": "需专注抗蒙",
+      "context": "因军务繁忙婉拒重任"
+    },
+    {
+      "source": "小黑蟋蟀",
+      "target": "无敌大将军",
+      "relation": "战胜",
+      "chapter": 3,
+      "location": "桃花岛",
+      "context": "小黑蟋蟀在与无敌大将军的斗蟋蟀中获胜，无敌大将军被咬死"
+    },
+    {
+      "source": "马钰",
+      "target": "北斗阵",
+      "relation": "指挥",
+      "chapter": 4,
+      "location": "重阳宫大殿",
+      "state": "守御严密",
+      "context": "马钰等七人结成北斗阵，抵御敌人围攻"
+    },
+    {
+      "source": "贵公子",
+      "target": "郭靖",
+      "relation": "挑战",
+      "chapter": 4,
+      "location": "重阳宫大殿",
+      "state": "对峙中",
+      "context": "贵公子向郭靖提出三十招之约"
+    },
+    {
+      "source": "小龙女",
+      "target": "杨过",
+      "relation": "教导",
+      "chapter": 6,
+      "location": "古墓",
+      "context": "小龙女教导杨过如何更好地使用轻功"
+    },
+    {
+      "source": "小龙女",
+      "target": "杨过",
+      "relation": "凝视",
+      "chapter": 13,
+      "location": "大厅",
+      "state": "平静",
+      "quote": "但见小龙女衣带在疾风中猎猎飘动，她却行若无事，只是脉脉含情的凝视杨过。",
+      "context": "小龙女在激烈的战斗中依然专注凝视杨过"
+    },
+    {
+      "source": "小龙女",
+      "target": "杨过",
+      "relation": "教授",
+      "chapter": 14,
+      "location": "陆家庄筵席",
+      "state": "得意",
+      "quote": "是啊，你说我教得好不好？",
+      "context": "小龙女被问及杨过的武功是否是她所教时，得意地回答"
+    },
+    {
+      "source": "小龙女",
+      "target": "杨过",
+      "relation": "解毒让药",
+      "chapter": 20,
+      "state": "自我牺牲",
+      "quote": "“我把药让给你服了，我是甘心情愿的为你而死。”",
+      "context": "明知自身将死仍转让解药"
+    },
+    {
+      "source": "小龙女",
+      "target": "掌法",
+      "relation": "展示",
+      "chapter": 6,
+      "location": "古墓外",
+      "context": "小龙女展示古墓派掌法，控制八十一只麻雀"
+    },
+    {
+      "source": "小龙女",
+      "target": "断龙石机关",
+      "relation": "启动",
+      "chapter": 7,
+      "location": "古墓入口",
+      "state": "泪流满面",
+      "quote": "你放石罢！",
+      "context": "为遵守师命亲手封闭活墓"
+    },
+    {
+      "source": "小龙女",
+      "target": "公孙止",
+      "relation": "以死相拼",
+      "chapter": 20,
+      "location": "喜服之下",
+      "state": "贞洁保卫战",
+      "quote": "“过儿，这等恶人，原也不必跟他客气。”",
+      "context": "为防玷污贞洁预先藏剑"
+    },
+    {
+      "source": "小龙女",
+      "target": "赵志敬",
+      "relation": "监视",
+      "chapter": 25,
+      "location": "山洞外",
+      "state": "无声无息",
+      "quote": "连尊长竟也不顾了吗？",
+      "context": "小龙女一直在监视赵志敬的行动，最终现身质问"
+    },
+    {
+      "source": "小龙女",
+      "target": "赵志敬",
+      "relation": "刺伤",
+      "chapter": 26,
+      "location": "全真教大殿",
+      "state": "肩头中剑",
+      "quote": "赵志敬已然肩头中剑。",
+      "context": "小龙女在全真教大殿中与群道交手，迅速刺伤赵志敬"
+    },
+    {
+      "source": "小龙女",
+      "target": "鹿清笃",
+      "relation": "刺伤",
+      "chapter": 26,
+      "location": "全真教大殿",
+      "state": "手腕、腿部中剑",
+      "quote": "鹿清笃左腕、右腕、左腿、右腿各已中剑，大吼一声，倒地不起。",
+      "context": "小龙女在全真教大殿中与群道交手，迅速刺伤鹿清笃"
+    },
+    {
+      "source": "小龙女",
+      "target": "全真道人",
+      "relation": "刺伤",
+      "chapter": 26,
+      "location": "全真教大殿",
+      "state": "手腕中剑",
+      "quote": "众道人但见她剑光从眼前掠过，手腕便感剧痛，直是束手受戮，绝无招架之机。",
+      "context": "小龙女在全真教大殿中与群道交手，迅速刺伤多名全真道人"
+    },
+    {
+      "source": "小龙女",
+      "target": "左右互搏之术",
+      "relation": "使用",
+      "chapter": 26,
+      "location": "全真教大殿",
+      "state": "武功倍增",
+      "quote": "原来小龙女得周伯通授以分心二用、左右互搏之术，斗然间武功倍增。",
+      "context": "小龙女在全真教大殿中使用左右互搏之术，武功大增"
+    },
+    {
+      "source": "小龙女",
+      "target": "玉女素心剑法",
+      "relation": "使用",
+      "chapter": 26,
+      "location": "全真教大殿",
+      "state": "威力尤强",
+      "quote": "她与杨过双剑合璧使那“玉女素心剑法”，天下已少有抗手，此刻她一人同使两剑，威力尤强。",
+      "context": "小龙女在全真教大殿中使用玉女素心剑法，威力强大"
+    },
+    {
+      "source": "小龙女",
+      "target": "冰魄银针",
+      "relation": "中毒于",
+      "chapter": 32,
+      "location": "石上",
+      "state": "内力裹住毒质",
+      "quote": "也没怎样。我运内力裹住毒质，不让它发作，几天之中，谅无大碍。",
+      "context": "小龙女解释自己中毒的情况"
+    },
+    {
+      "source": "鹿清笃",
+      "target": "杨过",
+      "relation": "攻击",
+      "chapter": 6,
+      "location": "全真教宫前",
+      "context": "鹿清笃因杨过叛出师门而怒火上冲，试图攻击杨过"
+    },
+    {
+      "source": "尹志平",
+      "target": "鹿清笃",
+      "relation": "阻止",
+      "chapter": 6,
+      "location": "全真教宫前",
+      "context": "尹志平阻止鹿清笃继续攻击杨过"
+    },
+    {
+      "source": "断龙石",
+      "target": "古墓",
+      "relation": "封锁",
+      "chapter": 7,
+      "context": "重逾万斤的终极机关落下"
+    },
+    {
+      "source": "林朝英",
+      "target": "古墓派誓言",
+      "relation": "立下",
+      "chapter": 7,
+      "context": "要求传人终身不下终南山的残酷门规"
+    },
+    {
+      "source": "姬清虚",
+      "target": "店伴",
+      "relation": "指责",
+      "chapter": 8,
+      "location": "客店",
+      "context": "姬清虚指责店伴开黑店，偷走他们的银子"
+    },
+    {
+      "source": "店伴",
+      "target": "姬清虚",
+      "relation": "反驳",
+      "chapter": 8,
+      "location": "客店",
+      "context": "店伴反驳姬清虚的指责，证明自己清白"
+    },
+    {
+      "source": "完颜萍",
+      "target": "柳叶刀",
+      "relation": "自刎",
+      "chapter": 10,
+      "location": "室内",
+      "state": "绝望中",
+      "quote": "咱们到阴世再算帐罢！",
+      "context": "完颜萍因三次报仇失败，心生绝望，选择自刎"
+    },
+    {
+      "source": "完颜萍",
+      "target": "耶律齐",
+      "relation": "被点穴",
+      "chapter": 10,
+      "location": "室内",
+      "state": "被控制",
+      "quote": "姑娘只要答应以後不再寻仇，你这就去罢！",
+      "context": "耶律齐点穴控制完颜萍，劝其放弃寻仇"
+    },
+    {
+      "source": "完颜萍",
+      "target": "耶律齐",
+      "relation": "被激怒",
+      "chapter": 10,
+      "location": "室内",
+      "state": "愤怒中",
+      "quote": "哼，我武艺远不及你，怎能找你报仇？罢了，罢了。",
+      "context": "耶律齐用言语激怒完颜萍，试图改变其心态"
+    },
+    {
+      "source": "完颜萍",
+      "target": "公孙止",
+      "relation": "被挟制",
+      "chapter": 29,
+      "location": "山岭附近",
+      "state": "被强行控制",
+      "context": "公孙止同时挟制了完颜萍，试图带走她"
+    },
+    {
+      "source": "耶律齐",
+      "target": "柳叶刀",
+      "relation": "夺刀",
+      "chapter": 10,
+      "location": "室内",
+      "state": "迅速出手",
+      "quote": "好端端的，何必自寻短见？",
+      "context": "耶律齐在完颜萍自刎时迅速夺刀，阻止其自杀"
+    },
+    {
+      "source": "耶律齐",
+      "target": "完颜萍",
+      "relation": "劝解",
+      "chapter": 10,
+      "location": "室内",
+      "state": "言语相劝",
+      "quote": "你所学的铁掌功夫，本来也是掌世一门了不起的武功，只是教你的那位师父所学未精，你练的时日又浅，难以克敌致胜，原是理所当然。",
+      "context": "耶律齐劝解完颜萍，指出其武功不足的原因，鼓励她另寻明师"
+    },
+    {
+      "source": "耶律齐",
+      "target": "史叔刚",
+      "relation": "被阻",
+      "chapter": 37,
+      "location": "台边",
+      "state": "无法击退",
+      "quote": "耶律齐连变数招，始终不能将他击退，心下暗暗骇异。",
+      "context": "耶律齐试图上台援助何师我，但被史叔刚阻拦"
+    },
+    {
+      "source": "洪七公",
+      "target": "杨过",
+      "relation": "试探",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "context": "洪七公装死试探杨过是否能守三日之约"
+    },
+    {
+      "source": "洪七公",
+      "target": "大丑",
+      "relation": "攻击",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "state": "双臂发麻，胸口疼痛",
+      "context": "洪七公使用降龙十八掌攻击大丑，大丑奋力抵挡"
+    },
+    {
+      "source": "洪七公",
+      "target": "大丑",
+      "relation": "询问",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "context": "洪七公询问大丑的师父是谁，得知是达尔巴门下"
+    },
+    {
+      "source": "洪七公",
+      "target": "大丑",
+      "relation": "询问",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "context": "洪七公询问大丑的门派，得知是金轮法王门下"
+    },
+    {
+      "source": "洪七公",
+      "target": "欧阳锋",
+      "relation": "较量",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "context": "洪七公与欧阳锋在华山第三度相逢，比拼功力"
+    },
+    {
+      "source": "洪七公",
+      "target": "藏边五丑",
+      "relation": "饶恕",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "context": "洪七公饶恕藏边五丑，让他们回去告诉金轮法王来中原较量"
+    },
+    {
+      "source": "欧阳锋",
+      "target": "藏边五丑",
+      "relation": "攻击",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "state": "五脏六腑均受重伤，筋酥骨软",
+      "context": "欧阳锋在五丑背后撑足，内力通过五人身体"
+    },
+    {
+      "source": "欧阳锋",
+      "target": "洪七公",
+      "relation": "询问",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "context": "欧阳锋询问洪七公的名字，洪七公自称欧阳锋"
+    },
+    {
+      "source": "藏边五丑",
+      "target": "洪七公与欧阳锋",
+      "relation": "受伤",
+      "chapter": 11,
+      "location": "华山窄道路口",
+      "state": "五脏六腑均受重伤，筋酥骨软",
+      "context": "藏边五丑夹在洪七公与欧阳锋之间，内力来回交逼"
+    },
+    {
+      "source": "郭芙",
+      "target": "杨过",
+      "relation": "嘲笑",
+      "chapter": 12,
+      "location": "柳树下",
+      "state": "言语讥讽",
+      "quote": "杨兄，这匹千里宝马妙得紧啊，亏你好本事觅来？",
+      "context": "郭芙与武氏兄弟嘲笑杨过的瘦马"
+    },
+    {
+      "source": "郭芙",
+      "target": "杨过",
+      "relation": "邀请",
+      "chapter": 12,
+      "location": "柳树下",
+      "state": "随意",
+      "quote": "杨大哥，你也跟我们去罢。",
+      "context": "郭芙邀请杨过一同偷看打狗棒法"
+    },
+    {
+      "source": "郭芙",
+      "target": "杨过",
+      "relation": "安慰",
+      "chapter": 12,
+      "location": "柳树下",
+      "state": "随意",
+      "quote": "回头我要妈给你做几件新衣，你打扮起来，就不会这般难看了。",
+      "context": "郭芙安慰杨过关于他的衣着"
+    },
+    {
+      "source": "郭芙",
+      "target": "杨过",
+      "relation": "质问",
+      "chapter": 24,
+      "location": "杨过卧室",
+      "state": "情绪崩溃",
+      "quote": "女孩儿家清清白白的名声，能任你乱说得的麽？",
+      "context": "因杨过散布婚约谣言导致名誉受损"
+    },
+    {
+      "source": "郭芙",
+      "target": "杨过",
+      "relation": "指控",
+      "chapter": 24,
+      "location": "杨过卧室",
+      "state": "歇斯底里",
+      "quote": "你既还怕爹爹，怎敢捏造谎言，辱我母亲？",
+      "context": "揭穿杨过诬陷黄蓉授艺招婿的谎言"
+    },
+    {
+      "source": "郭芙",
+      "target": "武氏兄弟",
+      "relation": "提议",
+      "chapter": 12,
+      "location": "柳树下",
+      "state": "密谋",
+      "quote": "咱们去偷著瞧瞧，看那打狗棒法究竟是个甚麽宝贝模样。",
+      "context": "郭芙提议偷看打狗棒法"
+    },
+    {
+      "source": "郭芙",
+      "target": "长剑",
+      "relation": "被击飞武器",
+      "chapter": 15,
+      "location": "石阵边缘",
+      "state": "武器脱手",
+      "quote": "当的一声，白光闪动，长剑倏地飞起",
+      "context": "法王铁轮震飞其兵器"
+    },
+    {
+      "source": "郭芙",
+      "target": "郭靖",
+      "relation": "逃离",
+      "chapter": 27,
+      "location": "府门",
+      "state": "惊慌",
+      "context": "郭芙骑上小红马逃离府邸，以避免被郭靖重罚"
+    },
+    {
+      "source": "郭芙",
+      "target": "公孙止",
+      "relation": "被挟制",
+      "chapter": 29,
+      "location": "山岭附近",
+      "state": "被强行控制",
+      "context": "公孙止突然出现，强行将郭芙制住并试图带走"
+    },
+    {
+      "source": "郭芙",
+      "target": "小龙女",
+      "relation": "误伤",
+      "chapter": 32,
+      "location": "未知",
+      "state": "毒针误发",
+      "quote": "郭芙如何误发毒针之事说了。",
+      "context": "杨过讲述小龙女中毒的经过"
+    },
+    {
+      "source": "郭芙",
+      "target": "郭襄",
+      "relation": "寻来",
+      "chapter": 35,
+      "context": "郭芙寻来，询问大头矮子将她妹子带到哪里去了"
+    },
+    {
+      "source": "郭芙",
+      "target": "万兽山庄",
+      "relation": "硬闯",
+      "chapter": 35,
+      "context": "郭芙硬要闯进万兽山庄，史孟捷在外拦住，两人动起手来"
+    },
+    {
+      "source": "郭芙",
+      "target": "丐帮帮主之位",
+      "relation": "盘算",
+      "chapter": 36,
+      "context": "对丈夫耶律齐能否当选帮主耿耿于怀"
+    },
+    {
+      "source": "武修文",
+      "target": "郭芙",
+      "relation": "追逐",
+      "chapter": 12,
+      "location": "柳树下",
+      "state": "嬉戏打闹",
+      "quote": "好，你当我是狗儿，你瞧我饶不饶你？",
+      "context": "郭芙用树枝轻击武修文肩头，引发追逐"
+    },
+    {
+      "source": "武敦儒",
+      "target": "郭芙",
+      "relation": "反对",
+      "chapter": 12,
+      "location": "柳树下",
+      "state": "假装不情愿",
+      "quote": "要是给师母知觉咱们偷学棒法，定讨一顿好骂。",
+      "context": "武敦儒表面上反对偷看打狗棒法"
+    },
+    {
+      "source": "武敦儒",
+      "target": "杨过",
+      "relation": "排斥",
+      "chapter": 12,
+      "location": "柳树下",
+      "state": "言语轻视",
+      "quote": "要他去干麽，他又看不懂，笨头笨脑的弄出些声音来，岂不教师母知觉了？",
+      "context": "武敦儒反对杨过参与偷看打狗棒法"
+    },
+    {
+      "source": "霍都",
+      "target": "狂风迅雷功",
+      "relation": "使用",
+      "chapter": 13,
+      "location": "大厅",
+      "state": "激烈战斗",
+      "quote": "霍都仍以‘狂风迅雷功’对敌，只是对方力道既强，他扇子相应加劲，呼喝也更是猛烈。",
+      "context": "霍都在与朱子柳的战斗中使用狂风迅雷功，试图压制对方"
+    },
+    {
+      "source": "朱子柳",
+      "target": "一阳指法",
+      "relation": "使用",
+      "chapter": 13,
+      "location": "大厅",
+      "state": "激烈战斗",
+      "quote": "朱子柳用笔越来越是丑拙，但劲力却也逐步加强，笔致有似蛛丝络壁，劲而复虚。",
+      "context": "朱子柳在战斗中运用一阳指法，逐渐压制霍都"
+    },
+    {
+      "source": "朱子柳",
+      "target": "霍都",
+      "relation": "点中",
+      "chapter": 13,
+      "location": "大厅",
+      "state": "战斗结束",
+      "quote": "突感膝头一麻，原来已被敌人倒转笔□，点中了穴道。",
+      "context": "朱子柳用一阳指法点中霍都穴道，使其跪倒认输"
+    },
+    {
+      "source": "朱子柳",
+      "target": "火浣室",
+      "relation": "被困",
+      "chapter": 31,
+      "location": "绝情谷",
+      "state": "被困多日",
+      "quote": "我二人被禁入火浣室中后",
+      "context": "朱子柳与天竺僧被囚禁在火浣室中，忍受高温"
+    },
+    {
+      "source": "金轮法王",
+      "target": "霍都",
+      "relation": "提醒",
+      "chapter": 13,
+      "location": "大厅",
+      "state": "战斗进行",
+      "quote": "金轮法王大声喝道：‘马米八米，古斯黑斯。’这八个字不知是甚麽意思，却震得人人耳中嗡嗡发响。",
+      "context": "金轮法王在战斗中提醒霍都改变战术"
+    },
+    {
+      "source": "金轮法王",
+      "target": "黄蓉",
+      "relation": "抓向",
+      "chapter": 15,
+      "location": "石阵内",
+      "state": "无力反抗",
+      "quote": "伸出大手往黄蓉背上抓去",
+      "context": "法王受伤后仍试图擒拿黄蓉"
+    },
+    {
+      "source": "金轮法王",
+      "target": "郭襄",
+      "relation": "计划折磨",
+      "chapter": 38,
+      "location": "城下",
+      "state": "心理胁迫",
+      "quote": "我们在城下慢慢折磨这个姑娘，教他心痛如割，神不守舍",
+      "context": "法王计划通过折磨郭襄来迫使郭靖屈服"
+    },
+    {
+      "source": "金轮法王",
+      "target": "郭襄",
+      "relation": "戏耍",
+      "chapter": 38,
+      "location": "大树",
+      "state": "倒吊着身子",
+      "quote": "你要拦阻，好好拦阻便了，如何这般不三不四，戏耍姑娘？",
+      "context": "法王以戏弄的方式拦截郭襄"
+    },
+    {
+      "source": "金轮法王",
+      "target": "郭襄",
+      "relation": "假装受伤",
+      "chapter": 38,
+      "location": "大树下",
+      "state": "被点穴",
+      "quote": "小姑娘良心倒好，老和尚很喜欢你啊！",
+      "context": "法王假装受伤以测试郭襄的反应"
+    },
+    {
+      "source": "金轮法王",
+      "target": "郭襄",
+      "relation": "计划收徒",
+      "chapter": 38,
+      "location": "大树下",
+      "state": "沉思",
+      "quote": "这个小妮子聪明伶俐，心地又好，有我二徒之长，却无二徒之短",
+      "context": "法王因郭襄的资质和心地而动收徒之念"
+    },
+    {
+      "source": "青衫少女",
+      "target": "石阵",
+      "relation": "重组",
+      "chapter": 15,
+      "location": "乱石堆",
+      "state": "阵法再生变化",
+      "quote": "四五块岩石一移，散乱的阵法又生变化",
+      "context": "通过二十八宿口诀指挥郭芙等人搬石困敌"
+    },
+    {
+      "source": "青衫少女",
+      "target": "杨过",
+      "relation": "救助",
+      "chapter": 15,
+      "location": "林外",
+      "state": "半拖半拉",
+      "quote": "扶著他後腰，半拖半拉的走出石阵",
+      "context": "独自带重伤的杨过离开险境"
+    },
+    {
+      "source": "冯默风",
+      "target": "程英",
+      "relation": "保护",
+      "chapter": 16,
+      "location": "铁匠铺",
+      "state": "对峙中",
+      "quote": "我可不许你碰我师妹一根毫毛",
+      "context": "李莫愁威胁要杀程英，冯默风出面保护"
+    },
+    {
+      "source": "冯默风",
+      "target": "李莫愁",
+      "relation": "求饶",
+      "chapter": 16,
+      "location": "铁匠铺",
+      "state": "对峙中",
+      "quote": "你饶了我这苦命的老铁匠罢！",
+      "context": "冯默风在战斗中向李莫愁求饶"
+    },
+    {
+      "source": "冯默风",
+      "target": "李莫愁",
+      "relation": "愤怒",
+      "chapter": 16,
+      "location": "铁匠铺",
+      "state": "战斗中",
+      "quote": "冯默风已听得怒火冲天，一股刚勇从胸中涌起",
+      "context": "杨过激怒冯默风，使其对李莫愁发起猛烈攻击"
+    },
+    {
+      "source": "冯默风",
+      "target": "李莫愁",
+      "relation": "反击",
+      "chapter": 16,
+      "location": "铁匠铺",
+      "state": "战斗中",
+      "quote": "铁锤和拐杖横挥直压，猛不可当",
+      "context": "冯默风在愤怒中对李莫愁发起反击"
+    },
+    {
+      "source": "冯默风",
+      "target": "拂尘",
+      "relation": "烧毁",
+      "chapter": 16,
+      "location": "铁匠铺",
+      "state": "战斗中",
+      "quote": "嗤嗤嗤一阵轻响，青烟冒起，各人闻到一股焦臭",
+      "context": "冯默风的铁锤烧毁了李莫愁的拂尘"
+    },
+    {
+      "source": "冯默风",
+      "target": "杨过",
+      "relation": "解救",
+      "chapter": 22,
+      "location": "蒙古军阵中",
+      "state": "激战中",
+      "quote": "杨公子快向外闯，我给你断後",
+      "context": "冯默风杀入蒙古军中，为杨过和郭靖断后"
+    },
+    {
+      "source": "冯默风",
+      "target": "法王",
+      "relation": "被击杀",
+      "chapter": 22,
+      "location": "蒙古军阵中",
+      "state": "筋折骨断，内脏重伤",
+      "quote": "冯默风死在法王手下了",
+      "context": "冯默风为救郭靖，与法王搏斗，最终被法王击杀"
+    },
+    {
+      "source": "情花刺",
+      "target": "剧痛",
+      "relation": "引发",
+      "chapter": 17,
+      "location": "绝情谷",
+      "state": "杨过思念小龙女时",
+      "quote": "身上若给情花的小刺刺痛了，十二个时辰之内不能动相思之念，否则苦楚难当。",
+      "context": "情花刺的毒素在杨过思念小龙女时引发剧痛"
+    },
+    {
+      "source": "情花",
+      "target": "情花果实",
+      "relation": "结出",
+      "chapter": 17,
+      "location": "绝情谷",
+      "state": "阳光照耀下",
+      "quote": "情花的果实是吃不得的，有的酸，有的辣，有的更加臭气难闻，中人欲呕。",
+      "context": "情花在阳光照耀下结出难吃的果实"
+    },
+    {
+      "source": "情花",
+      "target": "死亡",
+      "relation": "导致",
+      "chapter": 31,
+      "location": "天竺",
+      "state": "历史事件",
+      "quote": "当年天竺国便有无数人畜死于这花毒之下",
+      "context": "情花在天竺曾导致大量人畜死亡"
+    },
+    {
+      "source": "樊一翁",
+      "target": "泼水杖法",
+      "relation": "使用",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "被杨过压制",
+      "quote": "杖法号称“泼水”，乃是泼水不进之意，可见其严谨紧密。",
+      "context": "樊一翁施展泼水杖法对抗杨过"
+    },
+    {
+      "source": "樊一翁",
+      "target": "石柱",
+      "relation": "试图自杀",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "被杨过阻止",
+      "quote": "樊一翁纵身撞柱，使上了十成刚劲，突觉额头所触之处竟是软绵绵地，抬起头来，见是杨过伸出双掌，站在柱前",
+      "context": "樊一翁因败北试图自杀，被杨过阻止"
+    },
+    {
+      "source": "公孙谷主",
+      "target": "樊一翁",
+      "relation": "命令",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "紧急干预",
+      "quote": "公孙谷主伸手在石桌上一拍，叫道：“一翁，退下！”",
+      "context": "公孙谷主命令樊一翁退出战斗"
+    },
+    {
+      "source": "公孙谷主",
+      "target": "绿衫弟子",
+      "relation": "命令",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "布阵",
+      "quote": "公孙谷主隔不片刻，便向小龙女瞧上一眼，不断察看她的神情，突见她又流眼泪，心下又妒又恼，双手击了三下，叫道：“将这小子拿下了。”",
+      "context": "公孙谷主命令绿衫弟子布渔网阵擒拿杨过"
+    },
+    {
+      "source": "绿衫弟子",
+      "target": "渔网阵",
+      "relation": "布阵",
+      "chapter": 18,
+      "location": "比武场地",
+      "state": "包围杨过",
+      "quote": "十六名绿衫弟子交叉换位，将包围圈子缩小了几步。四张渔网或横或竖、或平或斜，不断变换。",
+      "context": "绿衫弟子布渔网阵包围杨过"
+    },
+    {
+      "source": "公孙绿萼",
+      "target": "杨过",
+      "relation": "搂住",
+      "chapter": 19,
+      "location": "深渊之旁的岩石",
+      "state": "鳄鱼袭击中",
+      "quote": "公孙绿萼翻身坐起，搂住了杨过脖子，惊道：“那是甚麽？”",
+      "context": "公孙绿萼在鳄鱼袭击中紧紧搂住杨过"
+    },
+    {
+      "source": "公孙止",
+      "target": "杨过",
+      "relation": "持凶器攻击",
+      "chapter": 20,
+      "location": "婚礼红毯下",
+      "state": "阴阳双刃互击",
+      "quote": "“好，好！今日咱们一齐同归於尽！”",
+      "context": "因妒恨与羞怒取出暗藏凶器"
+    },
+    {
+      "source": "公孙止",
+      "target": "小龙女",
+      "relation": "妄想挟持",
+      "chapter": 20,
+      "location": "绝情谷",
+      "state": "武力逼迫",
+      "context": "计划打败杨过后强行占有"
+    },
+    {
+      "source": "公孙止",
+      "target": "黄蓉",
+      "relation": "威胁",
+      "chapter": 29,
+      "location": "山岭附近",
+      "state": "挟制郭芙和完颜萍",
+      "quote": "我双臂这般一使劲，这两个花朵般的女孩儿还活不活？",
+      "context": "公孙止威胁黄蓉，表示他随时可以伤害郭芙和完颜萍"
+    },
+    {
+      "source": "公孙止",
+      "target": "黄蓉",
+      "relation": "调戏",
+      "chapter": 29,
+      "location": "山岭附近",
+      "state": "轻佻",
+      "quote": "啧啧啧，很美，母女俩都很美，很美！",
+      "context": "公孙止调戏黄蓉和郭芙，称赞她们的美貌"
+    },
+    {
+      "source": "公孙止",
+      "target": "绝情丹",
+      "relation": "抢夺",
+      "chapter": 32,
+      "location": "大厅",
+      "state": "激烈争夺",
+      "quote": "公孙止夺得绝情丹到手，虽见黄蓉等好手群集，却也不以为意。",
+      "context": "公孙止抢夺绝情丹并试图逃离"
+    },
+    {
+      "source": "阴阳双刃",
+      "target": "凶器",
+      "relation": "被用作",
+      "chapter": 20,
+      "location": "红毯之下",
+      "context": "婚礼吉具中暗藏杀机"
+    },
+    {
+      "source": "玉女素心剑法",
+      "target": "杨过",
+      "relation": "因情受阻",
+      "chapter": 20,
+      "state": "无法合璧",
+      "context": "需心意相通却被迫分心作战"
+    },
+    {
+      "source": "丑雕",
+      "target": "毒蟒",
+      "relation": "啄瞎",
+      "chapter": 23,
+      "location": "山谷",
+      "state": "战斗中",
+      "quote": "倏地弯嘴疾伸，已将毒蟒的右眼啄瞎。",
+      "context": "丑雕与毒蟒激烈搏斗，啄瞎其右眼"
+    },
+    {
+      "source": "丑雕",
+      "target": "毒蟒",
+      "relation": "杀死",
+      "chapter": 23,
+      "location": "山谷",
+      "state": "胜利",
+      "quote": "丑雕双爪掀住蛇头七寸，按在土中，一面又以尖喙在蟒头戳啄。",
+      "context": "丑雕最终杀死毒蟒"
+    },
+    {
+      "source": "丑雕",
+      "target": "杨过",
+      "relation": "拒绝",
+      "chapter": 23,
+      "location": "山谷",
+      "state": "战斗中",
+      "quote": "突然间那雕右翅疾展，在杨过右臂上一拍，力道奇猛。",
+      "context": "丑雕拒绝杨过的帮助，自行与毒蟒战斗"
+    },
+    {
+      "source": "丑雕",
+      "target": "杨过",
+      "relation": "引导",
+      "chapter": 23,
+      "location": "深谷",
+      "state": "友善",
+      "quote": "丑雕低鸣数声，咬住杨过的衣角扯了几扯，随即放开，大踏步便行。",
+      "context": "丑雕引导杨过前往深谷中的山洞"
+    },
+    {
+      "source": "毒蟒",
+      "target": "丑雕",
+      "relation": "咬住",
+      "chapter": 23,
+      "location": "山谷",
+      "state": "反击中",
+      "quote": "张开大口，拍的一声，咬住了丑雕头顶的血瘤。",
+      "context": "毒蟒反击，咬住丑雕的血瘤"
+    },
+    {
+      "source": "天竺僧",
+      "target": "杨过",
+      "relation": "诊断",
+      "chapter": 24,
+      "location": "客房",
+      "state": "束手无策",
+      "quote": "纵使得了绝情谷的半枚丹药，也未必便能清除",
+      "context": "指出情毒需靠自断情丝化解"
+    },
+    {
+      "source": "天竺僧",
+      "target": "情花",
+      "relation": "中毒",
+      "chapter": 31,
+      "location": "火浣室",
+      "state": "昏迷三日三夜",
+      "quote": "他取花自刺，说道若是所料不错，三日三夜便可醒转",
+      "context": "天竺僧为研究情花毒性，主动取花刺自刺，导致中毒昏迷"
+    },
+    {
+      "source": "郭襄",
+      "target": "杨过",
+      "relation": "默默无言",
+      "chapter": 35,
+      "context": "郭襄自和杨过相见以来，一直兴高采烈，但这时却默默无言"
+    },
+    {
+      "source": "郭襄",
+      "target": "杨过",
+      "relation": "请求",
+      "chapter": 35,
+      "context": "郭襄请求杨过与夫人相会后，到襄阳她家作客"
+    },
+    {
+      "source": "郭襄",
+      "target": "群豪",
+      "relation": "设宴招待",
+      "chapter": 36,
+      "location": "郭襄房中",
+      "context": "英雄大宴期间私下设小宴"
+    },
+    {
+      "source": "郭襄",
+      "target": "金轮法王",
+      "relation": "被威胁",
+      "chapter": 38,
+      "location": "道旁空屋",
+      "state": "被法王控制",
+      "quote": "你快打死我啊，还等甚么？",
+      "context": "郭襄因朋友被杀而愤怒，主动挑衅法王"
+    },
+    {
+      "source": "郭襄",
+      "target": "金轮法王",
+      "relation": "试图逃脱",
+      "chapter": 38,
+      "location": "山边小径",
+      "state": "逃跑中",
+      "quote": "她想法王醒来发觉自己逃走，料定必回襄阳，自会向南追去，我偏偏朝西北奔跑",
+      "context": "郭襄巧妙设计逃脱路线"
+    },
+    {
+      "source": "郭襄",
+      "target": "金轮法王",
+      "relation": "攻击",
+      "chapter": 38,
+      "location": "大树下",
+      "state": "双掌击中",
+      "quote": "砰砰两声，击在他的胸口",
+      "context": "郭襄出其不意攻击法王"
+    },
+    {
+      "source": "周伯通",
+      "target": "王旗",
+      "relation": "寻找",
+      "chapter": 25,
+      "location": "蒙古军营",
+      "state": "遍寻不获",
+      "quote": "金轮法王，你把王旗藏到那里去了？",
+      "context": "周伯通在蒙古军营中寻找王旗，但遍寻不获"
+    },
+    {
+      "source": "周伯通",
+      "target": "毒物",
+      "relation": "被咬中",
+      "chapter": 25,
+      "location": "山洞",
+      "state": "惨厉",
+      "quote": "我给……给毒物……毒物……咬中了……",
+      "context": "周伯通在山洞中被毒物咬中，伤势严重"
+    },
+    {
+      "source": "周伯通",
+      "target": "欧阳锋",
+      "relation": "调侃",
+      "chapter": 40,
+      "location": "华山",
+      "quote": "老毒物啊老毒物，你生前作恶多端，死后仍得与老叫化为邻，也可算是三生有幸。",
+      "context": "周伯通在欧阳锋墓前调侃其生前作恶多端"
+    },
+    {
+      "source": "周伯通",
+      "target": "黄蓉",
+      "relation": "质疑",
+      "chapter": 40,
+      "location": "华山",
+      "quote": "不对，不对！",
+      "context": "周伯通质疑黄蓉关于五绝称号的提议"
+    },
+    {
+      "source": "赵志敬",
+      "target": "周伯通",
+      "relation": "欺骗",
+      "chapter": 25,
+      "location": "蒙古军营",
+      "state": "暗中观察",
+      "quote": "周师叔祖，放不得火。",
+      "context": "赵志敬欺骗周伯通营帐中有地雷炸药，阻止他放火"
+    },
+    {
+      "source": "赵志敬",
+      "target": "周伯通",
+      "relation": "引导",
+      "chapter": 25,
+      "location": "山洞",
+      "state": "诱骗",
+      "quote": "师叔祖，既是如此，我可要去盗旗了，瞧是你先得手，还是我先得手。",
+      "context": "赵志敬诱骗周伯通进入山洞寻找王旗"
+    },
+    {
+      "source": "赵志敬",
+      "target": "周伯通",
+      "relation": "抛弃",
+      "chapter": 25,
+      "location": "山洞",
+      "state": "惊慌",
+      "quote": "连尊长竟也不顾了吗？",
+      "context": "赵志敬见周伯通受伤，惊慌逃跑，不顾其死活"
+    },
+    {
+      "source": "绿萼",
+      "target": "朱子柳",
+      "relation": "帮助",
+      "chapter": 31,
+      "location": "火浣室",
+      "state": "暗中协助",
+      "quote": "她听说两位是为杨过求药而来，自是另眼相看",
+      "context": "绿萼得知朱子柳和天竺僧为杨过求药，暗中提供帮助"
+    },
+    {
+      "source": "绿萼",
+      "target": "公孙止",
+      "relation": "质问",
+      "chapter": 32,
+      "location": "大厅",
+      "state": "公开揭露",
+      "quote": "爹爹，你打断妈妈的四肢，将她囚禁在地底山洞之中，如此狠心，已是世间罕有。",
+      "context": "绿萼公开质问公孙止的恶行"
+    },
+    {
+      "source": "裘千尺",
+      "target": "公孙止",
+      "relation": "攻击",
+      "chapter": 32,
+      "location": "大厅",
+      "state": "枣核钉射击",
+      "quote": "裘千尺喝道：“老贼！”呼的一声，一枚枣核钉往公孙止小腹上射去。",
+      "context": "裘千尺用枣核钉攻击公孙止"
+    },
+    {
+      "source": "蒙古兵",
+      "target": "汉人",
+      "relation": "斩首",
+      "chapter": 33,
+      "location": "襄阳城下",
+      "state": "被绑缚",
+      "quote": "把四五岁、六七岁的小孩儿用绳子绑了，让马匹拉着，拖在城下绕城奔跑",
+      "context": "蒙古兵为震慑守军，将城外汉人斩首并虐杀儿童"
+    },
+    {
+      "source": "蒙古兵",
+      "target": "小孩",
+      "relation": "拖行",
+      "chapter": 33,
+      "location": "襄阳城下",
+      "state": "被马匹拖拽",
+      "quote": "绕不到半个圈子，孩儿早已没了气",
+      "context": "蒙古兵用绳索绑住儿童让马匹拖行致死"
+    },
+    {
+      "source": "襄阳军民",
+      "target": "蒙古大军",
+      "relation": "抵抗",
+      "chapter": 33,
+      "location": "襄阳城",
+      "state": "死守",
+      "quote": "人人竭力死城，没一个畏缩退后的",
+      "context": "数十万军民在粮尽水绝情况下仍坚守城池"
+    },
+    {
+      "source": "郭大侠夫妇",
+      "target": "襄阳守军",
+      "relation": "领导抗敌",
+      "chapter": 33,
+      "location": "襄阳城",
+      "context": "在统制吕大人无能时挺身而出"
+    },
+    {
+      "source": "湖北商贩",
+      "target": "蒙古箭矢",
+      "relation": "负伤于",
+      "chapter": 33,
+      "location": "襄阳城头",
+      "state": "遗留疤痕",
+      "quote": "我脸上这老大箭疤，便是给蒙古鞑子射的"
+    },
+    {
+      "source": "西山一窟鬼",
+      "target": "万兽山庄的野兽",
+      "relation": "被攻击",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "性命在呼吸之间",
+      "context": "西山一窟鬼在群兽围攻之下，人人性命垂危"
+    },
+    {
+      "source": "史伯威",
+      "target": "杨过",
+      "relation": "拒绝",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "冷笑",
+      "quote": "神雕侠便怎样？你有本事，便自行把我的野兽喝住罢！",
+      "context": "史伯威拒绝杨过的要求，反而加紧攻击"
+    },
+    {
+      "source": "神雕",
+      "target": "群兽",
+      "relation": "攻击",
+      "chapter": 34,
+      "location": "倒马坪",
+      "state": "威猛无比",
+      "quote": "神雕双翅展开，左击右拂，拨出一股猛烈无比的劲风",
+      "context": "神雕协助杨过击退群兽"
+    },
+    {
+      "source": "史叔刚",
+      "target": "狐血",
+      "relation": "服用",
+      "chapter": 35,
+      "context": "史叔刚服用狐血后，自行运功疗伤"
+    },
+    {
+      "source": "史氏兄弟",
+      "target": "狐腿",
+      "relation": "割取",
+      "chapter": 35,
+      "context": "史氏兄弟见杨过连得两头灵狐，喜感无已，当即割狐腿取血"
+    },
+    {
+      "source": "群豪",
+      "target": "先公后私",
+      "relation": "支持",
+      "chapter": 36,
+      "state": "轰然叫好",
+      "context": "赞同优先应对蒙古入侵的决策"
+    },
+    {
+      "source": "丐帮弟子",
+      "target": "霍都",
+      "relation": "复仇",
+      "chapter": 36,
+      "state": "暂缓",
+      "context": "因蒙古大军压境而推迟报仇计划"
+    },
+    {
+      "source": "梁长老",
+      "target": "黄蓉",
+      "relation": "提议",
+      "chapter": 36,
+      "location": "校场高台",
+      "quote": "只有请黄前帮主勉为其难",
+      "context": "建议黄蓉重新出任丐帮帮主"
+    },
+    {
+      "source": "郭破虏",
+      "target": "郭襄",
+      "relation": "不解",
+      "chapter": 36,
+      "quote": "二姊真奇怪，竟不爱瞧热闹",
+      "context": "对郭襄缺席重要场合感到疑惑"
+    },
+    {
+      "source": "达尔巴",
+      "target": "何师我",
+      "relation": "攻击",
+      "chapter": 37,
+      "location": "高台",
+      "state": "招招进逼",
+      "quote": "达尔巴猛地踏步上前，呼的一声，挥金杵往他头顶砸了下去。",
+      "context": "达尔巴在台上用金杵猛烈攻击何师我，何师我被迫不断倒退"
+    },
+    {
+      "source": "何师我",
+      "target": "短兵刃",
+      "relation": "使用",
+      "chapter": 37,
+      "location": "高台",
+      "state": "劣势扭转",
+      "quote": "何师我兵刃在手，劣势登时扭转，但见他点、戳、刺、打，兵刃虽短，招数却极奥妙。",
+      "context": "何师我在危急关头取出短兵刃，与达尔巴打成旗鼓相当"
+    },
+    {
+      "source": "青灵子",
+      "target": "打狗棒",
+      "relation": "交给",
+      "chapter": 37,
+      "location": "高台",
+      "state": "恭恭敬敬",
+      "quote": "青灵子高举铁棒，大声道：‘各位英雄请了，请瞧瞧这是甚么物事。’",
+      "context": "青灵子将打狗棒交给郭襄，揭示何师我的真实身份"
+    },
+    {
+      "source": "黄药师",
+      "target": "杨过",
+      "relation": "赞同",
+      "chapter": 40,
+      "location": "华山",
+      "quote": "东邪西狂，一老一少，咱两个正是一对儿。",
+      "context": "黄药师赞同杨过继承'西狂'称号"
+    },
+    {
+      "source": "黄药师",
+      "target": "妄人",
+      "relation": "感叹",
+      "chapter": 40,
+      "location": "华山",
+      "quote": "欺世盗名的妄人，所在多有，但想不到在这华山之巅，居然也见此辈。",
+      "context": "黄药师感叹华山之巅出现欺世盗名的妄人"
+    }
+  ]
+}

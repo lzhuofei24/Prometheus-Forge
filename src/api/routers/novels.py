@@ -375,3 +375,69 @@ async def delete_chapter(
     
     await db.commit()
     return {"success": True}
+
+
+@router.delete("/{novel_id}", response_model=dict)
+async def delete_novel(
+    novel_id: str,
+    db: AsyncSession = Depends(get_db)
+):
+    """删除小说及其所有章节、草稿和相关数据"""
+    novel = await NovelService.get_novel_by_id(db, novel_id)
+    if not novel:
+        raise HTTPException(status_code=404, detail="Novel not found")
+    
+    success = await NovelService.delete_novel(db, novel_id)
+    if not success:
+        raise HTTPException(status_code=500, detail="Failed to delete novel")
+    
+    await db.commit()
+    return {"success": True}
+
+
+@router.get("/{novel_id}/export", response_model=dict)
+async def export_novel(
+    novel_id: str,
+    db: AsyncSession = Depends(get_db)
+):
+    """导出小说为txt格式"""
+    from fastapi.responses import Response
+    from urllib.parse import quote
+    
+    novel = await NovelService.get_novel_by_id(db, novel_id)
+    if not novel:
+        raise HTTPException(status_code=404, detail="Novel not found")
+    
+    txt_content = await NovelService.export_novel_to_txt(db, novel_id)
+    if txt_content is None:
+        raise HTTPException(status_code=500, detail="Failed to export novel")
+    
+    # 处理文件名编码：使用 RFC 5987 格式支持 UTF-8 文件名
+    filename = f"{novel.title}.txt"
+    
+    # 检查文件名是否包含非 ASCII 字符
+    try:
+        filename.encode('ascii')
+        has_non_ascii = False
+    except UnicodeEncodeError:
+        has_non_ascii = True
+    
+    if has_non_ascii:
+        # 如果包含非 ASCII 字符，使用 RFC 5987 格式
+        # quote() 在 Python 3 中默认使用 UTF-8 编码，返回的字符串只包含 ASCII 字符
+        encoded_filename = quote(filename, safe='')
+        # 只使用 filename* 参数，不包含原始的 filename 参数（避免 latin-1 编码错误）
+        # 确保整个 header 值只包含 ASCII 字符
+        content_disposition = "attachment; filename*=UTF-8''" + encoded_filename
+    else:
+        # 如果只有 ASCII 字符，使用标准的 filename 参数
+        content_disposition = f'attachment; filename="{filename}"'
+    
+    # 返回文件下载响应
+    return Response(
+        content=txt_content.encode('utf-8'),
+        media_type='text/plain; charset=utf-8',
+        headers={
+            'Content-Disposition': content_disposition
+        }
+    )

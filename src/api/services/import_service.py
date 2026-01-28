@@ -12,10 +12,16 @@ logger = logging.getLogger(__name__)
 class ImportService:
     def __init__(self):
         self.chapter_patterns = [
+            # 支持"第X章"格式（中文数字和阿拉伯数字）
             re.compile(r'^第[一二三四五六七八九十百千万\d]+章\s*(.*?)$', re.MULTILINE),
-            re.compile(r'^Chapter\s+[\dIVX]+[\.\s]*(.*?)$', re.MULTILINE | re.IGNORECASE),
             re.compile(r'^第\d+章\s*(.*?)$', re.MULTILINE),
             re.compile(r'^第[零一二三四五六七八九十]+章\s*(.*?)$', re.MULTILINE),
+            # 支持"第X回"格式（中文数字和阿拉伯数字）
+            re.compile(r'^第[一二三四五六七八九十百千万\d]+回\s*(.*?)$', re.MULTILINE),
+            re.compile(r'^第\d+回\s*(.*?)$', re.MULTILINE),
+            re.compile(r'^第[零一二三四五六七八九十]+回\s*(.*?)$', re.MULTILINE),
+            # 支持英文格式
+            re.compile(r'^Chapter\s+[\dIVX]+[\.\s]*(.*?)$', re.MULTILINE | re.IGNORECASE),
         ]
     
     def _detect_encoding(self, content: bytes) -> str:
@@ -43,6 +49,7 @@ class ImportService:
             for pattern in self.chapter_patterns:
                 match = pattern.match(line.strip())
                 if match:
+                    # 如果当前章节有内容，先保存
                     if current_chapter_num == 0 and current_chapter_content:
                         chapter_text = '\n'.join(current_chapter_content).strip()
                         if chapter_text:
@@ -54,12 +61,13 @@ class ImportService:
                         if chapter_text:
                             chapters.append((current_chapter_num, current_chapter_title, chapter_text))
                     
+                    # 递增章节编号（简单递增，不解析实际数字）
                     current_chapter_num += 1
                     current_chapter_title = match.group(1).strip() if match.groups() else ""
                     current_chapter_content = []
                     first_chapter_found = True
                     matched = True
-                    break
+                    break  # 一旦匹配就跳出，避免多个模式匹配同一行
             
             if not matched:
                 current_chapter_content.append(line)
@@ -108,10 +116,23 @@ class ImportService:
             logger.warning("未找到章节标记，将整个文件作为单个章节")
         
         created_chapters = []
+        seen_indices = set()  # 跟踪已创建的章节索引，避免重复
         for chapter_num, chapter_title, chapter_content in chapters:
             if not chapter_content.strip():
                 continue
             
+            # 检查是否已存在相同索引的章节（防御性检查）
+            if chapter_num in seen_indices:
+                logger.warning(f"跳过重复的章节索引 {chapter_num}，标题：{chapter_title}")
+                continue
+            
+            # 检查数据库中是否已存在（虽然导入是新小说，但作为防御性检查）
+            existing = await NovelService.get_chapter_by_novel_and_index(db, novel.id, chapter_num)
+            if existing:
+                logger.warning(f"章节索引 {chapter_num} 已存在，跳过创建")
+                continue
+            
+            seen_indices.add(chapter_num)
             chapter = await NovelService.create_chapter(
                 db,
                 novel_id=novel.id,

@@ -12,7 +12,7 @@ import { Button } from '../components/ui/button';
 import { ScrollArea } from '../components/ui/scroll-area';
 import { retrievalApi, inspectorApi, type InspectorVectorChunk, type InspectorGraphNode, type InspectorGraphLink, type InspectorGraphEdgeProperties, type IndexedNovel } from '../api/client';
 import { useNovels, useChapters } from '../hooks/useNovels';
-import { Loader2, Search, ChevronDown, ChevronUp, Database, Network, Plus, Trash2, RefreshCw, RotateCcw } from 'lucide-react';
+import { Loader2, Search, ChevronDown, ChevronUp, Database, Network, Plus, Trash2, RefreshCw, RotateCcw, Layers } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const COLLAPSE_LEN = 180;
@@ -85,6 +85,7 @@ function VectorInspectorView({
   const [query, setQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [offset, setOffset] = useState(0);
+  const [showIndexManager, setShowIndexManager] = useState(true);
   const limit = 50;
   const isSearch = !!submittedQuery.trim();
   const { data: chapters = [] } = useChapters(selectedNovelId);
@@ -122,6 +123,25 @@ function VectorInspectorView({
       setTimeout(() => queryClient.invalidateQueries({ queryKey: ['retrieval', 'indexed'] }), 5000);
       // 任务入队后由 worker 执行，约 10–15s 后自动刷新向量列表
       setTimeout(() => queryClient.invalidateQueries({ queryKey: ['inspector', 'vector', novel_id] }), 12000);
+    },
+  });
+
+  const batchAddIndexMutation = useMutation({
+    mutationFn: ({ novel_id, chapter_indices }: { novel_id: string; chapter_indices: number[] }) =>
+      retrievalApi.batchAddIndex(novel_id, chapter_indices),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['retrieval', 'indexed'] });
+      queryClient.invalidateQueries({ queryKey: ['inspector', 'vector', variables.novel_id] });
+      setTimeout(() => queryClient.invalidateQueries({ queryKey: ['retrieval', 'indexed'] }), 5000);
+      setTimeout(() => queryClient.invalidateQueries({ queryKey: ['inspector', 'vector', variables.novel_id] }), 12000);
+      if (data.failed_count > 0) {
+        alert(`批量添加索引完成：成功 ${data.success_count} 个，失败 ${data.failed_count} 个（章节：${data.failed_chapters.join(', ')}）`);
+      } else {
+        alert(`批量添加索引成功：已提交 ${data.success_count} 个章节的索引任务`);
+      }
+    },
+    onError: (error: any) => {
+      alert(`批量添加索引失败：${error?.response?.data?.detail || error?.message || '未知错误'}`);
     },
   });
 
@@ -199,9 +219,22 @@ function VectorInspectorView({
 
       {selectedNovelId && (
         <>
-          <div className="flex-shrink-0 rounded-lg border border-zinc-700 bg-zinc-800/50 p-3">
-            <div className="text-sm font-medium text-zinc-300 mb-2">索引管理（由 knowledge worker 执行，日志见其终端）</div>
-            <div className="flex flex-wrap gap-2 items-center">
+          <div className="flex-shrink-0 rounded-lg border border-zinc-700 bg-zinc-800/50">
+            <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-700/80">
+              <div className="text-sm font-medium text-zinc-300">索引管理（由 knowledge worker 执行，日志见其终端）</div>
+              <button
+                type="button"
+                className="text-xs text-zinc-400 hover:text-zinc-200 flex items-center gap-1"
+                onClick={() => setShowIndexManager((v) => !v)}
+              >
+                <span>{showIndexManager ? '收起' : '展开'}</span>
+                <span className="inline-block transform transition-transform duration-150" style={{ transform: showIndexManager ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                  ▾
+                </span>
+              </button>
+            </div>
+            {showIndexManager && (
+              <div className="p-3 flex flex-wrap gap-2 items-center">
               <span className="text-xs text-zinc-500">已索引章节：</span>
               {indexedChapters.length === 0 ? (
                 <span className="text-xs text-zinc-500">暂无</span>
@@ -240,19 +273,47 @@ function VectorInspectorView({
                     size="sm"
                     variant="outline"
                     className="h-7 text-xs border-zinc-600"
-                    disabled={addIndexMutation.isPending}
+                    disabled={addIndexMutation.isPending || batchAddIndexMutation.isPending}
                     onClick={() => addIndexMutation.mutate({ novel_id: selectedNovelId!, chapter_index: c.index })}
                   >
                     <Plus className="w-3 h-3 mr-1" />
                     第{c.index}章
                   </Button>
                 ))}
+              {(chapters || []).filter((c) => !indexedChapters.includes(c.index)).length > 0 && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-7 text-xs border-indigo-600 text-indigo-400 hover:bg-indigo-600/10 ml-2"
+                  disabled={addIndexMutation.isPending || batchAddIndexMutation.isPending}
+                  onClick={() => {
+                    const unindexedChapters = (chapters || [])
+                      .filter((c) => !indexedChapters.includes(c.index))
+                      .map((c) => c.index);
+                    if (unindexedChapters.length === 0) {
+                      alert('没有未索引的章节');
+                      return;
+                    }
+                    if (confirm(`确定要批量添加 ${unindexedChapters.length} 个章节的索引吗？\n章节：${unindexedChapters.join(', ')}`)) {
+                      batchAddIndexMutation.mutate({ novel_id: selectedNovelId!, chapter_indices: unindexedChapters });
+                    }
+                  }}
+                >
+                  {batchAddIndexMutation.isPending ? (
+                    <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                  ) : (
+                    <Layers className="w-3 h-3 mr-1" />
+                  )}
+                  批量添加全部
+                </Button>
+              )}
               {(chapters || []).filter((c) => !indexedChapters.includes(c.index)).length === 0 && indexedChapters.length > 0 && (
                 <span className="text-xs text-zinc-500">已全部索引</span>
               )}
             </div>
-            {(addIndexMutation.isSuccess || deleteIndexMutation.isSuccess) && (
-              <p className="text-xs text-emerald-400 mt-1">已提交 knowledge 执行，请稍后刷新列表</p>
+            )}
+            {(addIndexMutation.isSuccess || deleteIndexMutation.isSuccess || batchAddIndexMutation.isSuccess) && (
+              <p className="text-xs text-emerald-400 px-3 pb-2">已提交 knowledge 执行，请稍后刷新列表</p>
             )}
           </div>
 
@@ -417,14 +478,14 @@ function GraphExplorerView({
       }
     }
     
-    // 2-Hop 子图构建
+    // 1-Hop 子图构建（只显示直接连接的节点）
     let nodes: GraphNodeWithDegree[] = [];
     let links: GraphLinkWithMeta[] = [];
     let neighborIds: Set<string>;
     const nodeLevelMap = new Map<string, number>();
     
     if (focusNodeId) {
-      // Focus Mode: 构建 2-Hop 子图
+      // Focus Mode: 构建 1-Hop 子图（只显示直接邻居）
       const centerNode = graph.nodes.find((n) => n.id === focusNodeId);
       if (!centerNode) {
         return { gData: { nodes: [], links: [] }, neighborIds: new Set<string>() };
@@ -446,22 +507,8 @@ function GraphExplorerView({
         }
       });
       
-      // Level 2: 间接邻居（与 Level 1 相连，且不在 Level 0 或 Level 1）
-      const level2 = new Set<string>();
-      filteredLinks.forEach((l) => {
-        const src = String(l.source);
-        const tgt = String(l.target);
-        if (level1.has(src) && !level0.has(tgt) && !level1.has(tgt)) {
-          level2.add(tgt);
-          if (!nodeLevelMap.has(tgt)) nodeLevelMap.set(tgt, 2);
-        } else if (level1.has(tgt) && !level0.has(src) && !level1.has(src)) {
-          level2.add(src);
-          if (!nodeLevelMap.has(src)) nodeLevelMap.set(src, 2);
-        }
-      });
-      
-      // 收集所有节点
-      const allNodeIds = new Set([...level0, ...level1, ...level2]);
+      // 收集所有节点（只包含 Level 0 和 Level 1）
+      const allNodeIds = new Set([...level0, ...level1]);
       nodes = graph.nodes
         .filter((n) => allNodeIds.has(n.id))
         .map((n) => ({
@@ -580,7 +627,7 @@ function GraphExplorerView({
             chargeForce.strength((node: any) => {
               const level = (node as GraphNodeWithDegree).__level ?? 0;
               if (level === 0) return 0; // 中心节点不受排斥
-              return -300; // Level 1 和 2 的排斥力
+              return -300; // Level 1 的排斥力
             });
           }
           
@@ -601,7 +648,7 @@ function GraphExplorerView({
             }
           });
           
-          // 为 Level 1 和 Level 2 添加径向力（使用自定义力函数）
+          // 为 Level 1 添加径向力（使用自定义力函数）
           // 移除旧的径向力
           fg.d3Force('radial1', null);
           fg.d3Force('radial2', null);
@@ -617,24 +664,6 @@ function GraphExplorerView({
                 const targetR = 150;
                 if (r > 0.01) {
                   const k = (targetR - r) * alpha * 0.8;
-                  node.vx = (node.vx ?? 0) + (dx / r) * k;
-                  node.vy = (node.vy ?? 0) + (dy / r) * k;
-                }
-              }
-            });
-          });
-          
-          // Level 2: 外环 (半径 280)
-          fg.d3Force('radial2', (alpha: number) => {
-            const nodes = gData.nodes as any[];
-            nodes.forEach((node: any) => {
-              if ((node as GraphNodeWithDegree).__level === 2) {
-                const dx = node.x ?? 0;
-                const dy = node.y ?? 0;
-                const r = Math.sqrt(dx * dx + dy * dy);
-                const targetR = 280;
-                if (r > 0.01) {
-                  const k = (targetR - r) * alpha * 0.6;
                   node.vx = (node.vx ?? 0) + (dx / r) * k;
                   node.vy = (node.vy ?? 0) + (dy / r) * k;
                 }
@@ -725,7 +754,7 @@ function GraphExplorerView({
     const level = n.__level;
     if (level === 0) return 12; // Center: 最大
     if (level === 1) return 8;  // Level 1: 中等
-    if (level === 2) return 4;  // Level 2: 较小
+    return 4;  // 其他节点: 较小
     // Global Mode: 根据度数
     const degree = n.__degree ?? 1;
     return 6 + Math.sqrt(degree) * 2;
@@ -736,16 +765,10 @@ function GraphExplorerView({
     const r = Math.sqrt(Math.max(0, nodeVal(node))) * 3.2;
     const isCenter = level === 0;
     const isLevel1 = level === 1;
-    const isLevel2 = level === 2;
     const showLabel = globalScale > 0.7 || hoveredNode?.id === node.id;
     const label = (node.label || node.id) as string;
     
     ctx.save();
-    
-    // Level 2 节点降低透明度
-    if (isLevel2) {
-      ctx.globalAlpha = 0.75;
-    }
     
     // 绘制节点
     ctx.beginPath();
@@ -890,8 +913,8 @@ function GraphExplorerView({
                   if (sourceLevel != null || targetLevel != null) {
                     const minLevel = Math.min(sourceLevel ?? 99, targetLevel ?? 99);
                     if (minLevel === 0) return 2.5; // Center 到 Level 1
-                    if (minLevel === 1) return 2.0; // Level 1 之间或到 Level 2
-                    return 1.5; // Level 2 之间
+                    if (minLevel === 1) return 2.0; // Level 1 之间
+                    return 1.5; // 其他情况
                   }
                   return 1.8; // Global Mode
                 }}

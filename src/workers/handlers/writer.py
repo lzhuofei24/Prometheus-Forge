@@ -103,7 +103,6 @@ class WriterHandler(BaseAgentHandler):
             entity_hint = []
             try:
                 if isinstance(outline, str) and outline:
-                    import json
                     o = json.loads(outline)
                     for sc in (o.get("scenes") or []):
                         for c in (sc.get("key_characters") or []):

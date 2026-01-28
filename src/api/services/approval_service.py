@@ -307,3 +307,31 @@ class ApprovalService:
         pw.status = PendingWriteStatus.REJECTED.value
         await db.flush()
         return {"success": True}
+
+    @staticmethod
+    async def clear(db: AsyncSession, pending_id: str) -> Dict[str, Any]:
+        """清除审批请求：直接删除记录（无论状态如何）。"""
+        r = await db.execute(
+            select(PendingWrite).where(PendingWrite.id == pending_id)
+        )
+        pw = r.scalar_one_or_none()
+        if not pw:
+            return {"success": False, "error": "pending not found"}
+        await db.delete(pw)
+        await db.flush()
+        return {"success": True}
+
+    @staticmethod
+    async def clear_by_workflow(db: AsyncSession, workflow_id: str) -> Dict[str, Any]:
+        """清除指定工作流的所有审批请求：直接删除所有相关记录（无论状态如何）。"""
+        if not workflow_id or not workflow_id.strip():
+            return {"success": False, "error": "workflow_id is required"}
+        result = await db.execute(
+            select(PendingWrite).where(PendingWrite.workflow_id == workflow_id.strip())
+        )
+        pending_writes = result.scalars().all()
+        count = len(pending_writes)
+        for pw in pending_writes:
+            await db.delete(pw)
+        await db.flush()
+        return {"success": True, "deleted_count": count}

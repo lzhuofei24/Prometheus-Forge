@@ -32,8 +32,8 @@ def test_session_state_initialization():
     print("✓ Session State初始化测试通过")
 
 def test_workflow_executor_task_status():
-    """测试WorkflowExecutor的task_status"""
-    print("\n测试2: WorkflowExecutor task_status")
+    """测试工作流执行器的task_status（使用Mock）"""
+    print("\n测试2: 工作流执行器 task_status (Mock)")
     
     class MockExecutor:
         def __init__(self):

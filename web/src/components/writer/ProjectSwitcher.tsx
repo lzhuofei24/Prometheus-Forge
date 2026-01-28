@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '../ui/button';
-import { ChevronDown, BookOpen, Plus, Loader2, Upload } from 'lucide-react';
+import { ChevronDown, BookOpen, Plus, Loader2, Upload, Trash2, Download } from 'lucide-react';
 import { useCreateNovel, useNovels } from '../../hooks/useNovels';
 import { novelsApi } from '../../api/services';
 import { logger } from '../../utils/logger';
@@ -22,6 +22,8 @@ export default function ProjectSwitcher({
 }: ProjectSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const createNovelMutation = useCreateNovel();
@@ -113,6 +115,48 @@ export default function ProjectSwitcher({
     }
   };
 
+  const handleDeleteNovel = async (novelId: string, novelTitle: string) => {
+    if (!confirm(`确定要删除小说《${novelTitle}》吗？此操作将删除该小说的所有章节和数据，且不可恢复。`)) {
+      return;
+    }
+
+    setIsDeleting(true);
+    logger.action('ProjectSwitcher', 'User started deleting novel', { novelId, title: novelTitle });
+
+    try {
+      await novelsApi.delete(novelId);
+      logger.info('ProjectSwitcher', 'Novel deleted successfully', { novelId, title: novelTitle });
+      alert('删除成功');
+      await refetchNovels();
+      if (currentNovelId === novelId) {
+        onNovelChange(null);
+      }
+      setIsOpen(false);
+    } catch (error) {
+      logger.error('ProjectSwitcher', 'Failed to delete novel', { error, novelId, title: novelTitle });
+      console.error('删除小说失败:', error);
+      alert('删除失败: ' + (error instanceof Error ? error.message : String(error)));
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleExportNovel = async (novelId: string, novelTitle: string) => {
+    setIsExporting(true);
+    logger.action('ProjectSwitcher', 'User started exporting novel', { novelId, title: novelTitle });
+
+    try {
+      await novelsApi.export(novelId, novelTitle);
+      logger.info('ProjectSwitcher', 'Novel exported successfully', { novelId, title: novelTitle });
+    } catch (error) {
+      logger.error('ProjectSwitcher', 'Failed to export novel', { error, novelId, title: novelTitle });
+      console.error('导出小说失败:', error);
+      alert('导出失败: ' + (error instanceof Error ? error.message : String(error)));
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="relative" ref={containerRef}>
       <Button
@@ -170,20 +214,59 @@ export default function ProjectSwitcher({
               </div>
             )}
             {novels.map((novel) => (
-              <button
+              <div
                 key={novel.id}
                 className={cn(
-                  'w-full text-left px-3 py-2 text-sm hover:bg-zinc-100 rounded-md',
-                  currentNovelId === novel.id && 'bg-indigo-50 text-indigo-900'
+                  'group flex items-center justify-between px-3 py-2 text-sm hover:bg-zinc-100 rounded-md',
+                  currentNovelId === novel.id && 'bg-indigo-50'
                 )}
-                onClick={() => {
-                  logger.action('ProjectSwitcher', 'User selected novel', { novelId: novel.id, title: novel.title });
-                  onNovelChange(novel.id);
-                  setIsOpen(false);
-                }}
               >
-                {novel.title}
-              </button>
+                <button
+                  className={cn(
+                    'flex-1 text-left',
+                    currentNovelId === novel.id && 'text-indigo-900'
+                  )}
+                  onClick={() => {
+                    logger.action('ProjectSwitcher', 'User selected novel', { novelId: novel.id, title: novel.title });
+                    onNovelChange(novel.id);
+                    setIsOpen(false);
+                  }}
+                >
+                  {novel.title}
+                </button>
+                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    className="p-1 hover:bg-zinc-200 rounded text-zinc-600 hover:text-zinc-900"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleExportNovel(novel.id, novel.title);
+                    }}
+                    disabled={isExporting}
+                    title="导出为TXT"
+                  >
+                    {isExporting ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Download className="w-3.5 h-3.5" />
+                    )}
+                  </button>
+                  <button
+                    className="p-1 hover:bg-red-100 rounded text-zinc-600 hover:text-red-600"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteNovel(novel.id, novel.title);
+                    }}
+                    disabled={isDeleting}
+                    title="删除小说"
+                  >
+                    {isDeleting ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-3.5 h-3.5" />
+                    )}
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         </div>

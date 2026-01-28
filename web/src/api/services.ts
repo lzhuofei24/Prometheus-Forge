@@ -95,6 +95,26 @@ export const novelsApi = {
     );
     return response.data;
   },
+
+  delete: async (novelId: string): Promise<{ success: boolean }> => {
+    const response = await apiClient.delete<{ success: boolean }>(`/novels/${novelId}`);
+    return response.data;
+  },
+
+  export: async (novelId: string, filename: string): Promise<void> => {
+    const response = await apiClient.get(`/novels/${novelId}/export`, {
+      responseType: 'blob',
+    });
+    const blob = new Blob([response.data], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename.endsWith('.txt') ? filename : `${filename}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  },
 };
 
 /** 章节目录、章节内容(正文+大纲)：写作/阅读助手唯一数据源，仅数据库。 */

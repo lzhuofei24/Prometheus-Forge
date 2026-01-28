@@ -94,6 +94,8 @@ class NovelService:
             select(Chapter)
             .where(and_(Chapter.novel_id == novel_id, Chapter.index == index))
             .options(selectinload(Chapter.drafts))
+            .order_by(Chapter.created_at.asc())  # 如果有多个，返回最早创建的
+            .limit(1)  # 限制只返回一个
         )
         return result.scalar_one_or_none()
 
@@ -252,6 +254,50 @@ class NovelService:
         await db.delete(chapter)
         await db.flush()
         return True
+
+    @staticmethod
+    async def delete_novel(db: AsyncSession, novel_id: str) -> bool:
+        """删除小说及其所有章节、草稿和相关数据"""
+        novel = await NovelService.get_novel_by_id(db, novel_id)
+        if not novel:
+            return False
+        
+        # 由于外键级联删除，删除小说会自动删除所有章节和草稿
+        await db.delete(novel)
+        await db.flush()
+        return True
+
+    @staticmethod
+    async def export_novel_to_txt(db: AsyncSession, novel_id: str) -> Optional[str]:
+        """导出小说为txt格式，返回文本内容"""
+        novel = await NovelService.get_novel_by_id(db, novel_id)
+        if not novel:
+            return None
+        
+        chapters = await NovelService.list_chapters(db, novel_id)
+        if not chapters:
+            return f"{novel.title}\n\n（暂无章节内容）"
+        
+        lines = [novel.title, ""]
+        if novel.summary:
+            lines.append(f"简介：{novel.summary}")
+            lines.append("")
+        
+        # 按章节索引排序
+        sorted_chapters = sorted(chapters, key=lambda c: c.index)
+        
+        for chapter in sorted_chapters:
+            content = await NovelService.get_chapter_content(db, chapter.id)
+            if content:
+                chapter_title = chapter.title or f"第{chapter.index}章"
+                lines.append(f"\n{'=' * 50}")
+                lines.append(chapter_title)
+                lines.append(f"{'=' * 50}\n")
+                if content.get("content"):
+                    lines.append(content["content"])
+                    lines.append("")
+        
+        return "\n".join(lines)
 
     @staticmethod
     async def get_novel_settings(db: AsyncSession, novel_id: str) -> Dict[str, Any]:

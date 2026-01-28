@@ -217,9 +217,6 @@ def main():
     list_parser = subparsers.add_parser("list", help="列出小说的所有章节")
     list_parser.add_argument("--novel", dest="novel_name", required=True, help="小说名称")
     
-    # gui 命令：启动GUI查看器
-    gui_parser = subparsers.add_parser("gui", help="启动GUI小说查看器")
-    
     args = parser.parse_args()
     
     if not args.command:
@@ -242,9 +239,6 @@ def main():
         cmd_write(args, components)
     elif args.command == "list":
         cmd_list(args, components)
-    elif args.command == "gui":
-        from src.gui.novel_viewer import main as gui_main
-        gui_main()
     else:
         parser.print_help()
 

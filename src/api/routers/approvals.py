@@ -128,3 +128,27 @@ async def reject_pending(
     if not result.get("success"):
         raise HTTPException(status_code=400, detail=result.get("error", "reject failed"))
     return result
+
+
+@router.delete("/pending/{pending_id}", response_model=dict)
+async def clear_pending(
+    pending_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """清除审批请求：直接删除记录（无论状态如何）。"""
+    result = await ApprovalService.clear(db, pending_id)
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("error", "clear failed"))
+    return result
+
+
+@router.delete("/pending/workflow/{workflow_id}", response_model=dict)
+async def clear_pending_by_workflow(
+    workflow_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """清除指定工作流的所有审批请求：直接删除所有相关记录（无论状态如何）。"""
+    result = await ApprovalService.clear_by_workflow(db, workflow_id)
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("error", "clear failed"))
+    return result

@@ -376,6 +376,18 @@ export const approvalsApi = {
     );
     return response.data;
   },
+  clear: async (pendingId: string): Promise<{ success: boolean }> => {
+    const response = await apiClient.delete<{ success: boolean }>(
+      `/approvals/pending/${pendingId}`
+    );
+    return response.data;
+  },
+  clearByWorkflow: async (workflowId: string): Promise<{ success: boolean; deleted_count?: number }> => {
+    const response = await apiClient.delete<{ success: boolean; deleted_count?: number }>(
+      `/approvals/pending/workflow/${workflowId}`
+    );
+    return response.data;
+  },
 };
 
 export interface SystemConcept {
@@ -451,6 +463,29 @@ export const retrievalApi = {
       '/retrieval/index',
       { params }
     );
+    return response.data;
+  },
+  batchAddIndex: async (novel_id: string, chapter_indices: number[]): Promise<{
+    success: boolean;
+    novel_title: string;
+    total_chapters: number;
+    success_count: number;
+    failed_count: number;
+    task_ids: Array<{ chapter_index: number; task_id: string | null }>;
+    failed_chapters: number[];
+  }> => {
+    const response = await apiClient.post<{
+      success: boolean;
+      novel_title: string;
+      total_chapters: number;
+      success_count: number;
+      failed_count: number;
+      task_ids: Array<{ chapter_index: number; task_id: string | null }>;
+      failed_chapters: number[];
+    }>('/retrieval/index/batch', {
+      novel_id,
+      chapter_indices,
+    });
     return response.data;
   },
 };

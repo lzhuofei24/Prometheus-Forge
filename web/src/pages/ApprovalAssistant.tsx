@@ -10,7 +10,7 @@ import {
   type PendingDetail,
 } from '../api/client';
 import { useConcepts } from '../hooks/useConcepts';
-import { Check, X, FileText, ListTodo, Database } from 'lucide-react';
+import { Check, X, FileText, ListTodo, Database, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const ALL_WORKFLOWS = '__all__';
@@ -72,6 +72,15 @@ export default function ApprovalAssistant() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['approvals'] });
       setSelectedPendingId(null);
+    },
+  });
+
+  const clearWorkflowMutation = useMutation({
+    mutationFn: (workflowId: string) => approvalsApi.clearByWorkflow(workflowId),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['approvals'] });
+      setSelectedPendingId(null);
+      alert(`已清除 ${data.deleted_count || 0} 个审批请求`);
     },
   });
 
@@ -139,7 +148,25 @@ export default function ApprovalAssistant() {
           </div>
           {/* 第二层：运行 */}
           <div className="flex-none border-b border-white/10 px-3 py-2">
-            <div className="text-xs font-medium text-zinc-400 uppercase tracking-wider">{runLabel}</div>
+            <div className="flex items-center justify-between mb-1">
+              <div className="text-xs font-medium text-zinc-400 uppercase tracking-wider">{runLabel}</div>
+              {selectedWorkflowId !== ALL_WORKFLOWS && selectedWorkflowId && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-6 px-2 text-[10px] border-zinc-600 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                  onClick={() => {
+                    if (confirm(`确定要清除工作流 "${selectedWorkflowId}" 的所有审批请求吗？此操作不可恢复。`)) {
+                      clearWorkflowMutation.mutate(selectedWorkflowId);
+                    }
+                  }}
+                  disabled={clearWorkflowMutation.isPending}
+                >
+                  <Trash2 className="h-3 w-3 mr-1" />
+                  清除
+                </Button>
+              )}
+            </div>
             <ScrollArea className="h-20 mt-1">
               <div className="space-y-0.5">
                 <button
@@ -277,7 +304,7 @@ export default function ApprovalAssistant() {
                     size="sm"
                     className="bg-green-600 hover:bg-green-700"
                     onClick={() => approveMutation.mutate({ id: detail.id, novelId: detail.novel_id })}
-                    disabled={approveMutation.isPending || rejectMutation.isPending}
+                    disabled={approveMutation.isPending || rejectMutation.isPending || clearWorkflowMutation.isPending}
                   >
                     <Check className="h-4 w-4 mr-1" />
                     通过
@@ -286,7 +313,7 @@ export default function ApprovalAssistant() {
                     size="sm"
                     variant="destructive"
                     onClick={() => rejectMutation.mutate(detail.id)}
-                    disabled={approveMutation.isPending || rejectMutation.isPending}
+                    disabled={approveMutation.isPending || rejectMutation.isPending || clearWorkflowMutation.isPending}
                   >
                     <X className="h-4 w-4 mr-1" />
                     拒绝

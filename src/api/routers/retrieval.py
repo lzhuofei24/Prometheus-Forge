@@ -116,6 +116,11 @@ class AddIndexBody(BaseModel):
     chapter_index: int
 
 
+class BatchAddIndexBody(BaseModel):
+    novel_id: str
+    chapter_indices: List[int]  # 要添加索引的章节索引列表
+
+
 @router.get("/search", response_model=List[SearchResponseItem])
 async def search(
     q: str = Query(..., min_length=1),
@@ -193,6 +198,55 @@ async def add_index(
     except Exception as e:
         logger.warning("add_index enqueue failed: %s", e)
         raise HTTPException(status_code=503, detail=f"Enqueue failed: {e}. Check Redis and Celery broker.")
+
+
+@router.post("/index/batch", response_model=dict)
+async def batch_add_index(
+    body: BatchAddIndexBody,
+    db: AsyncSession = Depends(get_db),
+):
+    """批量提交添加索引任务到 knowledge 队列，按章节逐个添加（向量索引和图索引都会添加）。"""
+    novel = await NovelService.get_novel_by_id(db, body.novel_id)
+    if not novel:
+        raise HTTPException(status_code=404, detail="Novel not found")
+    
+    if not body.chapter_indices:
+        raise HTTPException(status_code=400, detail="chapter_indices cannot be empty")
+    
+    # 验证所有章节是否存在
+    for chapter_index in body.chapter_indices:
+        chapter = await NovelService.get_chapter_by_novel_and_index(db, body.novel_id, chapter_index)
+        if not chapter:
+            raise HTTPException(status_code=404, detail=f"Chapter {chapter_index} not found")
+    
+    # 逐个提交任务到队列
+    task_ids = []
+    failed_chapters = []
+    
+    for chapter_index in body.chapter_indices:
+        try:
+            result = await asyncio.wait_for(
+                asyncio.to_thread(_enqueue_add_index, body.novel_id, chapter_index),
+                timeout=_ENQUEUE_TIMEOUT,
+            )
+            task_ids.append({"chapter_index": chapter_index, "task_id": getattr(result, "id", None)})
+        except asyncio.TimeoutError:
+            logger.warning("batch_add_index enqueue timeout novel_id=%s chapter_index=%s", body.novel_id, chapter_index)
+            failed_chapters.append(chapter_index)
+        except Exception as e:
+            logger.warning("batch_add_index enqueue failed for chapter %s: %s", chapter_index, e)
+            failed_chapters.append(chapter_index)
+    
+    return {
+        "success": True,
+        "queued": True,
+        "novel_title": novel.title,
+        "total_chapters": len(body.chapter_indices),
+        "success_count": len(task_ids),
+        "failed_count": len(failed_chapters),
+        "task_ids": task_ids,
+        "failed_chapters": failed_chapters,
+    }
 
 
 @router.delete("/index", response_model=dict)
