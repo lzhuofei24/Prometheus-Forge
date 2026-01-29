@@ -98,7 +98,7 @@ graph TB
     end
     
     subgraph "API 层 (FastAPI)"
-        B[/workflow/start<br/>/workflow/{id}/state<br/>/workflow/{id}/trace]
+        B["/workflow/start<br/>/workflow/(id)/state<br/>/workflow/(id)/trace"]
     end
     
     subgraph "编排层"
@@ -322,11 +322,11 @@ stateDiagram-v2
         [*] --> Architect: 启动大纲生成
         Architect --> Writer: 大纲完成
         Writer --> Censor: 正文完成
-        Censor --> DecisionSensitive{内容是否敏感?}
+        Censor --> DecisionSensitive: 审查完成
         DecisionSensitive --> Critic: [否] 不敏感
         DecisionSensitive --> [*]: [是] 敏感 (已拦截)
 
-        Critic --> DecisionScore{审稿评分?}
+        Critic --> DecisionScore: 审稿完成
         DecisionScore --> Media: [>=75] 通过
         DecisionScore --> Writer: [<75 & revision<3] 打回修订
         DecisionScore --> [*]: [revision>=3] 失败 (已达最大修订)
