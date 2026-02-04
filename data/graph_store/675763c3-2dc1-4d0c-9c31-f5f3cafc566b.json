@@ -1,0 +1,157 @@
+{
+  "nodes": [
+    {
+      "id": "明国平",
+      "label": "明国平",
+      "type": "Person",
+      "status": "Dead",
+      "description": "明家犯罪集团首要分子"
+    },
+    {
+      "id": "明家犯罪集团",
+      "label": "明家犯罪集团",
+      "type": "Organization",
+      "status": "Destroyed",
+      "description": "以明国平、明珍珍为首要分子的犯罪集团"
+    },
+    {
+      "id": "明珍珍",
+      "label": "明珍珍",
+      "type": "Person",
+      "status": "Dead",
+      "description": "明家犯罪集团首要分子"
+    },
+    {
+      "id": "电信网络诈骗",
+      "label": "电信网络诈骗",
+      "type": "Event",
+      "status": "Completed"
+    },
+    {
+      "id": "开设赌场",
+      "label": "开设赌场",
+      "type": "Event",
+      "status": "Completed"
+    },
+    {
+      "id": "巫鸿明等人的电诈犯罪集团",
+      "label": "巫鸿明等人的电诈犯罪集团",
+      "type": "Organization",
+      "status": "Destroyed"
+    },
+    {
+      "id": "中国公民14人死亡",
+      "label": "中国公民14人死亡",
+      "type": "Event",
+      "status": "Completed"
+    },
+    {
+      "id": "最高人民法院",
+      "label": "最高人民法院",
+      "type": "Organization",
+      "status": "Active",
+      "description": "中国最高审判机关"
+    },
+    {
+      "id": "明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11人死刑",
+      "label": "明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11人死刑",
+      "type": "Event",
+      "status": "Completed"
+    },
+    {
+      "id": "浙江省温州市中级人民法院",
+      "label": "浙江省温州市中级人民法院",
+      "type": "Organization",
+      "status": "Active",
+      "description": "地方审判机关"
+    },
+    {
+      "id": "明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11名罪犯死刑",
+      "label": "明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11名罪犯死刑",
+      "type": "Event",
+      "status": "Completed"
+    }
+  ],
+  "edges": [
+    {
+      "source": "明国平",
+      "target": "明家犯罪集团",
+      "relation": "组织",
+      "chapter": 1,
+      "location": "缅甸果敢老街及石园子、清水河等地",
+      "state": "已宣判",
+      "quote": "以明国平、明珍珍等家族核心成员为首要分子的明家犯罪集团",
+      "context": "组织犯罪集团实施电信网络诈骗、开设赌场等犯罪"
+    },
+    {
+      "source": "明家犯罪集团",
+      "target": "电信网络诈骗",
+      "relation": "实施",
+      "chapter": 1,
+      "location": "缅甸果敢老街及石园子、清水河等地",
+      "state": "已宣判",
+      "quote": "实施电信网络诈骗、开设赌场等犯罪",
+      "context": "涉诈、涉赌资金100余亿元"
+    },
+    {
+      "source": "明家犯罪集团",
+      "target": "开设赌场",
+      "relation": "实施",
+      "chapter": 1,
+      "location": "缅甸果敢老街及石园子、清水河等地",
+      "state": "已宣判",
+      "quote": "实施电信网络诈骗、开设赌场等犯罪",
+      "context": "涉诈、涉赌资金100余亿元"
+    },
+    {
+      "source": "明家犯罪集团",
+      "target": "巫鸿明等人的电诈犯罪集团",
+      "relation": "伙同",
+      "chapter": 1,
+      "location": "缅甸果敢老街及石园子、清水河等地",
+      "state": "已宣判",
+      "quote": "明家犯罪集团还伙同巫鸿明等人的电诈犯罪集团",
+      "context": "实施故意杀害、故意伤害、非法拘禁涉诈人员"
+    },
+    {
+      "source": "明家犯罪集团",
+      "target": "中国公民14人死亡",
+      "relation": "造成",
+      "chapter": 1,
+      "location": "缅甸果敢老街及石园子、清水河等地",
+      "state": "已宣判",
+      "quote": "造成中国公民14人死亡、多人受伤",
+      "context": "实施故意杀害、故意伤害、非法拘禁涉诈人员"
+    },
+    {
+      "source": "明珍珍",
+      "target": "明家犯罪集团",
+      "relation": "组织",
+      "chapter": 1,
+      "location": "缅甸果敢老街及石园子、清水河等地",
+      "state": "已宣判",
+      "quote": "以明国平、明珍珍等家族核心成员为首要分子的明家犯罪集团",
+      "context": "组织犯罪集团实施电信网络诈骗、开设赌场等犯罪"
+    },
+    {
+      "source": "最高人民法院",
+      "target": "明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11人死刑",
+      "relation": "核准",
+      "chapter": 1,
+      "location": "中国",
+      "state": "已执行",
+      "quote": "最高人民法院依法核准明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11人死刑",
+      "context": "经复核确认犯罪事实"
+    },
+    {
+      "source": "浙江省温州市中级人民法院",
+      "target": "明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11名罪犯死刑",
+      "relation": "执行",
+      "chapter": 1,
+      "location": "浙江省温州市",
+      "state": "已执行",
+      "quote": "依法对明国平、明珍珍、周卫昌、巫鸿明、吴森龙、傅雨彬等11名罪犯宣判并执行死刑",
+      "context": "收到最高人民法院的刑事裁定书和执行死刑命令后"
+    }
+  ]
+}

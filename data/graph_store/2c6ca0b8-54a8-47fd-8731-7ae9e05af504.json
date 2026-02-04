@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {
+      "id": "Prometheus Forge",
+      "label": "Prometheus Forge",
+      "type": "Organization",
+      "status": "Active",
+      "description": "分布式 AI 内容生成系统"
+    },
+    {
+      "id": "LangGraph 状态机",
+      "label": "LangGraph 状态机",
+      "type": "Concept",
+      "status": "Active",
+      "description": "状态机编排系统"
+    },
+    {
+      "id": "CentralController 事件驱动链路",
+      "label": "CentralController 事件驱动链路",
+      "type": "Concept",
+      "status": "Active"
+    },
+    {
+      "id": "Python",
+      "label": "Python",
+      "type": "Item",
+      "status": "Active"
+    },
+    {
+      "id": "Redis",
+      "label": "Redis",
+      "type": "Item",
+      "status": "Active"
+    },
+    {
+      "id": "StateGraph + TypedDict",
+      "label": "StateGraph + TypedDict",
+      "type": "Concept",
+      "status": "Active"
+    },
+    {
+      "id": "Architect → Writer → Censor → Critic → Media/Knowledge 闭环",
+      "label": "Architect → Writer → Censor → Critic → Media/Knowledge 闭环",
+      "type": "Concept",
+      "status": "Active"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Prometheus Forge",
+      "target": "LangGraph 状态机",
+      "relation": "使用",
+      "chapter": 1,
+      "location": "分布式系统",
+      "state": "主链路",
+      "quote": "基于 LangGraph 状态机的分布式多智能体长文本创作系统",
+      "context": "通过状态机编排实现多智能体协作，解决长文本生成的逻辑一致性与工程稳定性难题"
+    },
+    {
+      "source": "Prometheus Forge",
+      "target": "CentralController 事件驱动链路",
+      "relation": "包含",
+      "chapter": 1,
+      "location": "分布式系统",
+      "state": "辅链路",
+      "quote": "以 CentralController 事件驱动链路为辅",
+      "context": "实现 Architect / Writer / Censor / Critic / Media / Knowledge 等多智能体的协同创作"
+    },
+    {
+      "source": "Prometheus Forge",
+      "target": "Python",
+      "relation": "使用",
+      "chapter": 1,
+      "location": "技术栈",
+      "state": "编程语言",
+      "quote": "技术栈：Python + LangGraph + FastAPI + Redis + ChromaDB + NetworkX(GraphRAG) + React",
+      "context": "构建分布式 AI 内容生成系统的技术基础"
+    },
+    {
+      "source": "Prometheus Forge",
+      "target": "Redis",
+      "relation": "使用",
+      "chapter": 1,
+      "location": "技术栈",
+      "state": "持久化存储",
+      "quote": "将工作流全过程状态和审计日志全量持久化到 Redis",
+      "context": "实现无状态与写状态效率的关键技术"
+    },
+    {
+      "source": "LangGraph 状态机",
+      "target": "StateGraph + TypedDict",
+      "relation": "包含",
+      "chapter": 1,
+      "location": "LangGraph 状态机",
+      "state": "显式建模",
+      "quote": "基于 StateGraph + TypedDict 显式建模 WorkflowState 与节点图",
+      "context": "实现多智能体复杂条件路由的基础"
+    },
+    {
+      "source": "LangGraph 状态机",
+      "target": "Architect → Writer → Censor → Critic → Media/Knowledge 闭环",
+      "relation": "实现",
+      "chapter": 1,
+      "location": "LangGraph 状态机",
+      "state": "主工作流",
+      "quote": "对典型、对延迟敏感的主工作流编排完整的 Architect → Writer → Censor → Critic → Media/Knowledge 闭环",
+      "context": "解决长文本生成逻辑一致性与工程稳定性难题的核心流程"
+    }
+  ]
+}

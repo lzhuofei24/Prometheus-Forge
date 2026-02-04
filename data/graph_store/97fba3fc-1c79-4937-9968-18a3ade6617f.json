@@ -1,0 +1,2296 @@
+{
+  "nodes": [
+    {
+      "id": "瓦西里神甫",
+      "label": "瓦西里神甫",
+      "type": "Person",
+      "status": "Alive",
+      "description": "脸皮松弛的胖神甫，气势汹汹"
+    },
+    {
+      "id": "四个男孩子",
+      "label": "四个男孩子",
+      "type": "Person",
+      "status": "惊恐不安"
+    },
+    {
+      "id": "保尔·柯察金",
+      "label": "保尔·柯察金",
+      "type": "Person",
+      "status": "Alive",
+      "description": "穿军便服的青年"
+    },
+    {
+      "id": "神甫家的发面",
+      "label": "神甫家的发面",
+      "type": "Item",
+      "status": "被污染"
+    },
+    {
+      "id": "谢廖沙·勃鲁扎克",
+      "label": "谢廖沙·勃鲁扎克",
+      "type": "Person",
+      "status": "Alive",
+      "description": "保尔的好朋友"
+    },
+    {
+      "id": "圣经",
+      "label": "圣经",
+      "type": "Item",
+      "status": "Active"
+    },
+    {
+      "id": "高年级老师",
+      "label": "高年级老师",
+      "type": "Person",
+      "status": "Alive",
+      "description": "瘦子，穿着黑上衣"
+    },
+    {
+      "id": "地球和天体",
+      "label": "地球和天体",
+      "type": "Concept"
+    },
+    {
+      "id": "高年级老师的讲授",
+      "label": "高年级老师的讲授",
+      "type": "Concept"
+    },
+    {
+      "id": "校长叶夫列姆·瓦西里耶维奇",
+      "label": "校长叶夫列姆·瓦西里耶维奇",
+      "type": "Person",
+      "status": "Alive",
+      "description": "声音低沉"
+    },
+    {
+      "id": "沙皇",
+      "label": "沙皇",
+      "type": "Person",
+      "status": "Dead"
+    },
+    {
+      "id": "革命士兵",
+      "label": "革命士兵",
+      "type": "Organization"
+    },
+    {
+      "id": "宪兵",
+      "label": "宪兵",
+      "type": "Organization"
+    },
+    {
+      "id": "上校",
+      "label": "上校",
+      "type": "Person"
+    },
+    {
+      "id": "警备队长",
+      "label": "警备队长",
+      "type": "Person"
+    },
+    {
+      "id": "居民",
+      "label": "居民",
+      "type": "Person"
+    },
+    {
+      "id": "广场",
+      "label": "广场",
+      "type": "Location"
+    },
+    {
+      "id": "新名词",
+      "label": "新名词",
+      "type": "Concept"
+    },
+    {
+      "id": "近卫骑兵团",
+      "label": "近卫骑兵团",
+      "type": "Organization"
+    },
+    {
+      "id": "小城",
+      "label": "小城",
+      "type": "Location"
+    },
+    {
+      "id": "逃兵",
+      "label": "逃兵",
+      "type": "Person"
+    },
+    {
+      "id": "布尔什维克",
+      "label": "布尔什维克",
+      "type": "Organization"
+    },
+    {
+      "id": "车站",
+      "label": "车站",
+      "type": "Location"
+    },
+    {
+      "id": "冬妮亚",
+      "label": "冬妮亚",
+      "type": "Person",
+      "status": "Alive",
+      "description": "面带倦容的年轻女子"
+    },
+    {
+      "id": "保尔",
+      "label": "保尔",
+      "type": "Person",
+      "status": "Alive",
+      "description": "坚强的战士"
+    },
+    {
+      "id": "池塘",
+      "label": "池塘",
+      "type": "Location",
+      "status": "Active"
+    },
+    {
+      "id": "苏哈里科",
+      "label": "苏哈里科",
+      "type": "Person",
+      "status": "Alive",
+      "description": "浅黄头发、一脸雀斑的年轻人"
+    },
+    {
+      "id": "塔妮亚",
+      "label": "塔妮亚",
+      "type": "Person",
+      "status": "Alive"
+    },
+    {
+      "id": "悬崖",
+      "label": "悬崖",
+      "type": "Location"
+    },
+    {
+      "id": "考验",
+      "label": "考验",
+      "type": "Event"
+    },
+    {
+      "id": "德国人",
+      "label": "德国人",
+      "type": "Organization"
+    },
+    {
+      "id": "乌克兰",
+      "label": "乌克兰",
+      "type": "Location"
+    },
+    {
+      "id": "起义者",
+      "label": "起义者",
+      "type": "Organization"
+    },
+    {
+      "id": "德军",
+      "label": "德军",
+      "type": "Organization"
+    },
+    {
+      "id": "红军",
+      "label": "红军",
+      "type": "Organization"
+    },
+    {
+      "id": "大头目佩特留拉的部队",
+      "label": "大头目佩特留拉的部队",
+      "type": "Organization"
+    },
+    {
+      "id": "戈卢勃团",
+      "label": "戈卢勃团",
+      "type": "Organization"
+    },
+    {
+      "id": "前线",
+      "label": "前线",
+      "type": "Location"
+    },
+    {
+      "id": "犹太居民",
+      "label": "犹太居民",
+      "type": "Person"
+    },
+    {
+      "id": "被杀的亲人",
+      "label": "被杀的亲人",
+      "type": "Person"
+    },
+    {
+      "id": "铁路工人",
+      "label": "铁路工人",
+      "type": "Person"
+    },
+    {
+      "id": "中学",
+      "label": "中学",
+      "type": "Location"
+    },
+    {
+      "id": "null",
+      "label": "null"
+    },
+    {
+      "id": "城里",
+      "label": "城里",
+      "type": "Location"
+    },
+    {
+      "id": "戒严",
+      "label": "戒严",
+      "type": "Event"
+    },
+    {
+      "id": "似人非人的怪物",
+      "label": "似人非人的怪物",
+      "type": "Concept"
+    },
+    {
+      "id": "朱赫来",
+      "label": "朱赫来",
+      "type": "Person",
+      "status": "Alive",
+      "description": "省委书记"
+    },
+    {
+      "id": "保尔家",
+      "label": "保尔家",
+      "type": "Location"
+    },
+    {
+      "id": "重要道理",
+      "label": "重要道理",
+      "type": "Concept"
+    },
+    {
+      "id": "莉莎",
+      "label": "莉莎",
+      "type": "Person",
+      "status": "Alive",
+      "description": "冬妮亚的女友"
+    },
+    {
+      "id": "十字路口发生的事情",
+      "label": "十字路口发生的事情",
+      "type": "Event",
+      "status": "Past"
+    },
+    {
+      "id": "柯察金",
+      "label": "柯察金",
+      "type": "Person",
+      "status": "Alive",
+      "description": "冬妮亚的朋友"
+    },
+    {
+      "id": "维克托",
+      "label": "维克托",
+      "type": "Person",
+      "status": "Alive",
+      "description": "冬妮亚的同学"
+    },
+    {
+      "id": "特列佐尔",
+      "label": "特列佐尔",
+      "type": "Item",
+      "status": "Active",
+      "description": "冬妮亚家的狗"
+    },
+    {
+      "id": "舍佩托夫卡",
+      "label": "舍佩托夫卡",
+      "type": "Location",
+      "description": "四周布满战壕和铁丝网的小城"
+    },
+    {
+      "id": "扎莫斯京",
+      "label": "扎莫斯京",
+      "type": "Person",
+      "status": "Alive",
+      "description": "炮队政委，洪亮的喊声"
+    },
+    {
+      "id": "炮手们",
+      "label": "炮手们",
+      "type": "Person"
+    },
+    {
+      "id": "西多尔丘克",
+      "label": "西多尔丘克",
+      "type": "Person",
+      "status": "Alive",
+      "description": "懒洋洋的炮手"
+    },
+    {
+      "id": "敌人",
+      "label": "敌人",
+      "type": "Organization"
+    },
+    {
+      "id": "佩特留拉部队",
+      "label": "佩特留拉部队",
+      "type": "Organization"
+    },
+    {
+      "id": "炮兵",
+      "label": "炮兵",
+      "type": "Person"
+    },
+    {
+      "id": "布尔什维克军队",
+      "label": "布尔什维克军队",
+      "type": "Organization"
+    },
+    {
+      "id": "谢廖沙",
+      "label": "谢廖沙",
+      "type": "Person",
+      "status": "Alive",
+      "description": "红军战士"
+    },
+    {
+      "id": "红军战士",
+      "label": "红军战士",
+      "type": "Person"
+    },
+    {
+      "id": "红军队伍",
+      "label": "红军队伍",
+      "type": "Organization"
+    },
+    {
+      "id": "中国人",
+      "label": "中国人",
+      "type": "Person",
+      "status": "Alive",
+      "description": "晒得黝黑、两眼通红的红军战士"
+    },
+    {
+      "id": "第聂伯河",
+      "label": "第聂伯河",
+      "type": "Location",
+      "description": "美丽的、庄严的河流"
+    },
+    {
+      "id": "基辅",
+      "label": "基辅",
+      "type": "Location"
+    },
+    {
+      "id": "战壕",
+      "label": "战壕",
+      "type": "Location"
+    },
+    {
+      "id": "昨天的战斗",
+      "label": "昨天的战斗",
+      "type": "Event"
+    },
+    {
+      "id": "波兰兵",
+      "label": "波兰兵",
+      "type": "Person"
+    },
+    {
+      "id": "祖国大地",
+      "label": "祖国大地",
+      "type": "Location"
+    },
+    {
+      "id": "大腿",
+      "label": "大腿",
+      "type": "Concept"
+    },
+    {
+      "id": "伤寒",
+      "label": "伤寒",
+      "type": "Event",
+      "status": "Ended"
+    },
+    {
+      "id": "第十二集团军",
+      "label": "第十二集团军",
+      "type": "Organization"
+    },
+    {
+      "id": "斑疹伤寒",
+      "label": "斑疹伤寒",
+      "type": "Concept"
+    },
+    {
+      "id": "骑兵第一集团军",
+      "label": "骑兵第一集团军",
+      "type": "Organization"
+    },
+    {
+      "id": "保尔·安德列耶维奇·柯察金",
+      "label": "保尔·安德列耶维奇·柯察金",
+      "type": "Person",
+      "status": "Alive",
+      "description": "头部受重伤的红军战士"
+    },
+    {
+      "id": "章鱼",
+      "label": "章鱼",
+      "type": "Item",
+      "status": "Destroyed"
+    },
+    {
+      "id": "尼娜·弗拉基米罗夫娜",
+      "label": "尼娜·弗拉基米罗夫娜",
+      "type": "Person",
+      "status": "Active"
+    },
+    {
+      "id": "阿纳托利·斯捷潘诺维奇",
+      "label": "阿纳托利·斯捷潘诺维奇",
+      "type": "Person",
+      "status": "Active"
+    },
+    {
+      "id": "团部嘉奖令",
+      "label": "团部嘉奖令",
+      "type": "Item",
+      "status": "Active"
+    },
+    {
+      "id": "阿尔焦姆·柯察金",
+      "label": "阿尔焦姆·柯察金",
+      "type": "Person",
+      "status": "Active"
+    },
+    {
+      "id": "丽达",
+      "label": "丽达",
+      "type": "Person",
+      "status": "Alive",
+      "description": "中央委员会委员"
+    },
+    {
+      "id": "日记",
+      "label": "日记",
+      "type": "Item"
+    },
+    {
+      "id": "谢加尔",
+      "label": "谢加尔",
+      "type": "Person",
+      "status": "Alive",
+      "description": "辩证唯物主义学习小组的领导者"
+    },
+    {
+      "id": "中央委员会",
+      "label": "中央委员会",
+      "type": "Organization"
+    },
+    {
+      "id": "铁路林业委员会的问题",
+      "label": "铁路林业委员会的问题",
+      "type": "Concept"
+    },
+    {
+      "id": "托卡列夫",
+      "label": "托卡列夫",
+      "type": "Person",
+      "status": "Alive",
+      "description": "老钳工"
+    },
+    {
+      "id": "秃头",
+      "label": "秃头",
+      "type": "Person",
+      "status": "Alive",
+      "description": "铁路林业委员会的主席"
+    },
+    {
+      "id": "省委和铁路管理局的决议",
+      "label": "省委和铁路管理局的决议",
+      "type": "Event"
+    },
+    {
+      "id": "秃头的审查",
+      "label": "秃头的审查",
+      "type": "Concept"
+    },
+    {
+      "id": "省委书记",
+      "label": "省委书记",
+      "type": "Person",
+      "status": "Alive",
+      "description": "省委书记"
+    },
+    {
+      "id": "决议",
+      "label": "决议",
+      "type": "Event"
+    },
+    {
+      "id": "省委书记办公室",
+      "label": "省委书记办公室",
+      "type": "Location"
+    },
+    {
+      "id": "穿军大衣的人",
+      "label": "穿军大衣的人",
+      "type": "Person",
+      "status": "Alive",
+      "description": "穿军大衣的人"
+    },
+    {
+      "id": "麻雀",
+      "label": "麻雀",
+      "type": "Item"
+    },
+    {
+      "id": "园子",
+      "label": "园子",
+      "type": "Location"
+    },
+    {
+      "id": "医生",
+      "label": "医生",
+      "type": "Person"
+    },
+    {
+      "id": "阿尔焦姆",
+      "label": "阿尔焦姆",
+      "type": "Person"
+    },
+    {
+      "id": "斯捷莎的娘家",
+      "label": "斯捷莎的娘家",
+      "type": "Location"
+    },
+    {
+      "id": "老太婆",
+      "label": "老太婆",
+      "type": "Person"
+    },
+    {
+      "id": "圣像",
+      "label": "圣像",
+      "type": "Item"
+    },
+    {
+      "id": "小男孩",
+      "label": "小男孩",
+      "type": "Person"
+    },
+    {
+      "id": "黑猪",
+      "label": "黑猪",
+      "type": "Item"
+    },
+    {
+      "id": "国境线",
+      "label": "国境线",
+      "type": "Location"
+    },
+    {
+      "id": "两个世界",
+      "label": "两个世界",
+      "type": "Concept"
+    },
+    {
+      "id": "独头鹰",
+      "label": "独头鹰",
+      "type": "Item"
+    },
+    {
+      "id": "柱子",
+      "label": "柱子",
+      "type": "Location"
+    },
+    {
+      "id": "锤子和镰刀",
+      "label": "锤子和镰刀",
+      "type": "Item"
+    },
+    {
+      "id": "铁牌",
+      "label": "铁牌",
+      "type": "Item"
+    },
+    {
+      "id": "波兰哨兵",
+      "label": "波兰哨兵",
+      "type": "Person"
+    },
+    {
+      "id": "火柴",
+      "label": "火柴",
+      "type": "Item"
+    },
+    {
+      "id": "潘克拉托夫",
+      "label": "潘克拉托夫",
+      "type": "Person",
+      "status": "Alive",
+      "description": "催促同伴的同志"
+    },
+    {
+      "id": "同志们",
+      "label": "同志们",
+      "type": "Person",
+      "status": "Alive"
+    },
+    {
+      "id": "奥库涅夫",
+      "label": "奥库涅夫",
+      "type": "Person",
+      "status": "Alive",
+      "description": "回忆过去的同志"
+    },
+    {
+      "id": "三年前的会议",
+      "label": "三年前的会议",
+      "type": "Event",
+      "status": "Past"
+    },
+    {
+      "id": "塔莉亚",
+      "label": "塔莉亚",
+      "type": "Person",
+      "status": "Alive",
+      "description": "发言的女同志"
+    },
+    {
+      "id": "托洛茨基信徒们的失败",
+      "label": "托洛茨基信徒们的失败",
+      "type": "Event",
+      "status": "Past"
+    },
+    {
+      "id": "杜巴瓦",
+      "label": "杜巴瓦",
+      "type": "Person",
+      "status": "Alive",
+      "description": "托洛茨基分子"
+    },
+    {
+      "id": "塔莉亚的发言",
+      "label": "塔莉亚的发言",
+      "type": "Event",
+      "status": "Active"
+    },
+    {
+      "id": "杜巴瓦的破坏行为",
+      "label": "杜巴瓦的破坏行为",
+      "type": "Event",
+      "status": "Active"
+    },
+    {
+      "id": "舒姆斯基",
+      "label": "舒姆斯基",
+      "type": "Person",
+      "status": "Alive",
+      "description": "开玩笑的同志"
+    },
+    {
+      "id": "会场气氛",
+      "label": "会场气氛",
+      "type": "Event",
+      "status": "Active"
+    },
+    {
+      "id": "乌克兰代表团",
+      "label": "乌克兰代表团",
+      "type": "Organization"
+    },
+    {
+      "id": "大个子",
+      "label": "大个子",
+      "type": "Person",
+      "status": "Active",
+      "description": "纠察队长"
+    },
+    {
+      "id": "代表证",
+      "label": "代表证",
+      "type": "Item"
+    },
+    {
+      "id": "阿基姆",
+      "label": "阿基姆",
+      "type": "Person"
+    },
+    {
+      "id": "代表会议",
+      "label": "代表会议",
+      "type": "Event"
+    },
+    {
+      "id": "扎尔基",
+      "label": "扎尔基",
+      "type": "Person",
+      "status": "Alive",
+      "description": "反对低俗表演的人"
+    },
+    {
+      "id": "共青团专区委员会书记",
+      "label": "共青团专区委员会书记",
+      "type": "Organization"
+    },
+    {
+      "id": "人群",
+      "label": "人群",
+      "type": "Person"
+    },
+    {
+      "id": "剧院入口",
+      "label": "剧院入口",
+      "type": "Location"
+    },
+    {
+      "id": "法国梧桐树荫",
+      "label": "法国梧桐树荫",
+      "type": "Location",
+      "status": "Active"
+    },
+    {
+      "id": "《叛乱》",
+      "label": "《叛乱》",
+      "type": "Item",
+      "status": "未看完"
+    },
+    {
+      "id": "耶路撒冷奇克",
+      "label": "耶路撒冷奇克",
+      "type": "Person",
+      "status": "Active"
+    },
+    {
+      "id": "朵拉·罗德金娜",
+      "label": "朵拉·罗德金娜",
+      "type": "Person",
+      "status": "Active"
+    },
+    {
+      "id": "歌舞演出",
+      "label": "歌舞演出",
+      "type": "Event",
+      "status": "进行中"
+    },
+    {
+      "id": "狐步舞表演",
+      "label": "狐步舞表演",
+      "type": "Event",
+      "status": "中断"
+    },
+    {
+      "id": "长凳",
+      "label": "长凳",
+      "type": "Item"
+    },
+    {
+      "id": "波斯老车夫",
+      "label": "波斯老车夫",
+      "type": "Person",
+      "description": "波斯老车夫，对保尔的行为感到困惑"
+    },
+    {
+      "id": "生活历程",
+      "label": "生活历程",
+      "type": "Concept"
+    },
+    {
+      "id": "老头子",
+      "label": "老头子",
+      "type": "Person",
+      "description": "丘察姆家的家长，对保尔充满敌意"
+    },
+    {
+      "id": "工作台",
+      "label": "工作台",
+      "type": "Item"
+    },
+    {
+      "id": "未来",
+      "label": "未来",
+      "type": "Concept"
+    },
+    {
+      "id": "更可怕的不幸",
+      "label": "更可怕的不幸",
+      "type": "Concept",
+      "description": "未来的健康问题"
+    },
+    {
+      "id": "专科医院",
+      "label": "专科医院",
+      "type": "Location"
+    },
+    {
+      "id": "外科治疗",
+      "label": "外科治疗",
+      "type": "Concept"
+    },
+    {
+      "id": "手术",
+      "label": "手术",
+      "type": "Concept"
+    },
+    {
+      "id": "莫斯科市苏维埃",
+      "label": "莫斯科市苏维埃",
+      "type": "Organization",
+      "status": "Active",
+      "description": "莫斯科市政府"
+    },
+    {
+      "id": "房间",
+      "label": "房间",
+      "type": "Location"
+    },
+    {
+      "id": "医院",
+      "label": "医院",
+      "type": "Location"
+    },
+    {
+      "id": "中篇小说",
+      "label": "中篇小说",
+      "type": "Item"
+    },
+    {
+      "id": "手稿",
+      "label": "手稿",
+      "type": "Item"
+    },
+    {
+      "id": "列杰尼奥夫",
+      "label": "列杰尼奥夫",
+      "type": "Person"
+    }
+  ],
+  "edges": [
+    {
+      "source": "瓦西里神甫",
+      "target": "四个男孩子",
+      "relation": "斥责",
+      "chapter": 1,
+      "location": "教室",
+      "state": "愤怒",
+      "quote": "你们这几个小无赖，谁抽烟？",
+      "context": "神甫因怀疑学生在发面里撒烟末而斥责他们"
+    },
+    {
+      "source": "瓦西里神甫",
+      "target": "保尔·柯察金",
+      "relation": "赶出",
+      "chapter": 1,
+      "location": "教室",
+      "state": "愤怒",
+      "quote": "你给我滚出去！",
+      "context": "神甫因怀疑保尔在发面里撒烟末而将他赶出教室"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "瓦西里神甫",
+      "relation": "仇恨",
+      "chapter": 1,
+      "location": "教室",
+      "state": "压抑",
+      "quote": "保尔恨透了神甫",
+      "context": "保尔因神甫的无端毒打和多次侮辱而对他怀恨在心"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "神甫家的发面",
+      "relation": "撒烟末",
+      "chapter": 1,
+      "location": "神甫家的厨房",
+      "state": "报复",
+      "quote": "他看见保尔把一把烟末撒在神甫家过复活节用的发面里",
+      "context": "保尔和谢廖沙在神甫家的厨房里撒烟末以报复神甫"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "圣经",
+      "relation": "信教",
+      "chapter": 1,
+      "location": "高年级教室",
+      "state": "深信不疑",
+      "quote": "保尔是信教的",
+      "context": "保尔因母亲的影响而深信圣经上的道理"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "高年级老师的讲授",
+      "relation": "疑惑",
+      "chapter": 1,
+      "location": "高年级教室",
+      "state": "惊讶",
+      "quote": "他感到非常奇怪，差点没站起来对老师说",
+      "context": "保尔对高年级老师讲授的地球存在时间与圣经不符感到疑惑"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "祖国大地",
+      "relation": "转战",
+      "chapter": 8,
+      "location": "祖国大地",
+      "state": "持续",
+      "quote": "保尔·柯察金转战在祖国大地上已经一年了",
+      "context": "保尔在祖国大地上转战"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "大腿",
+      "relation": "受伤",
+      "chapter": 8,
+      "location": "战场",
+      "state": "痊愈",
+      "quote": "第一次是因为大腿受了伤",
+      "context": "保尔因受伤暂时离开革命"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "伤寒",
+      "relation": "患病",
+      "chapter": 8,
+      "location": "战场",
+      "state": "痊愈",
+      "quote": "第二次是在严寒的一九二○年二月，得了伤寒",
+      "context": "保尔因伤寒暂时离开革命"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "丽达",
+      "relation": "拥抱",
+      "chapter": 15,
+      "location": "旅馆的音乐厅",
+      "state": "重逢",
+      "quote": "“你还活着？”……颤抖的声音轻轻地叫了一声“丽达”",
+      "context": "澄清死亡误传"
+    },
+    {
+      "source": "保尔·柯察金",
+      "target": "共青团专区委员会书记",
+      "relation": "担任",
+      "chapter": 15,
+      "state": "现任职务",
+      "quote": "“我现在是共青团专区委员会书记”",
+      "context": "自我介绍"
+    },
+    {
+      "source": "谢廖沙·勃鲁扎克",
+      "target": "保尔·柯察金",
+      "relation": "出主意",
+      "chapter": 1,
+      "location": "神甫家的厨房",
+      "state": "怂恿",
+      "quote": "都是谢廖沙出的馊主意",
+      "context": "谢廖沙怂恿保尔在神甫家的发面里撒烟末"
+    },
+    {
+      "source": "高年级老师",
+      "target": "地球和天体",
+      "relation": "讲授",
+      "chapter": 1,
+      "location": "高年级教室",
+      "state": "教学",
+      "quote": "高年级老师正在给学生讲地球和天体",
+      "context": "高年级老师讲授地球和天体的知识"
+    },
+    {
+      "source": "校长叶夫列姆·瓦西里耶维奇",
+      "target": "保尔·柯察金",
+      "relation": "召唤",
+      "chapter": 1,
+      "location": "教员室",
+      "state": "紧张",
+      "quote": "叫柯察金马上到我这儿来！",
+      "context": "校长召唤保尔到教员室"
+    },
+    {
+      "source": "沙皇",
+      "target": "革命士兵",
+      "relation": "被推翻",
+      "chapter": 2,
+      "location": "小城",
+      "context": "革命士兵逮捕了站上的宪兵、年老的上校和警备队长，城里的人相信沙皇被推翻的消息是真的了"
+    },
+    {
+      "source": "革命士兵",
+      "target": "宪兵",
+      "relation": "逮捕",
+      "chapter": 2,
+      "location": "车站",
+      "context": "革命士兵从火车上跳下来，逮捕了站上的宪兵、年老的上校和警备队长"
+    },
+    {
+      "source": "革命士兵",
+      "target": "上校",
+      "relation": "逮捕",
+      "chapter": 2,
+      "location": "车站",
+      "context": "革命士兵从火车上跳下来，逮捕了站上的宪兵、年老的上校和警备队长"
+    },
+    {
+      "source": "革命士兵",
+      "target": "警备队长",
+      "relation": "逮捕",
+      "chapter": 2,
+      "location": "车站",
+      "context": "革命士兵从火车上跳下来，逮捕了站上的宪兵、年老的上校和警备队长"
+    },
+    {
+      "source": "居民",
+      "target": "广场",
+      "relation": "涌向",
+      "chapter": 2,
+      "location": "小城",
+      "context": "几千个居民踏着积雪，穿过街道，涌到广场上去"
+    },
+    {
+      "source": "居民",
+      "target": "新名词",
+      "relation": "听",
+      "chapter": 2,
+      "location": "广场",
+      "context": "人们如饥似渴地听着那些新名词：自由、平等、博爱"
+    },
+    {
+      "source": "近卫骑兵团",
+      "target": "小城",
+      "relation": "进驻",
+      "chapter": 2,
+      "location": "小城",
+      "context": "冬末，城里进驻了一个近卫骑兵团"
+    },
+    {
+      "source": "近卫骑兵团",
+      "target": "逃兵",
+      "relation": "抓",
+      "chapter": 2,
+      "location": "车站",
+      "context": "每天早晨，团里都派出骑兵小分队，到车站去抓从西南前线开小差下来的逃兵"
+    },
+    {
+      "source": "布尔什维克",
+      "target": "车站",
+      "relation": "出现",
+      "chapter": 2,
+      "location": "车站",
+      "context": "车站上出现了许多生人，他们大多是从前线回来的士兵，而且都有一个奇怪的称号：“布尔什维克”"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "保尔",
+      "relation": "注视",
+      "chapter": 3,
+      "location": "池塘岸边",
+      "state": "初次见面",
+      "quote": "她看见一个陌生的姑娘站在那里，手扶着柳树，身子探向水面。",
+      "context": "冬妮亚在池塘边发现保尔钓鱼，并注视他"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "保尔",
+      "relation": "询问",
+      "chapter": 3,
+      "location": "池塘岸边",
+      "state": "初次对话",
+      "quote": "这儿难道能钓着鱼吗？",
+      "context": "冬妮亚对保尔的钓鱼行为表示好奇并询问"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "保尔",
+      "relation": "和解",
+      "chapter": 3,
+      "location": "池塘岸边",
+      "state": "初次对话",
+      "quote": "难道我妨碍您吗？",
+      "context": "冬妮亚试图与保尔和解，缓和气氛"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "保尔",
+      "relation": "回忆",
+      "chapter": 4,
+      "location": "家中",
+      "state": "过去",
+      "quote": "前几封信里，我跟你谈到过保夫鲁沙。",
+      "context": "冬妮亚回忆起与保尔的往事"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "保尔",
+      "relation": "考验",
+      "chapter": 4,
+      "location": "湖边悬崖",
+      "state": "过去",
+      "quote": "我告诉他，我不大相信他那么勇敢，只是检验他一下，是否真有胆量跳悬崖。",
+      "context": "冬妮亚曾考验保尔的勇气，让他跳悬崖"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "塔妮亚",
+      "relation": "写信",
+      "chapter": 4,
+      "location": "家中",
+      "state": "完成",
+      "quote": "亲爱的塔妮亚：我父亲的助手偶然路过基辅，我请他捎这封信给你。",
+      "context": "冬妮亚在家中写信给朋友塔妮亚，表达自己的思念和近况"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "塔妮亚",
+      "relation": "想念",
+      "chapter": 4,
+      "location": "家中",
+      "state": "持续",
+      "quote": "我很想念朋友们，尤其是你。",
+      "context": "冬妮亚在信中表达对朋友塔妮亚的思念"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "考验",
+      "relation": "后悔",
+      "chapter": 4,
+      "location": "家中",
+      "state": "反思",
+      "quote": "我现在深深意识到，这太过分了。",
+      "context": "冬妮亚反思自己考验保尔的行为，感到后悔"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "莉莎",
+      "relation": "拥抱",
+      "chapter": 6,
+      "location": "冬妮亚的家",
+      "state": "亲切热烈",
+      "quote": "女友轻轻的脚步声和她那亲切热烈的拥抱把冬妮亚的睡意完全驱散了。",
+      "context": "莉莎来访，冬妮亚感到高兴并拥抱她"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "柯察金",
+      "relation": "担心",
+      "chapter": 6,
+      "location": "冬妮亚的家",
+      "state": "惊慌",
+      "quote": "冬妮亚那美丽的浓密的睫毛为什么那样紧张地抖动。",
+      "context": "冬妮亚担心柯察金的安全"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "柯察金",
+      "relation": "思念",
+      "chapter": 6,
+      "location": "冬妮亚的家",
+      "state": "深情",
+      "quote": "临睡前还思念着：黑夜，可千万不要出卖他呀！……",
+      "context": "冬妮亚在睡前思念柯察金，担心他的安全"
+    },
+    {
+      "source": "冬妮亚",
+      "target": "特列佐尔",
+      "relation": "带领",
+      "chapter": 6,
+      "location": "冬妮亚的家",
+      "state": "清晨",
+      "quote": "她悄悄地走到院子里，解开长毛大狗特列佐尔，领着它向城里走去。",
+      "context": "冬妮亚清晨带领特列佐尔前往城里"
+    },
+    {
+      "source": "保尔",
+      "target": "池塘",
+      "relation": "钓鱼",
+      "chapter": 3,
+      "location": "池塘岸边",
+      "state": "进行中",
+      "quote": "他光着脚，裤腿一直卷到大腿上，身旁放着一只盛蚯蚓的锈铁罐子。",
+      "context": "保尔在池塘边专注钓鱼"
+    },
+    {
+      "source": "保尔",
+      "target": "冬妮亚",
+      "relation": "回应",
+      "chapter": 3,
+      "location": "池塘岸边",
+      "state": "初次对话",
+      "quote": "小姐，您还是靠边呆着去，好不好？",
+      "context": "保尔对冬妮亚的询问感到恼火并回应"
+    },
+    {
+      "source": "保尔",
+      "target": "悬崖",
+      "relation": "跳下",
+      "chapter": 4,
+      "location": "湖边悬崖",
+      "state": "过去",
+      "quote": "他已经甩掉脚上的鞋子，纵身从悬崖上跳了下去。",
+      "context": "保尔在冬妮亚的考验下跳下悬崖"
+    },
+    {
+      "source": "保尔",
+      "target": "似人非人的怪物",
+      "relation": "梦见",
+      "chapter": 5,
+      "context": "保尔正在做梦。他梦见一个似人非人的怪物用机枪对着他"
+    },
+    {
+      "source": "保尔",
+      "target": "丽达",
+      "relation": "观察",
+      "chapter": 10,
+      "location": "车站天桥",
+      "state": "进行中",
+      "quote": "保尔怀着一种少有的好奇心观察她。",
+      "context": "保尔在车站天桥上观察丽达。"
+    },
+    {
+      "source": "保尔",
+      "target": "丽达",
+      "relation": "协助",
+      "chapter": 10,
+      "location": "车站",
+      "state": "进行中",
+      "quote": "省委决定派丽达代表省委去出席一个县的团代表大会，让保尔协助她工作。",
+      "context": "保尔协助丽达前往参加团代表大会。"
+    },
+    {
+      "source": "保尔",
+      "target": "丽达",
+      "relation": "带领",
+      "chapter": 10,
+      "location": "车站",
+      "state": "进行中",
+      "quote": "他就领丽达从行李房进了站台。",
+      "context": "保尔带领丽达从行李房进入站台。"
+    },
+    {
+      "source": "保尔",
+      "target": "伤寒",
+      "relation": "康复",
+      "chapter": 12,
+      "location": "房间",
+      "state": "康复中",
+      "quote": "卧床一个月之后，苍白瘦削的保尔终于站起来，迈着颤巍巍的双腿，扶着墙壁，在房间里试着走动。",
+      "context": "保尔战胜伤寒后，开始在房间内尝试走动"
+    },
+    {
+      "source": "保尔",
+      "target": "麻雀",
+      "relation": "观察",
+      "chapter": 12,
+      "location": "窗口",
+      "quote": "紧靠窗户的樱桃树枝上，神气十足地站着一只灰胸脯的麻雀，它不时用狡猾的小眼睛偷看保尔。",
+      "context": "保尔在窗口观察麻雀"
+    },
+    {
+      "source": "保尔",
+      "target": "麻雀",
+      "relation": "对话",
+      "chapter": 12,
+      "location": "窗口",
+      "quote": "“跟麻雀……它飞走了，真狡猾。”他无力地笑了笑。",
+      "context": "保尔与麻雀对话"
+    },
+    {
+      "source": "保尔",
+      "target": "园子",
+      "relation": "摔倒",
+      "chapter": 12,
+      "state": "剧痛",
+      "quote": "有一天，他在园子里散步，突然感到脊椎一阵剧痛，随即摔倒在地上。",
+      "context": "保尔在园子里因脊椎剧痛摔倒"
+    },
+    {
+      "source": "保尔",
+      "target": "医生",
+      "relation": "解释",
+      "chapter": 12,
+      "location": "屋内",
+      "quote": "“大夫，这是公路上的石头给崩的。在罗夫诺城下，一颗三吋炮弹在我背后的公路上炸开了花……”",
+      "context": "保尔向医生解释脊椎上的深坑"
+    },
+    {
+      "source": "保尔",
+      "target": "阿尔焦姆",
+      "relation": "拜访",
+      "chapter": 12,
+      "location": "斯捷莎的娘家",
+      "quote": "有一天，保尔顺路去看阿尔焦姆。",
+      "context": "保尔拜访阿尔焦姆"
+    },
+    {
+      "source": "保尔",
+      "target": "斯捷莎的娘家",
+      "relation": "离开",
+      "chapter": 12,
+      "quote": "保尔没有等哥哥回来，就站起身来走了。",
+      "context": "保尔离开斯捷莎的娘家"
+    },
+    {
+      "source": "保尔",
+      "target": "法国梧桐树荫",
+      "relation": "休息",
+      "chapter": 16,
+      "location": "中心医院的大花园",
+      "state": "舒适",
+      "quote": "保尔喜欢在这里的树荫下休息",
+      "context": "保尔在树荫下休息，躲避喧闹"
+    },
+    {
+      "source": "保尔",
+      "target": "《叛乱》",
+      "relation": "阅读",
+      "chapter": 16,
+      "location": "法国梧桐树荫",
+      "state": "中断",
+      "quote": "一本没有看完的富尔曼诺夫的小说《叛乱》，放在旁边的摇椅上",
+      "context": "保尔在休息时阅读小说"
+    },
+    {
+      "source": "保尔",
+      "target": "耶路撒冷奇克",
+      "relation": "被检查",
+      "chapter": 16,
+      "location": "疗养院",
+      "state": "厌烦",
+      "quote": "一次又一次的叩诊、听诊，使他感到又腻烦，又疲劳",
+      "context": "保尔对频繁的医学检查感到厌烦"
+    },
+    {
+      "source": "保尔",
+      "target": "朵拉·罗德金娜",
+      "relation": "结识",
+      "chapter": 16,
+      "location": "法国梧桐树荫",
+      "state": "初次见面",
+      "quote": "他们的友谊就是这样开始的",
+      "context": "保尔与朵拉在树荫下初次见面并开始友谊"
+    },
+    {
+      "source": "保尔",
+      "target": "歌舞演出",
+      "relation": "观看",
+      "chapter": 16,
+      "location": "海洋疗养院的花园",
+      "state": "不满",
+      "quote": "一天午饭后，保尔到海洋疗养院的花园去看歌舞演出",
+      "context": "保尔观看歌舞演出并感到不满"
+    },
+    {
+      "source": "保尔",
+      "target": "扎尔基",
+      "relation": "遇见",
+      "chapter": 16,
+      "location": "海洋疗养院的花园",
+      "state": "意外",
+      "quote": "没想到在这里遇见了扎尔基",
+      "context": "保尔在歌舞演出中意外遇见扎尔基"
+    },
+    {
+      "source": "保尔",
+      "target": "长凳",
+      "relation": "坐在",
+      "chapter": 17,
+      "location": "公园海边",
+      "state": "休息",
+      "quote": "保尔在海边找到一条长凳，坐了下来，让已经不太热的太阳照着他的脸。",
+      "context": "保尔在僻静的地方回顾生活历程"
+    },
+    {
+      "source": "保尔",
+      "target": "波斯老车夫",
+      "relation": "付钱给",
+      "chapter": 17,
+      "location": "公园入口",
+      "quote": "保尔付了车钱，老车夫也就走了。",
+      "context": "保尔到达公园后支付车费"
+    },
+    {
+      "source": "保尔",
+      "target": "生活历程",
+      "relation": "回顾",
+      "chapter": 17,
+      "location": "公园海边",
+      "quote": "今天，他特意到这僻静的地方来，回顾他的生活历程，考虑今后怎么办。",
+      "context": "保尔在公园反思自己的生活"
+    },
+    {
+      "source": "保尔",
+      "target": "老头子",
+      "relation": "被干扰",
+      "chapter": 17,
+      "location": "丘察姆家",
+      "quote": "他非常清楚，这样一来保尔就看不成书了。",
+      "context": "老头子通过噪音干扰保尔"
+    },
+    {
+      "source": "保尔",
+      "target": "未来",
+      "relation": "思考",
+      "chapter": 17,
+      "location": "公园海边",
+      "quote": "现在，他身体彻底垮了，失去了重新归队的希望，他该怎样对待自己呢？",
+      "context": "保尔在公园思考自己的未来"
+    },
+    {
+      "source": "保尔",
+      "target": "更可怕的不幸",
+      "relation": "被告知",
+      "chapter": 17,
+      "quote": "他终于使巴扎诺娃吐露了真情，这个女医生告诉他，前面还有更可怕的不幸等待着他。",
+      "context": "医生告知保尔未来的健康问题"
+    },
+    {
+      "source": "保尔",
+      "target": "专科医院",
+      "relation": "住进",
+      "chapter": 18,
+      "location": "莫斯科",
+      "state": "治疗中",
+      "quote": "保尔住进了一所专科医院",
+      "context": "保尔因病情严重住进医院接受治疗"
+    },
+    {
+      "source": "保尔",
+      "target": "外科治疗",
+      "relation": "接受",
+      "chapter": 18,
+      "location": "专科医院",
+      "state": "进行中",
+      "quote": "建议他目前先进行外科治疗，消除炎症",
+      "context": "医生建议保尔进行外科治疗以消除炎症"
+    },
+    {
+      "source": "保尔",
+      "target": "手术",
+      "relation": "拒绝",
+      "chapter": 18,
+      "location": "专科医院",
+      "state": "拒绝",
+      "quote": "算了，我做够了。我已经把一部分血献给了科学，剩下的留给我做别的用吧",
+      "context": "保尔拒绝再次进行手术"
+    },
+    {
+      "source": "保尔",
+      "target": "中央委员会",
+      "relation": "写信",
+      "chapter": 18,
+      "location": "莫斯科",
+      "state": "请求帮助",
+      "quote": "保尔给中央委员会写了一封信，请中央委员会帮助他在莫斯科安下家来",
+      "context": "保尔请求中央委员会帮助他在莫斯科安家"
+    },
+    {
+      "source": "保尔",
+      "target": "医院",
+      "relation": "离开",
+      "chapter": 18,
+      "location": "莫斯科",
+      "state": "完成",
+      "quote": "于是他离开了医院，唯一的希望是永远不再回到这里来",
+      "context": "保尔离开医院，希望不再回来"
+    },
+    {
+      "source": "保尔",
+      "target": "中篇小说",
+      "relation": "写作",
+      "chapter": 18,
+      "location": "克鲁泡特金大街",
+      "state": "进行中",
+      "quote": "保尔开始工作了。他打算写一部中篇小说",
+      "context": "保尔开始写作中篇小说"
+    },
+    {
+      "source": "保尔",
+      "target": "手稿",
+      "relation": "寄出",
+      "chapter": 18,
+      "location": "敖德萨",
+      "state": "丢失",
+      "quote": "小说已经写完了三章。保尔把它寄到敖德萨",
+      "context": "保尔寄出手稿给科托夫斯基师的老战友们"
+    },
+    {
+      "source": "保尔",
+      "target": "列杰尼奥夫",
+      "relation": "告诉",
+      "chapter": 18,
+      "location": "莫斯科",
+      "state": "懊悔",
+      "quote": "他把邮件丢失的事告诉了列杰尼奥夫",
+      "context": "保尔告诉列杰尼奥夫手稿丢失的事情"
+    },
+    {
+      "source": "苏哈里科",
+      "target": "冬妮亚",
+      "relation": "谈论",
+      "chapter": 3,
+      "location": "水塔旁边的小桥",
+      "state": "初次提及",
+      "quote": "这个姑娘像葡萄干一样香甜，别有风味。",
+      "context": "苏哈里科向维克托谈论冬妮亚"
+    },
+    {
+      "source": "德国人",
+      "target": "乌克兰",
+      "relation": "撤退",
+      "chapter": 4,
+      "location": "车站",
+      "state": "进行中",
+      "quote": "德国人在撤退。他们从四面八方汇合到这里，然后分批登车离去。",
+      "context": "德国人从乌克兰撤退，准备回国"
+    },
+    {
+      "source": "起义者",
+      "target": "德军",
+      "relation": "交战",
+      "chapter": 4,
+      "location": "乌克兰",
+      "state": "进行中",
+      "quote": "据说，离这里二十俄里的地方，起义者和撤退的德军在交战。",
+      "context": "起义者与撤退的德军在乌克兰交战"
+    },
+    {
+      "source": "红军",
+      "target": "大头目佩特留拉的部队",
+      "relation": "进攻",
+      "chapter": 5,
+      "location": "前线",
+      "context": "红军步步紧逼，不断向大头目佩特留拉的部队发动进攻"
+    },
+    {
+      "source": "戈卢勃团",
+      "target": "前线",
+      "relation": "被调上",
+      "chapter": 5,
+      "context": "戈卢勃团被调上了前线"
+    },
+    {
+      "source": "犹太居民",
+      "target": "被杀的亲人",
+      "relation": "掩埋",
+      "chapter": 5,
+      "location": "犹太居民区",
+      "context": "犹太居民利用这暂时的平静，掩埋了被杀的亲人"
+    },
+    {
+      "source": "铁路工人",
+      "target": "车站",
+      "relation": "离开",
+      "chapter": 5,
+      "context": "铁路工人都离开了车站，到四乡去找活干"
+    },
+    {
+      "source": "中学",
+      "target": "null",
+      "relation": "关门",
+      "chapter": 5,
+      "context": "中学关门了"
+    },
+    {
+      "source": "城里",
+      "target": "戒严",
+      "relation": "宣布",
+      "chapter": 5,
+      "context": "城里宣布了戒严"
+    },
+    {
+      "source": "朱赫来",
+      "target": "保尔家",
+      "relation": "敲窗",
+      "chapter": 5,
+      "context": "朱赫来匆匆地在街上行走，走到柯察金家的小屋前，小心翼翼地敲了敲窗框"
+    },
+    {
+      "source": "朱赫来",
+      "target": "保尔家",
+      "relation": "借宿",
+      "chapter": 5,
+      "context": "朱赫来深夜到保尔家借宿，同保尔一起住了八天"
+    },
+    {
+      "source": "朱赫来",
+      "target": "重要道理",
+      "relation": "讲述",
+      "chapter": 5,
+      "context": "朱赫来把满腔怒火和憎恨都传给如饥似渴地听他讲话的保尔"
+    },
+    {
+      "source": "朱赫来",
+      "target": "铁路林业委员会的问题",
+      "relation": "思考",
+      "chapter": 11,
+      "location": "省委书记办公室",
+      "state": "进行中",
+      "quote": "朱赫来一边思考，一边从嘴里取下烟斗",
+      "context": "朱赫来在省委书记办公室思考铁路林业委员会的问题"
+    },
+    {
+      "source": "朱赫来",
+      "target": "秃头的审查",
+      "relation": "写笔记",
+      "chapter": 11,
+      "location": "省委书记办公室",
+      "state": "进行中",
+      "quote": "朱赫来一面注意听秃头的回答，一面在笔记本上写道",
+      "context": "朱赫来在省委书记办公室写笔记，准备对秃头进行审查"
+    },
+    {
+      "source": "莉莎",
+      "target": "十字路口发生的事情",
+      "relation": "讲述",
+      "chapter": 6,
+      "location": "冬妮亚的家",
+      "state": "低声",
+      "quote": "莉莎往冬妮亚跟前挪了挪，搂着她，低声给她讲了十字路口发生的事情。",
+      "context": "莉莎向冬妮亚讲述十字路口发生的事情"
+    },
+    {
+      "source": "莉莎",
+      "target": "维克托",
+      "relation": "告诉",
+      "chapter": 6,
+      "location": "冬妮亚的家",
+      "state": "无意",
+      "quote": "你为什么要把保夫鲁沙，我是说，把柯察金的事情告诉维克托呢？",
+      "context": "莉莎无意中将柯察金的事情告诉了维克托"
+    },
+    {
+      "source": "舍佩托夫卡",
+      "target": "红军",
+      "relation": "被炮击",
+      "chapter": 7,
+      "location": "舍佩托夫卡",
+      "state": "激烈",
+      "quote": "炮弹嘶嘶地呼啸着，飞向三俄里外红军占据的村庄",
+      "context": "红军的炮队对舍佩托夫卡进行炮击"
+    },
+    {
+      "source": "扎莫斯京",
+      "target": "炮手们",
+      "relation": "指挥",
+      "chapter": 7,
+      "location": "古老的波兰修道院",
+      "state": "迅速",
+      "quote": "同志们，明天再接着睡吧！现在起床。起——床——！",
+      "context": "扎莫斯京叫醒炮手们准备战斗"
+    },
+    {
+      "source": "西多尔丘克",
+      "target": "敌人",
+      "relation": "抱怨",
+      "chapter": 7,
+      "location": "古老的波兰修道院",
+      "quote": "这帮畜生，天刚亮就呜呜乱叫，真是坏透了！",
+      "context": "西多尔丘克对敌人的炮击表示不满"
+    },
+    {
+      "source": "佩特留拉部队",
+      "target": "炮兵",
+      "relation": "指挥",
+      "chapter": 7,
+      "location": "糖厂高烟囱上的瞭望台",
+      "quote": "他们从这里指挥炮兵发射",
+      "context": "佩特留拉部队从瞭望台指挥炮兵"
+    },
+    {
+      "source": "布尔什维克军队",
+      "target": "舍佩托夫卡",
+      "relation": "进攻",
+      "chapter": 7,
+      "location": "舍佩托夫卡",
+      "state": "顽强",
+      "quote": "今天，对这座城市的攻击一次比一次顽强，一次比一次猛烈",
+      "context": "布尔什维克军队对舍佩托夫卡发起猛烈进攻"
+    },
+    {
+      "source": "谢廖沙",
+      "target": "红军战士",
+      "relation": "欢呼",
+      "chapter": 7,
+      "location": "街道",
+      "quote": "同志们万岁！",
+      "context": "谢廖沙看到红军战士进城时兴奋欢呼"
+    },
+    {
+      "source": "谢廖沙",
+      "target": "红军队伍",
+      "relation": "加入",
+      "chapter": 7,
+      "location": "西南车站",
+      "quote": "他和这支队伍一起冲进了西南车站",
+      "context": "谢廖沙加入红军队伍并一起冲进车站"
+    },
+    {
+      "source": "谢廖沙",
+      "target": "战壕",
+      "relation": "隐蔽",
+      "chapter": 8,
+      "location": "第聂伯河边",
+      "state": "潜伏",
+      "quote": "隐蔽着五个战士",
+      "context": "红军部队在前沿潜伏"
+    },
+    {
+      "source": "谢廖沙",
+      "target": "昨天的战斗",
+      "relation": "回忆",
+      "chapter": 8,
+      "location": "第聂伯河边",
+      "state": "沉思",
+      "quote": "谢廖沙看着奔流的河水，不禁想起了昨天的情景",
+      "context": "回忆与波兰白军的战斗"
+    },
+    {
+      "source": "谢廖沙",
+      "target": "波兰兵",
+      "relation": "拼刺刀",
+      "chapter": 8,
+      "location": "战场",
+      "state": "激烈",
+      "quote": "他第一次跟一个没有胡子的波兰兵拼刺刀",
+      "context": "昨天的战斗中与波兰兵拼刺刀"
+    },
+    {
+      "source": "红军战士",
+      "target": "国境线",
+      "relation": "巡逻",
+      "chapter": 13,
+      "context": "红军战士在国境线上巡逻，负责保卫边界"
+    },
+    {
+      "source": "红军战士",
+      "target": "火柴",
+      "relation": "借出",
+      "chapter": 13,
+      "context": "红军战士借出火柴给波兰哨兵"
+    },
+    {
+      "source": "红军战士",
+      "target": "剧院入口",
+      "relation": "守卫",
+      "chapter": 15,
+      "location": "大剧院",
+      "state": "严格检查",
+      "quote": "铁面无私的卫兵只放代表进去",
+      "context": "维持秩序"
+    },
+    {
+      "source": "中国人",
+      "target": "谢廖沙",
+      "relation": "夸奖",
+      "chapter": 7,
+      "location": "街道",
+      "quote": "他的布尔什维克，我们的人，年轻人，好人！",
+      "context": "中国红军战士夸奖谢廖沙"
+    },
+    {
+      "source": "第聂伯河",
+      "target": "基辅",
+      "relation": "位于",
+      "chapter": 8,
+      "location": "第聂伯河",
+      "state": "宁静",
+      "quote": "第聂伯河模糊地闪着光",
+      "context": "红军部队转移到第聂伯河左岸"
+    },
+    {
+      "source": "第十二集团军",
+      "target": "斑疹伤寒",
+      "relation": "减员",
+      "chapter": 8,
+      "location": "乌克兰北部",
+      "state": "严重",
+      "quote": "斑疹伤寒造成第十二集团军各师、团的大量减员",
+      "context": "斑疹伤寒导致大量减员"
+    },
+    {
+      "source": "骑兵第一集团军",
+      "target": "乌克兰",
+      "relation": "调动",
+      "chapter": 8,
+      "location": "北高加索",
+      "state": "进行中",
+      "quote": "久经战斗考验的骑兵第一集团军各师，从遥远的北高加索向乌克兰调动",
+      "context": "骑兵部队向乌克兰调动"
+    },
+    {
+      "source": "保尔·安德列耶维奇·柯察金",
+      "target": "章鱼",
+      "relation": "被叮咬",
+      "chapter": 9,
+      "location": "陆军医院",
+      "state": "昏迷中",
+      "quote": "章鱼伸出的刺针如同水蛭，死叮在他的头上，一下一下地收缩，吮吸着他的血液。",
+      "context": "保尔在昏迷中梦见章鱼叮咬他，感到血液被吸走。"
+    },
+    {
+      "source": "保尔·安德列耶维奇·柯察金",
+      "target": "尼娜·弗拉基米罗夫娜",
+      "relation": "被护理",
+      "chapter": 9,
+      "location": "陆军医院",
+      "state": "恢复中",
+      "quote": "尼娜·弗拉基米罗夫娜，您真可以骄傲。这完全是因为您护理得好。",
+      "context": "尼娜·弗拉基米罗夫娜护理保尔，帮助他恢复知觉。"
+    },
+    {
+      "source": "保尔·安德列耶维奇·柯察金",
+      "target": "阿纳托利·斯捷潘诺维奇",
+      "relation": "被检查",
+      "chapter": 9,
+      "location": "陆军医院",
+      "state": "恢复中",
+      "quote": "明天阿纳托利·斯捷潘诺维奇要给他做检查。",
+      "context": "阿纳托利·斯捷潘诺维奇计划检查保尔的伤势。"
+    },
+    {
+      "source": "保尔·安德列耶维奇·柯察金",
+      "target": "团部嘉奖令",
+      "relation": "被嘉奖",
+      "chapter": 9,
+      "location": "陆军医院",
+      "state": "恢复中",
+      "quote": "对英勇完成侦察任务的红军战士柯察金予以嘉奖。",
+      "context": "保尔因英勇完成侦察任务而获得嘉奖。"
+    },
+    {
+      "source": "保尔·安德列耶维奇·柯察金",
+      "target": "阿尔焦姆·柯察金",
+      "relation": "被通知",
+      "chapter": 9,
+      "location": "陆军医院",
+      "state": "恢复中",
+      "quote": "如果我牺牲了，请同志们通知我的家属：舍佩托夫卡市铁路机车库钳工阿尔焦姆·柯察金。",
+      "context": "保尔在条子中请求如果牺牲，通知他的家属阿尔焦姆·柯察金。"
+    },
+    {
+      "source": "丽达",
+      "target": "日记",
+      "relation": "写",
+      "chapter": 10,
+      "location": "房间",
+      "state": "进行中",
+      "quote": "丽达低着头，在一本厚厚的笔记本上写日记。",
+      "context": "午夜时分，丽达在房间内写日记。"
+    },
+    {
+      "source": "丽达",
+      "target": "柯察金",
+      "relation": "辅导",
+      "chapter": 10,
+      "location": "房间",
+      "state": "进行中",
+      "quote": "您替我接着带下去吧，他说。",
+      "context": "丽达接受谢加尔的委托，继续辅导柯察金。"
+    },
+    {
+      "source": "丽达",
+      "target": "柯察金",
+      "relation": "震惊",
+      "chapter": 15,
+      "location": "旅馆的音乐厅",
+      "state": "名字触发回忆",
+      "quote": "突然，她听到一个名字，不由得哆嗦了一下：“柯察金。”",
+      "context": "以为保尔已死"
+    },
+    {
+      "source": "丽达",
+      "target": "乌克兰代表团",
+      "relation": "询问",
+      "chapter": 15,
+      "location": "旅馆的音乐厅门口",
+      "state": "正式会议前",
+      "quote": "“乌克兰代表团是在这儿开会吗？”",
+      "context": "丽达试图进入会议厅"
+    },
+    {
+      "source": "丽达",
+      "target": "代表证",
+      "relation": "出示",
+      "chapter": 15,
+      "location": "旅馆的音乐厅门口",
+      "state": "烫金证件",
+      "quote": "丽达从提包里拿出烫金的代表证",
+      "context": "大个子态度转为恭敬"
+    },
+    {
+      "source": "丽达",
+      "target": "阿基姆",
+      "relation": "认出",
+      "chapter": 15,
+      "location": "旅馆的音乐厅",
+      "state": "声音辨识",
+      "quote": "丽达认出这个人是阿基姆",
+      "context": "听到熟悉的声音"
+    },
+    {
+      "source": "丽达",
+      "target": "潘克拉托夫",
+      "relation": "寻找",
+      "chapter": 15,
+      "location": "旅馆的音乐厅",
+      "state": "未找到",
+      "quote": "“潘克拉托夫。”……却看不到码头工人那熟悉的面孔",
+      "context": "听到熟悉名字时"
+    },
+    {
+      "source": "丽达",
+      "target": "扎尔基",
+      "relation": "发现",
+      "chapter": 15,
+      "location": "旅馆的音乐厅",
+      "state": "多年未见",
+      "quote": "丽达看见了扎尔基。他就坐在附近",
+      "context": "听到第二个熟悉名字"
+    },
+    {
+      "source": "丽达",
+      "target": "保尔·柯察金",
+      "relation": "同行",
+      "chapter": 15,
+      "location": "特维尔大街",
+      "state": "沉默",
+      "quote": "他俩一直走到大剧院，路上几乎没有说话",
+      "context": "前往开幕式"
+    },
+    {
+      "source": "谢加尔",
+      "target": "中央委员会",
+      "relation": "调到",
+      "chapter": 10,
+      "location": "房间",
+      "state": "即将",
+      "quote": "谢加尔同志就要调到中央委员会去工作。",
+      "context": "谢加尔即将被调到中央委员会工作。"
+    },
+    {
+      "source": "谢加尔",
+      "target": "丽达",
+      "relation": "交给",
+      "chapter": 10,
+      "location": "房间",
+      "state": "已完成",
+      "quote": "谢加尔把他的学生交给了我。",
+      "context": "谢加尔将他的学生交给丽达继续辅导。"
+    },
+    {
+      "source": "托卡列夫",
+      "target": "秃头",
+      "relation": "气愤",
+      "chapter": 11,
+      "location": "省委书记办公室",
+      "state": "进行中",
+      "quote": "他气愤地捻着小胡子，偶尔斜眼瞅一下那个秃顶的矮个子",
+      "context": "托卡列夫在省委书记办公室对秃头的行为感到气愤"
+    },
+    {
+      "source": "托卡列夫",
+      "target": "秃头",
+      "relation": "打断",
+      "chapter": 11,
+      "location": "省委书记办公室",
+      "state": "进行中",
+      "quote": "托卡列夫打断了他的话",
+      "context": "托卡列夫在省委书记办公室打断秃头的发言"
+    },
+    {
+      "source": "秃头",
+      "target": "省委和铁路管理局的决议",
+      "relation": "发言",
+      "chapter": 11,
+      "location": "省委书记办公室",
+      "state": "进行中",
+      "quote": "他一边用敏捷的手指翻动文件，一边滔滔不绝地说",
+      "context": "秃头在省委书记办公室发言，质疑省委和铁路管理局的决议"
+    },
+    {
+      "source": "秃头",
+      "target": "省委书记办公室",
+      "relation": "离开",
+      "chapter": 11,
+      "location": "省委书记办公室",
+      "state": "进行中",
+      "quote": "秃头走出房间，急急忙忙跑下楼梯",
+      "context": "秃头离开省委书记办公室"
+    },
+    {
+      "source": "省委书记",
+      "target": "决议",
+      "relation": "宣读",
+      "chapter": 11,
+      "location": "省委书记办公室",
+      "state": "进行中",
+      "quote": "省委书记读完接到的纸条，向朱赫来点了点头",
+      "context": "省委书记在办公室宣读决议"
+    },
+    {
+      "source": "穿军大衣的人",
+      "target": "秃头",
+      "relation": "询问",
+      "chapter": 11,
+      "location": "省委书记办公室门口",
+      "state": "进行中",
+      "quote": "就在门口，一个穿军大衣的人问他",
+      "context": "穿军大衣的人在省委书记办公室门口询问秃头"
+    },
+    {
+      "source": "医生",
+      "target": "保尔",
+      "relation": "检查",
+      "chapter": 12,
+      "location": "屋内",
+      "quote": "第二天，医生给他做了详细的检查，摸到他脊椎上有一个深坑，惊讶地叫了一声，问：“这儿怎么有个坑？”",
+      "context": "医生为保尔检查脊椎"
+    },
+    {
+      "source": "阿尔焦姆",
+      "target": "斯捷莎的娘家",
+      "relation": "居住",
+      "chapter": 12,
+      "quote": "阿尔焦姆住在他老婆斯捷莎的娘家，斯捷莎年纪不大，长得很丑。她家是贫穷的农民。",
+      "context": "阿尔焦姆居住在斯捷莎的娘家"
+    },
+    {
+      "source": "阿尔焦姆",
+      "target": "保尔",
+      "relation": "邀请",
+      "chapter": 12,
+      "location": "斯捷莎的娘家",
+      "quote": "“等一等，跟我们一起吃点东西吧，斯捷莎这就拿牛奶来。",
+      "context": "阿尔焦姆邀请保尔一起用餐"
+    },
+    {
+      "source": "老太婆",
+      "target": "圣像",
+      "relation": "祈祷",
+      "chapter": 12,
+      "location": "屋内",
+      "quote": "她捏着三个瘦骨嶙峋的手指，在胸前划了一个十字。",
+      "context": "老太婆在屋内祈祷"
+    },
+    {
+      "source": "老太婆",
+      "target": "小男孩",
+      "relation": "责骂",
+      "chapter": 12,
+      "location": "院子",
+      "quote": "“你这个斜眼鬼，连祷告也不让我做。狗崽子，我这就让你吃个够！……”",
+      "context": "老太婆责骂小男孩"
+    },
+    {
+      "source": "小男孩",
+      "target": "黑猪",
+      "relation": "骑",
+      "chapter": 12,
+      "location": "院子",
+      "quote": "院子里，小男孩一下子骑到一只耷拉着大耳朵的黑猪身上。",
+      "context": "小男孩在院子里骑黑猪"
+    },
+    {
+      "source": "国境线",
+      "target": "两个世界",
+      "relation": "象征",
+      "chapter": 13,
+      "context": "国境线由两根柱子组成，分别象征着苏维埃社会主义共和国和地主波兰"
+    },
+    {
+      "source": "独头鹰",
+      "target": "柱子",
+      "relation": "钉在",
+      "chapter": 13,
+      "context": "独头鹰被钉在漆着黑白相间线条的柱子上"
+    },
+    {
+      "source": "锤子和镰刀",
+      "target": "铁牌",
+      "relation": "铸在",
+      "chapter": 13,
+      "context": "锤子和镰刀被铸在铁牌上，象征着苏维埃社会主义共和国"
+    },
+    {
+      "source": "波兰哨兵",
+      "target": "国境线",
+      "relation": "巡逻",
+      "chapter": 13,
+      "context": "波兰哨兵在国境线上巡逻，负责保卫边界"
+    },
+    {
+      "source": "波兰哨兵",
+      "target": "红军战士",
+      "relation": "请求",
+      "chapter": 13,
+      "context": "波兰哨兵请求红军战士借火柴点烟"
+    },
+    {
+      "source": "波兰哨兵",
+      "target": "火柴",
+      "relation": "归还",
+      "chapter": 13,
+      "context": "波兰哨兵归还火柴给红军战士"
+    },
+    {
+      "source": "潘克拉托夫",
+      "target": "同志们",
+      "relation": "催促",
+      "chapter": 14,
+      "location": "歌剧院门前",
+      "state": "迟到",
+      "quote": "快走吧，同志们。咱们肯定要迟到了。",
+      "context": "潘克拉托夫催促落在后面的同志们加快步伐，以免迟到"
+    },
+    {
+      "source": "潘克拉托夫",
+      "target": "杜巴瓦",
+      "relation": "喊叫",
+      "chapter": 14,
+      "location": "会场",
+      "state": "不满",
+      "quote": "怎么，你们还想动摇我们的党吗？",
+      "context": "潘克拉托夫对杜巴瓦的行为表示不满，喊叫质问"
+    },
+    {
+      "source": "奥库涅夫",
+      "target": "三年前的会议",
+      "relation": "回忆",
+      "chapter": 14,
+      "location": "歌剧院门口",
+      "state": "回忆",
+      "quote": "你记得吧，伊格纳特，三年前咱们也是这样来开会的。",
+      "context": "奥库涅夫回忆起三年前同样在歌剧院召开的会议"
+    },
+    {
+      "source": "塔莉亚",
+      "target": "托洛茨基信徒们的失败",
+      "relation": "发言",
+      "chapter": 14,
+      "location": "会场",
+      "state": "激动",
+      "quote": "不错，进行这场辩论，我们花费了不少时间和精力，但是，青年们参加辩论，学到了很多东西。",
+      "context": "塔莉亚在会议上发言，指出托洛茨基信徒们的失败"
+    },
+    {
+      "source": "塔莉亚",
+      "target": "杜巴瓦的破坏行为",
+      "relation": "继续发言",
+      "chapter": 14,
+      "location": "会场",
+      "state": "继续",
+      "quote": "就拿杜巴瓦来说吧，他正是托洛茨基分子破坏党纪的一个突出的典型。",
+      "context": "塔莉亚继续发言，指出杜巴瓦的破坏行为"
+    },
+    {
+      "source": "塔莉亚",
+      "target": "三年前的会议",
+      "relation": "回忆",
+      "chapter": 14,
+      "location": "会场",
+      "state": "回忆",
+      "quote": "同志们，大家该还记得，三年前，也是在这个剧场里，杜巴瓦同志和一批‘工人反对派’的成员回到了咱们的队伍里。",
+      "context": "塔莉亚回忆起三年前在同一个剧场召开的会议"
+    },
+    {
+      "source": "杜巴瓦",
+      "target": "塔莉亚的发言",
+      "relation": "打断",
+      "chapter": 14,
+      "location": "会场右角",
+      "state": "恼恨",
+      "quote": "我们还是要说话的。",
+      "context": "杜巴瓦打断塔莉亚的发言，表示他们仍有话要说"
+    },
+    {
+      "source": "舒姆斯基",
+      "target": "会场气氛",
+      "relation": "开玩笑",
+      "chapter": 14,
+      "location": "会场",
+      "state": "缓和",
+      "quote": "我们没办法，都在灌木丛里打小工，我们没有地方办公。",
+      "context": "舒姆斯基的玩笑暂时缓和了会场上的紧张气氛"
+    },
+    {
+      "source": "大个子",
+      "target": "丽达",
+      "relation": "阻拦",
+      "chapter": 15,
+      "location": "旅馆的音乐厅门口",
+      "state": "检查证件",
+      "quote": "“您的证件呢？只有正式代表和列席代表才能进去。”",
+      "context": "大个子最初态度怠慢"
+    },
+    {
+      "source": "大个子",
+      "target": "丽达",
+      "relation": "态度转变",
+      "chapter": 15,
+      "location": "旅馆的音乐厅门口",
+      "state": "从怠慢到亲热",
+      "quote": "“请吧，请进，左边有空位子。”",
+      "context": "看到中央委员证件后"
+    },
+    {
+      "source": "阿基姆",
+      "target": "代表会议",
+      "relation": "主持会议",
+      "chapter": 15,
+      "location": "旅馆的音乐厅",
+      "state": "核对名单",
+      "quote": "“同志们，出席全俄代表大会各代表团首席代表会议的代表……”",
+      "context": "会议即将结束阶段"
+    },
+    {
+      "source": "扎尔基",
+      "target": "狐步舞表演",
+      "relation": "抗议",
+      "chapter": 16,
+      "location": "海洋疗养院的花园",
+      "state": "愤怒",
+      "quote": "愤怒地喊道：“够了，别卖|淫了！见鬼去吧！”",
+      "context": "扎尔基抗议低俗的狐步舞表演"
+    },
+    {
+      "source": "人群",
+      "target": "剧院入口",
+      "relation": "冲击",
+      "chapter": 15,
+      "location": "大剧院",
+      "state": "混乱",
+      "quote": "剧院周围人山人海……一心想冲进红军战士把守的入口",
+      "context": "开幕式前的骚动"
+    },
+    {
+      "source": "老头子",
+      "target": "保尔",
+      "relation": "敌对",
+      "chapter": 17,
+      "location": "丘察姆家",
+      "quote": "老头子听说他来了，暴跳如雷，在家里大闹了一场。",
+      "context": "保尔的到来激化了家庭矛盾"
+    },
+    {
+      "source": "老头子",
+      "target": "工作台",
+      "relation": "搬到",
+      "chapter": 17,
+      "location": "保尔的窗子底下",
+      "quote": "他把板棚改成了作坊，抽空捞点外快。现在，为了同房客捣乱，他故意把工作台搬到保尔的窗子底下，幸灾乐祸地使劲敲钉子。",
+      "context": "老头子故意干扰保尔"
+    },
+    {
+      "source": "莫斯科市苏维埃",
+      "target": "房间",
+      "relation": "拨给",
+      "chapter": 18,
+      "location": "莫斯科",
+      "state": "完成",
+      "quote": "莫斯科市苏维埃收到他的信以后，拨给他一个房间",
+      "context": "莫斯科市苏维埃拨给保尔一个房间"
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "nodes": [
+    {
+      "id": "浙江大学工程师学院",
+      "label": "浙江大学工程师学院",
+      "type": "Organization",
+      "description": "高等教育机构"
+    },
+    {
+      "id": "硕士/博士研究生",
+      "label": "硕士/博士研究生",
+      "type": "Person",
+      "description": "学术研究人员"
+    },
+    {
+      "id": "开题报告",
+      "label": "开题报告",
+      "type": "Item",
+      "description": "学术研究计划文档"
+    },
+    {
+      "id": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "label": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "type": "Concept",
+      "description": "研究课题"
+    },
+    {
+      "id": "多模态融合",
+      "label": "多模态融合",
+      "type": "Concept",
+      "description": "技术方法"
+    },
+    {
+      "id": "数字孪生",
+      "label": "数字孪生",
+      "type": "Concept",
+      "description": "技术方法"
+    },
+    {
+      "id": "深度学习",
+      "label": "深度学习",
+      "type": "Concept",
+      "description": "技术方法"
+    },
+    {
+      "id": "穿刺路径规划",
+      "label": "穿刺路径规划",
+      "type": "Concept",
+      "description": "技术方法"
+    },
+    {
+      "id": "智能诊疗平台",
+      "label": "智能诊疗平台",
+      "type": "Item",
+      "description": "医疗系统"
+    },
+    {
+      "id": "术前建模",
+      "label": "术前建模",
+      "type": "Concept",
+      "description": "医疗流程"
+    },
+    {
+      "id": "术中规划",
+      "label": "术中规划",
+      "type": "Concept",
+      "description": "医疗流程"
+    },
+    {
+      "id": "风险报警",
+      "label": "风险报警",
+      "type": "Concept",
+      "description": "医疗流程"
+    },
+    {
+      "id": "脊柱三维结构建模",
+      "label": "脊柱三维结构建模",
+      "type": "Concept",
+      "description": "医疗建模"
+    },
+    {
+      "id": "自监督对抗学习",
+      "label": "自监督对抗学习",
+      "type": "Concept",
+      "description": "技术方法"
+    },
+    {
+      "id": "骨密度相对分布提取",
+      "label": "骨密度相对分布提取",
+      "type": "Concept",
+      "description": "医疗分析"
+    },
+    {
+      "id": "双流特征匹配网络",
+      "label": "双流特征匹配网络",
+      "type": "Concept",
+      "description": "技术方法"
+    },
+    {
+      "id": "2D-3D 跨模态配准",
+      "label": "2D-3D 跨模态配准",
+      "type": "Concept",
+      "description": "医疗配准"
+    },
+    {
+      "id": "时空特征融合模型",
+      "label": "时空特征融合模型",
+      "type": "Concept",
+      "description": "技术方法"
+    },
+    {
+      "id": "穿刺路径调整量输出",
+      "label": "穿刺路径调整量输出",
+      "type": "Concept",
+      "description": "医疗规划"
+    },
+    {
+      "id": "安全性评估参数输出",
+      "label": "安全性评估参数输出",
+      "type": "Concept",
+      "description": "医疗评估"
+    }
+  ],
+  "edges": [
+    {
+      "source": "浙江大学工程师学院",
+      "target": "硕士/博士研究生",
+      "relation": "培养",
+      "chapter": 1,
+      "context": "学院提供硕士和博士研究生教育"
+    },
+    {
+      "source": "硕士/博士研究生",
+      "target": "开题报告",
+      "relation": "提交",
+      "chapter": 1,
+      "context": "研究生提交开题报告以开始研究"
+    },
+    {
+      "source": "开题报告",
+      "target": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "relation": "包含",
+      "chapter": 1,
+      "context": "开题报告中详细描述了研究课题"
+    },
+    {
+      "source": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "target": "多模态融合",
+      "relation": "涉及",
+      "chapter": 1,
+      "context": "研究课题涉及多模态融合技术"
+    },
+    {
+      "source": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "target": "数字孪生",
+      "relation": "涉及",
+      "chapter": 1,
+      "context": "研究课题涉及数字孪生技术"
+    },
+    {
+      "source": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "target": "深度学习",
+      "relation": "涉及",
+      "chapter": 1,
+      "context": "研究课题涉及深度学习技术"
+    },
+    {
+      "source": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "target": "穿刺路径规划",
+      "relation": "涉及",
+      "chapter": 1,
+      "context": "研究课题涉及穿刺路径规划技术"
+    },
+    {
+      "source": "基于多模态和数字孪生的脊柱穿刺路径规划研究",
+      "target": "智能诊疗平台",
+      "relation": "构建",
+      "chapter": 1,
+      "context": "研究课题旨在构建智能诊疗平台"
+    },
+    {
+      "source": "多模态融合",
+      "target": "脊柱三维结构建模",
+      "relation": "用于",
+      "chapter": 1,
+      "context": "多模态融合用于脊柱三维结构建模"
+    },
+    {
+      "source": "深度学习",
+      "target": "脊柱三维结构建模",
+      "relation": "用于",
+      "chapter": 1,
+      "context": "深度学习用于脊柱三维结构建模"
+    },
+    {
+      "source": "智能诊疗平台",
+      "target": "术前建模",
+      "relation": "集成",
+      "chapter": 1,
+      "context": "智能诊疗平台集成术前建模功能"
+    },
+    {
+      "source": "智能诊疗平台",
+      "target": "术中规划",
+      "relation": "集成",
+      "chapter": 1,
+      "context": "智能诊疗平台集成术中规划功能"
+    },
+    {
+      "source": "智能诊疗平台",
+      "target": "风险报警",
+      "relation": "集成",
+      "chapter": 1,
+      "context": "智能诊疗平台集成风险报警功能"
+    },
+    {
+      "source": "自监督对抗学习",
+      "target": "骨密度相对分布提取",
+      "relation": "用于",
+      "chapter": 1,
+      "context": "自监督对抗学习用于骨密度相对分布提取"
+    },
+    {
+      "source": "双流特征匹配网络",
+      "target": "2D-3D 跨模态配准",
+      "relation": "用于",
+      "chapter": 1,
+      "context": "双流特征匹配网络用于2D-3D跨模态配准"
+    },
+    {
+      "source": "时空特征融合模型",
+      "target": "穿刺路径调整量输出",
+      "relation": "用于",
+      "chapter": 1,
+      "context": "时空特征融合模型用于穿刺路径调整量输出"
+    },
+    {
+      "source": "时空特征融合模型",
+      "target": "安全性评估参数输出",
+      "relation": "用于",
+      "chapter": 1,
+      "context": "时空特征融合模型用于安全性评估参数输出"
+    }
+  ]
+}

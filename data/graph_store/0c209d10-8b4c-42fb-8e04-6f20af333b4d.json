@@ -1,0 +1,229 @@
+{
+  "nodes": [
+    {
+      "id": "春江",
+      "label": "春江",
+      "type": "Location"
+    },
+    {
+      "id": "海",
+      "label": "海",
+      "type": "Location"
+    },
+    {
+      "id": "明月",
+      "label": "明月",
+      "type": "Item"
+    },
+    {
+      "id": "潮水",
+      "label": "潮水",
+      "type": "Concept"
+    },
+    {
+      "id": "江流",
+      "label": "江流",
+      "type": "Concept"
+    },
+    {
+      "id": "芳殿",
+      "label": "芳殿",
+      "type": "Location"
+    },
+    {
+      "id": "月",
+      "label": "月",
+      "type": "Item"
+    },
+    {
+      "id": "花林",
+      "label": "花林",
+      "type": "Location"
+    },
+    {
+      "id": "江月",
+      "label": "江月",
+      "type": "Item"
+    },
+    {
+      "id": "人",
+      "label": "人",
+      "type": "Person"
+    },
+    {
+      "id": "白云",
+      "label": "白云",
+      "type": "Item"
+    },
+    {
+      "id": "青枫浦",
+      "label": "青枫浦",
+      "type": "Location"
+    },
+    {
+      "id": "扁舟子",
+      "label": "扁舟子",
+      "type": "Person"
+    },
+    {
+      "id": "江湖",
+      "label": "江湖",
+      "type": "Location"
+    },
+    {
+      "id": "妆镜台",
+      "label": "妆镜台",
+      "type": "Item"
+    },
+    {
+      "id": "鸿雁",
+      "label": "鸿雁",
+      "type": "Item"
+    },
+    {
+      "id": "光",
+      "label": "光",
+      "type": "Concept"
+    },
+    {
+      "id": "鱼龙",
+      "label": "鱼龙",
+      "type": "Item"
+    },
+    {
+      "id": "水",
+      "label": "水",
+      "type": "Concept"
+    },
+    {
+      "id": "江水流",
+      "label": "江水流",
+      "type": "Concept"
+    },
+    {
+      "id": "春",
+      "label": "春",
+      "type": "Concept"
+    },
+    {
+      "id": "落月",
+      "label": "落月",
+      "type": "Item"
+    },
+    {
+      "id": "江潭",
+      "label": "江潭",
+      "type": "Location"
+    }
+  ],
+  "edges": [
+    {
+      "source": "春江",
+      "target": "海",
+      "relation": "连接",
+      "chapter": 1,
+      "location": "春江",
+      "quote": "春江潮水连海平",
+      "context": "春江的潮水与海平面相连"
+    },
+    {
+      "source": "明月",
+      "target": "潮水",
+      "relation": "升起",
+      "chapter": 1,
+      "location": "海上",
+      "quote": "海上明月共潮生",
+      "context": "明月随着潮水一同升起"
+    },
+    {
+      "source": "江流",
+      "target": "芳殿",
+      "relation": "环绕",
+      "chapter": 1,
+      "location": "江流",
+      "quote": "江流宛转绕芳殿",
+      "context": "江流蜿蜒环绕着芳殿"
+    },
+    {
+      "source": "月",
+      "target": "花林",
+      "relation": "照耀",
+      "chapter": 1,
+      "location": "花林",
+      "quote": "月照花林皆似霰",
+      "context": "月光照耀下的花林如同雪珠"
+    },
+    {
+      "source": "月",
+      "target": "妆镜台",
+      "relation": "照耀",
+      "chapter": 1,
+      "location": "楼上",
+      "quote": "应照离人妆镜台",
+      "context": "月光照耀着离人的妆镜台"
+    },
+    {
+      "source": "江月",
+      "target": "人",
+      "relation": "照耀",
+      "chapter": 1,
+      "location": "江畔",
+      "quote": "江月何年初照人",
+      "context": "江月初次照耀着人"
+    },
+    {
+      "source": "白云",
+      "target": "青枫浦",
+      "relation": "飘去",
+      "chapter": 1,
+      "location": "青枫浦",
+      "quote": "白云一片去悠悠，青枫浦上不胜愁",
+      "context": "白云悠悠飘向青枫浦，带来无尽的愁绪"
+    },
+    {
+      "source": "扁舟子",
+      "target": "江湖",
+      "relation": "漂泊",
+      "chapter": 1,
+      "location": "江湖",
+      "quote": "谁家今夜扁舟子",
+      "context": "今夜谁家的游子在江湖上漂泊"
+    },
+    {
+      "source": "鸿雁",
+      "target": "光",
+      "relation": "飞翔",
+      "chapter": 1,
+      "location": "天空",
+      "quote": "鸿雁长飞光不度",
+      "context": "鸿雁长时间飞翔，光线无法穿透"
+    },
+    {
+      "source": "鱼龙",
+      "target": "水",
+      "relation": "潜跃",
+      "chapter": 1,
+      "location": "水中",
+      "quote": "鱼龙潜跃水成文",
+      "context": "鱼龙在水中潜跃，形成波纹"
+    },
+    {
+      "source": "江水流",
+      "target": "春",
+      "relation": "带走",
+      "chapter": 1,
+      "location": "江潭",
+      "quote": "江水流春去欲尽",
+      "context": "江水流带走春天的气息"
+    },
+    {
+      "source": "落月",
+      "target": "江潭",
+      "relation": "西斜",
+      "chapter": 1,
+      "location": "江潭",
+      "quote": "江潭落月复西斜",
+      "context": "江潭上的落月再次西斜"
+    }
+  ]
+}
