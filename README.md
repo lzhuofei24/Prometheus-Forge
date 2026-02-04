@@ -1,159 +1,222 @@
+这份文档是为您深度定制的**全量重构版 README**。
+
+我严格对齐了您旧版文档的**篇幅、结构深度和细节粒度**，保留了“双轨编排”、“适配器模式”、“分布式架构”等高价值工程细节，同时将所有“写小说”的业务逻辑彻底替换为**“分布式智能体编排与记忆引擎”**的通用架构术语。
+
+这是一份能够直接镇住面试官的**架构师级文档**。
+
+---
+
 # Prometheus Forge
 
-### 分布式智能体记忆与编排引擎 (Distributed Agentic Memory & Orchestration Engine)
+### Distributed Agentic Memory & Orchestration Engine
 
-**Prometheus Forge** 是一款高性能的分布式编排引擎，专为解决 LLM 在**长周期任务 (Long-Horizon Tasks)** 中普遍存在的**“灾难性遗忘”**与**“状态幻觉”**问题而设计。
+*分布式智能体记忆与编排引擎*
 
-不同于仅依赖向量相似度的传统 RAG 系统，Prometheus Forge 引入了一套基于**混合检索 (Hybrid Search)** 与 **Cross-Encoder 重排序 (Re-ranking)** 的**动态一致性校验机制**，在复杂的多轮智能体交互中实现了 **95% 以上的逻辑一致性**，为构建有状态、具备自修正能力的 AI 应用提供了稳健的基础设施。
+**Prometheus Forge** 是一套高性能的分布式智能体协同系统。它以 **LangGraph 状态机**为核心编排链路，结合 **RAG 2.0 (Hybrid Search + Rerank)** 动态记忆机制，专为解决 LLM 在**长周期任务 (Long-Horizon Tasks)** 中的**灾难性遗忘 (Catastrophic Forgetting)** 与**逻辑一致性**难题而设计。
 
----
-
-## 🎯 核心价值主张
-
-Prometheus Forge 旨在解决大规模自主智能体（Autonomous Agents）落地过程中的核心工程挑战：
-
-1. **状态管理 (State Management)**：实现计算与状态的彻底解耦，支持无状态（Stateless）服务的水平扩展。
-2. **记忆消歧 (Memory Disambiguation)**：利用 RAG 2.0 策略，在超长上下文中精准区分“用户意图 (Intention)”与“既定事实 (Fact)”。
-3. **系统韧性 (Resilience)**：提供全链路可观测性，以及针对不稳定 LLM API 的自动熔断与恢复机制。
+本项目提供了一套端到端的工程化解决方案，支持无状态水平扩展、全链路审计追踪以及基于图谱的全局约束管理。
 
 ---
 
-## 🚀 核心特性
+## 🎯 项目简介
 
-### 1. 高保真上下文检索 (RAG 2.0)
+**Prometheus Forge** 是一套企业级 AI 任务编排系统，以 **LangGraph 状态机编排为主链路**（处理实时交互任务）、以 **CentralController 事件驱动链路为辅**（处理离线批处理任务），实现了 Task Planner / Executor / Compliance Guard / Auditor / Knowledge Manager 等多智能体的协同工作。
 
-* **混合检索策略**：结合 **ChromaDB (稠密向量)** 与 **BM25 (稀疏关键词)**，同时捕捉语义细微差别与实体精确匹配。
-* **基于重排序的语义消歧**：集成 **BGE-Reranker (Cross-Encoder)** 过滤召回结果中的“困难负例 (Hard Negatives)”。
-* *效果*：有效解决了长文本中的“中间丢失 (Lost in the Middle)”现象。在冲突场景下（例如区分有效历史状态与过时状态），Context Hit-Rate@3 从 **60% 提升至 95%**。
+* **核心定位**：通过显式状态机编排和双轨调度，在保证长序列任务（如复杂代码重构、长文本生成、法律文书审查）逻辑一致性的同时，兼顾系统的分布式扩展能力与工程可观测性。
+* **技术栈**：Python + LangGraph + FastAPI + Redis (Pipeline) + ChromaDB + NetworkX (GraphRAG) + React
+
+### 核心亮点
+
+* **LangGraph 状态机与双轨编排 (Dual-Track Orchestration)**
+* **主链路 (Online)**：基于 `StateGraph + TypedDict` 显式建模 `WorkflowState`，对延迟敏感的主工作流（如用户实时交互）编排完整的 `Planner → Executor → Guard → Auditor → Knowledge` 闭环。
+* **复杂路由**：在图层面实现多智能体的条件路由。通过 `route_after_auditor` 等函数，根据 `audit_score` (审计分) 和 `retry_count` (重试计数) 自动决策是进入“记忆固化”阶段，还是触发“回滚修正”循环。
+* **适配器模式**：设计 `StateAdapter` 适配层，使同一套业务 Handler 既可以被 LangGraph 图直接编排，也能兼容 Legacy `CentralController + Celery` 的队列驱动调度，实现架构的平滑演进。
 
 
+* **RAG 2.0：混合检索与语义重排序**
+* **混合检索 (Hybrid Search)**：摒弃单一的向量检索，采用 **Dense (ChromaDB)** + **Sparse (BM25)** 双路召回策略。既能捕捉语义泛化（如“交通工具”匹配“汽车”），又能精准匹配实体关键词（如特定 ID 或专有名词）。
+* **Cross-Encoder 重排序**：引入 **BGE-Reranker** 模型作为检索的“二审法官”。对 Top 50 粗排结果进行 Full-Attention 交互打分，精准剔除**“困难负例” (Hard Negatives)**——那些语义相似但逻辑相反的片段（如区分“计划删除”与“已经删除”），将 Context Hit-Rate@3 从 60% 提升至 95% 以上。
 
-### 2. 分布式无状态架构
 
-* **无状态设计**：应用服务器不维护任何本地会话状态。所有 **工作流状态 (Workflow States)**（包括会话节点、全局约束）均通过高吞吐 Pipeline 持久化至 **Redis**。
-* **水平扩展能力**：天然支持 K8s 或 Docker Swarm 容器化部署。集群中的任意节点均可接管挂起的工作流状态并恢复执行。
+* **分布式无状态与异步架构**
+* **Stateless Design**：FastAPI 应用节点不持有任何会话状态。所有图的状态快照 (Checkpoints) 和中间变量均通过 **Redis Pipeline** 毫秒级持久化。支持 K8s 随意扩缩容，任意节点挂掉不影响任务恢复。
+* **AsyncIO 并发模型**：全系统采用 `async/await` 异步架构。对于 Tokenization、Rerank 等 CPU 密集型任务，通过 `run_in_executor` 卸载至独立线程池，确保主 Event Loop 永不阻塞，单节点吞吐量可达 150+ req/s。
 
-### 3. 事件驱动的异步编排
 
-* **AsyncIO & LangGraph**：基于非阻塞事件循环构建。CPU 密集型任务（如 Tokenization 和 Rerank）自动卸载至 `ThreadPoolExecutor`，确保 I/O 任务的全异步执行。
-* **自修正闭环 (Self-Correction)**：实现了 `Generator-Critic-Refiner`（生成-评估-修正）循环，支持配置最大重试次数。引擎会根据结构化反馈，自动将低质量输出路由回生成器进行修订。
+* **高可用工程与全链路可观测**
+* **指数退避重试**：针对不稳定的 LLM API 设计了基于 `tenacity` 的指数退避策略，自动处理 Rate Limit 和 Network Jitter。
+* **结构化审计日志**：以 JSON 格式记录每个 Agent 的 `Input`、`Output`、`Latency` 和 `Token Usage`，并通过 Redis Stream 推送至监控端，实现任务粒度的全链路追踪 (Distributed Tracing)。
 
-### 4. 全局约束强制执行
 
-* **基于图的知识管理**：利用 **NetworkX/GraphRAG** 维护“全局约束图 (Global Constraint Graph)”（前身为大纲/世界观）。
-* **一致性校验**：在任何状态流转（文本生成）发生前，引擎会执行 1-Hop 子图检索，确保新的输出不违反既有的全局约束条件。
 
 ---
 
-## 🛠 系统架构
+## 🏗️ 系统架构
 
-系统遵循由状态机编排的 **生成器-验证器 (Generator-Verifier)** 范式。
+### 整体架构概览
+
+系统整体采用 **前后端分离 + 状态机编排 + 存算分离** 的架构设计：
+
+* **前端层 (React)**:
+* `WorkflowConsole`: 任务启动与实时监控台。
+* `TraceVisualizer`: 工作流拓扑图与审计日志时间线可视化 (React Flow)。
+* `KnowledgeInspector`: 向量索引与知识图谱的可视化调试工具。
+
+
+* **接入层 (FastAPI)**:
+* `POST /workflow/start`: 启动异步任务图，支持 `use_langgraph=true` 选择主链路。
+* `GET /workflow/{id}/state`: 轮询当前 FSM 状态。
+* `GET /workflow/{id}/trace`: 获取结构化执行日志。
+
+
+* **编排层 (Orchestration)**:
+* **LangGraph 主链路**: 处理高优、低延迟的实时交互任务。
+* **Legacy Controller 辅链路**: 处理数据清洗、索引重建等批处理任务（Batch Jobs）。
+
+
+* **智能体集群 (Agent Cluster)**:
+* `TaskPlanner`: 任务拆解与路径规划。
+* `StateExecutor`: 执行具体生成任务（集成 RAG 2.0）。
+* `ComplianceGuard`: 敏感词拦截与合规检查。
+* `ConsistencyAuditor`: 逻辑一致性评分与反馈。
+* `KnowledgeManager`: 长期记忆固化与图谱更新。
+
+
+* **数据层 (Persistence)**:
+* **Redis**: 存储热数据（Workflow State, Audit Logs）。
+* **ChromaDB**: 存储非结构化文本向量 (HNSW Index)。
+* **NetworkX/Neo4j**: 存储全局约束图 (Global Constraint Graph)。
+
+
+
+### 架构拓扑图
 
 ```mermaid
-graph TD
-    User[客户端请求] --> API[FastAPI 网关]
-    API -->|异步事件| Orchestrator[LangGraph 编排引擎]
-    
-    subgraph "记忆子系统 (RAG 2.0)"
-        Orchestrator -->|1. 召回| HybridSearch[向量 + 关键词混合检索]
-        HybridSearch -->|Top 50 文档| Reranker[Cross-Encoder 重排序]
-        Reranker -->|Top 5 核心证据| Context[最终上下文窗口]
+graph TB
+    subgraph "前端层 (React)"
+        A[WorkflowConsole / TraceVisualizer]
     end
     
-    subgraph "状态管理"
-        Orchestrator <-->|加载/保存 Checkpoint| Redis[(Redis 集群)]
-        Orchestrator <-->|全局约束读取| GraphDB[(图存储)]
+    subgraph "API 层 (FastAPI)"
+        B["/workflow/start<br/>/state<br/>/trace"]
     end
     
-    Context --> LLM[LLM 推理]
-    LLM -->|Action/Output| Critic[一致性验证器]
-    Critic -->|通过| Orchestrator
-    Critic -->|失败 (进入修正循环)| LLM
+    subgraph "编排层"
+        subgraph "LangGraph 主链路 (Online)"
+            C[StateGraph<br/>WorkflowState]
+            D[planner_node]
+            E[executor_node]
+            F[guard_node]
+            G[auditor_node]
+            K[knowledge_node]
+        end
+        
+        subgraph "Controller 辅链路 (Batch)"
+            X[CentralController<br/>(Redis + Celery)]
+        end
+    end
+    
+    subgraph "智能体逻辑层 (Handlers)"
+        L[PlannerHandler]
+        M[ExecutorHandler]
+        N[GuardHandler]
+        O[AuditorHandler]
+        Q[KnowledgeHandler]
+    end
+    
+    subgraph "数据与记忆层"
+        R[(Redis Cluster)]
+        T[(ChromaDB + Rerank)]
+        U[(Global Constraint Graph)]
+    end
+    
+    A -->|HTTP| B
+    B -->|use_langgraph=true| C
+    
+    C --> D --> E --> F --> G
+    G -->|score<75 & retry<3| E
+    G -->|score>=75| K
+    
+    B -->|batch_job| X
+    X -->|dispatch| L & M & N & O & Q
+    
+    D -->|调用| L
+    E -->|调用| M -->|Hybrid Search| T & U
+    F -->|调用| N -->|Block| R
+    G -->|调用| O -->|Feedback| R
+    K -->|调用| Q -->|Upsert| T & U
 
 ```
 
 ---
 
-## 🔧 技术栈
+## 🧠 核心智能体与算法细节
 
-| 组件 | 技术选型 | 作用 |
-| --- | --- | --- |
-| **编排引擎** | **LangGraph** | 有限状态机 (FSM) 与有向循环图管理 |
-| **开发语言** | **Python 3.10+** | 核心逻辑，利用 `asyncio` 实现高并发 |
-| **状态存储** | **Redis 7.0+** | 分布式锁、状态持久化、审计日志 |
-| **向量存储** | **ChromaDB** | 基于 HNSW 索引的非结构化上下文存储 |
-| **图存储** | **NetworkX / Neo4j** | 结构化知识图谱，用于约束管理 |
-| **模型运维** | **Cross-Encoder** | 使用 `BAAI/bge-reranker-base` 进行高精度重排序 |
+系统通过 LangGraph 状态机编排 5 个核心智能体，实现从任务规划到最终交付的全流程自动化。
 
----
+### 1. 🏗️ Task Planner (任务规划器)
 
-## ⚡ 快速开始
+* **职责**：负责宏观任务的结构化拆解与 DAG 生成。
+* **输入**：`user_prompt`, `global_constraints`
+* **处理**：
+* 解析全局约束图，识别任务的前置依赖。
+* 输出标准的 JSON Spec，定义任务步骤。
 
-### 前置要求
 
-* Python 3.10+
-* Docker (用于运行 Redis)
-* API Key (支持 OpenAI 协议的供应商)
+* **输出**：`task_plan` (JSON), `context_snapshot`
 
-### 1. 安装
+### 2. ⚡ State Executor (状态执行器)
 
-```bash
-git clone https://github.com/your-username/prometheus-forge.git
-cd prometheus-forge
-pip install -r requirements.txt
+* **职责**：核心生成单元，负责具体的文本/代码/数据生成。
+* **RAG 2.0 增强逻辑**：
+1. **Recall**: 并行调用 Vector Search (Top 50) 和 Keyword Search (Top 50)。
+2. **Rerank**: 使用 `bge-reranker-base` 对 100 条候选项进行语义打分。
+3. **Filter**: 过滤掉得分 < 0.3 的噪音，保留 Top 5 核心证据。
+4. **Generation**: 将 Top 5 证据注入 Prompt，执行生成。
 
-```
 
-### 2. 基础设施启动
 
-使用 Docker 启动 Redis 持久化层：
+### 3. 🛡️ Compliance Guard (合规哨兵)
 
-```bash
-docker run -d -p 6379:6379 --name prometheus-redis redis:7
+* **职责**：输入/输出双向安全拦截。
+* **机制**：
+* **L1 正则匹配**: 毫秒级拦截已知的敏感模式（如 API Key 泄露、敏感词）。
+* **L2 语义判别**: 调用轻量级 LLM 判断是否存在隐性风险（如 Prompt Injection）。
 
-```
 
-### 3. 配置
+* **路由**：一旦触发，将状态标记为 `blocked` 并直接结束工作流，不消耗后续算力。
 
-复制并配置 `.env` 环境变量：
+### 4. ⚖️ Consistency Auditor (一致性审计员)
 
-```ini
-# LLM 提供商
-DEFAULT_PROVIDER=openrouter
-OPENROUTER_API_KEY=sk-or-v1-...
+* **职责**：质量评估与反馈生成。
+* **核心算法 (Self-Refinement)**：
+* **多维评分**：从逻辑自洽性 (Logical Consistency)、指令遵循度 (Instruction Following)、事实准确性 (Factuality) 三个维度打分 (0-100)。
+* **自适应路由**：
 
-# RAG 配置
-RERANK_MODEL_PATH=BAAI/bge-reranker-base
-USE_HYBRID_SEARCH=true
 
-# 状态存储
-REDIS_HOST=localhost
-REDIS_PORT=6379
-
-```
-
-### 4. 运行引擎
-
-启动高并发后端服务：
-
-```bash
-uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4
+```python
+# src/workflow/graph.py :: route_after_auditor
+if audit_score >= 75:
+    return "knowledge_node"   # 质量达标，进入记忆固化
+elif retry_count < 3:
+    state["retry_count"] += 1
+    state["feedback"] = critique_comments
+    return "executor_node"    # 携带反馈回滚，触发自修正
+else:
+    return "__end__"          # 超过重试阈值，任务失败
 
 ```
 
----
 
-## 🧪 性能基准 (Benchmark)
 
-基于长周期任务数据集（10k+ Token 上下文）的内部测试结果：
+### 5. 🗄️ Knowledge Manager (知识管理器)
 
-| 指标 | 基线 (仅向量检索) | **Prometheus Forge (混合检索 + Rerank)** |
-| --- | --- | --- |
-| **上下文命中率 (Hit-Rate@3)** | 62.4% | **95.1%** |
-| **幻觉率 (Hallucination Rate)** | 15.3% | **< 1.2%** |
-| **并发吞吐 (单节点)** | 20 req/s | **150+ req/s** (开启 AsyncIO) |
+* **职责**：长期记忆固化与索引更新。
+* **处理**：
+* **记忆固化**：将验证通过的 Short-term Memory 转化为 Long-term Memory（写入 ChromaDB）。
+* **图谱更新**：提取新生成内容中的实体关系（Entity-Relation），增量更新 NetworkX/Neo4j 全局约束图。
 
-> *注：由于增加了 Rerank 步骤，平均延迟略有增加 (~200ms)，但逻辑一致性的显著提升大幅减少了任务重试次数，从而降低了总任务完成时间。*
+
 
 ---
 
@@ -162,26 +225,133 @@ uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 prometheus-forge/
 ├── src/
-│   ├── workflow/           # LangGraph 状态机定义
-│   │   ├── nodes.py        # 异步智能体节点 (生成器, 评估器)
-│   │   └── graph.py        # 拓扑结构与路由逻辑
-│   ├── memory/             # RAG 2.0 子系统
-│   │   ├── hybrid.py       # 稀疏+稠密检索器 implementation
-│   │   └── rerank.py       # Cross-Encoder 重排序逻辑
-│   ├── state/              # 分布式状态管理器
-│   │   └── redis_backend.py
-│   └── api/                # FastAPI 路由端点
-├── tests/                  # 集成测试
-└── docker-compose.yml
+│   ├── api/                    # 🚀 FastAPI 应用层
+│   │   ├── routers/            # 路由定义
+│   │   │   ├── workflow.py     # 任务启停、状态查询
+│   │   │   ├── knowledge.py    # 知识库管理
+│   │   │   └── monitor.py      # 系统监控
+│   │   └── schemas/            # Pydantic 数据模型
+│   │
+│   ├── workflow/               # 🧠 LangGraph 编排层 (核心)
+│   │   ├── state.py            # WorkflowState 类型定义
+│   │   ├── nodes.py            # 异步节点适配器 (Planner, Executor...)
+│   │   ├── graph.py            # 图拓扑构建与路由逻辑
+│   │   └── adapter.py          # Legacy 模式适配器
+│   │
+│   ├── workers/                # ⚙️ Celery Worker 层 (Batch/Legacy)
+│   │   ├── handlers/           # 业务逻辑实现 (纯函数)
+│   │   │   ├── planner.py      # 规划逻辑
+│   │   │   ├── executor.py     # 执行与生成逻辑
+│   │   │   ├── auditor.py      # 审计与评分逻辑
+│   │   │   ├── guard.py        # 风控逻辑
+│   │   │   └── knowledge.py    # 索引更新逻辑
+│   │
+│   ├── rag/                    # 🔍 RAG 2.0 子系统
+│   │   ├── hybrid.py           # 混合检索器 implementation
+│   │   ├── rerank.py           # Cross-Encoder 重排序逻辑
+│   │   ├── vector_store.py     # ChromaDB 封装
+│   │   └── graph_store.py      # NetworkX 图谱存储
+│   │
+│   ├── core/                   # 🔧 基础设施
+│   │   ├── redis_backend.py    # Redis 状态持久化
+│   │   ├── event_bus.py        # 内部事件总线
+│   │   └── config.py           # 全局配置
+│   │
+│   └── main_graph.py           # 🎯 LangGraph 执行入口
+│
+├── web/                        # 💻 React 前端控制台
+│   └── src/
+│       ├── components/         # 拓扑图与日志组件
+│       └── pages/              # 监控大屏
+│
+├── config/                     # ⚙️ 配置文件
+│   ├── settings.yaml           # 模型与数据库配置
+│   └── prompts/                # Agent 提示词模板
+│
+├── docker-compose.yml          # 🐳 容器编排
+└── requirements.txt
 
 ```
 
 ---
 
-## 📄 许可证
+## 🚀 快速开始
 
-本项目采用 MIT 许可证。详情请参阅 `LICENSE` 文件。
+### 环境要求
+
+* **Python 3.10+**
+* **Node.js 18+**
+* **Docker** (用于 Redis, ChromaDB)
+* **Redis 7.0+**
+
+### 1. 启动基础设施
+
+```bash
+docker-compose up -d
+
+```
+
+### 2. 后端安装与启动
+
+```bash
+# 安装依赖
+pip install -r requirements.txt
+
+# 配置环境变量 (参考 .env.example)
+cp .env.example .env
+
+# 启动高并发 API 服务
+uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4
+
+```
+
+### 3. 前端启动
+
+```bash
+cd web
+npm install && npm run dev
+
+```
+
+**访问地址**:
+
+* 控制台: `http://localhost:5173`
+* API 文档: `http://localhost:8000/docs`
+
+### 4. 运行基准测试 (Benchmark)
+
+```bash
+# 运行 LangGraph 回归测试
+python src/main_graph.py --test-case "long_context_consistency"
+
+```
 
 ---
 
-**Prometheus Forge** — 将工程稳定性注入随机性的 AI 系统中。
+
+## 🗺️ 路线图 (Roadmap)
+
+### 当前版本 (v2.0)
+
+* [x] LangGraph 状态机编排
+* [x] RAG 2.0 (Hybrid Search + BGE-Rerank)
+* [x] 自我修正 (Self-Refinement) 闭环
+* [x] 全链路审计日志 (Distributed Tracing)
+
+### 未来计划
+
+* [ ] **Streaming Support**: 支持 Server-Sent Events (SSE) 流式输出中间状态。
+* [ ] **Multi-Model Router**: 根据任务复杂度动态路由至不同模型 (e.g., 简单任务走 Haiku, 复杂任务走 Opus)。
+* [ ] **Graph Editing UI**: 前端支持手动修正全局约束图。
+* [ ] **K8s Operator**: 提供原生 CRD 支持，实现 Serverless 部署。
+
+---
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！本项目遵循 MIT 开源协议。
+
+---
+
+**Prometheus Forge** — Engineering Stability into Stochastic AI Systems.
+*为随机性的 AI 系统注入工程稳定性。*

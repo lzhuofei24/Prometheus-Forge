@@ -1,0 +1,115 @@
+# Novel Generation Scenario Configuration
+# This file defines scenario-specific settings for the novel generation workflow
+
+scenario:
+  name: "novel_generation"
+  version: "1.0.0"
+  description: "AI-powered novel chapter generation with multi-agent workflow"
+
+# Agent configurations
+agents:
+  task_planner:
+    # Intent classification and DAG compilation
+    enabled: true
+    temperature: 0.7
+
+  compliance_guard:
+    # L1 (regex + blacklist) + L2 (LLM semantic) filtering
+    enabled: true
+    l1_filters:
+      regex_patterns:
+        - '\\d{17,18}'  # ID numbers
+        - '\\d{3,4}-\\d{7,8}'  # Phone numbers (basic pattern)
+      blacklist_file: null  # Optional: path to blacklist file
+    l2_policy: |
+      基础合规策略：
+      1. 禁止辱骂、仇恨言论、色情暴力内容
+      2. 禁止泄露个人隐私信息
+      3. 禁止涉政敏感内容
+      允许正常的小说创作内容，包括合理的冲突和情节描写。
+
+  executor:
+    # RAG-powered generation
+    enabled: true
+    retrieval_enabled: true  # Enable hybrid retrieval
+    retrieval_strategy:
+      vector:
+        enabled: true
+        top_k: 50
+      graph:
+        enabled: false  # Will be enabled in Phase 2 with Neo4j
+        max_hops: 1
+        entity_types: ["Character", "Location", "PlotPoint"]
+    rerank_enabled: false  # Will be enabled in Phase 2 with Celery
+    generation:
+      temperature: 0.7
+      max_tokens: 4096
+
+  consistency_auditor:
+    # Validation and fact-checking
+    enabled: true
+    strategy: "nli"  # "nli" or "rule_based"
+    pass_threshold: 75  # Minimum score to pass
+    max_revisions: 3
+
+  knowledge_manager:
+    # Memory consolidation
+    enabled: true
+    entity_types:
+      - "Character"
+      - "Location"
+      - "Item"
+      - "PlotPoint"
+    extraction:
+      temperature: 0.3
+      max_tokens: 1024
+
+# Workflow topology
+workflow:
+  graph_type: "linear_with_revision_loop"
+  nodes:
+    - compliance_in
+    - planner
+    - executor
+    - compliance_out
+    - auditor
+    - knowledge_manager
+
+  edges:
+    - [compliance_in, planner]
+    - [planner, executor]
+    - [executor, compliance_out]
+    - [compliance_out, auditor]
+    - [auditor, knowledge_manager]  # if pass
+    - [auditor, executor]  # if fail (revision loop)
+
+  conditional_routing:
+    auditor:
+      pass: knowledge_manager
+      fail: executor
+      max_retries: 3
+
+# Context building settings
+context:
+  max_tokens: 24000
+  include_recent_chapters: true
+  max_recent_chapters: 3
+  include_outlines: true
+  max_outline_chapters: 15
+
+# Domain-specific settings
+domain:
+  character_schema:
+    fields:
+      - name
+      - personality
+      - appearance
+      - background
+
+  validation_rules:
+    - type: "character_consistency"
+      enabled: true
+    - type: "plot_continuity"
+      enabled: true
+    - type: "style_consistency"
+      enabled: false  # Optional
